@@ -1,3 +1,12 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+.input-wrapper input {
+    width: 100%;
+    background-color: var(--primary);
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    color: var(--white);
+    font-size: 1.25rem;
+  }
