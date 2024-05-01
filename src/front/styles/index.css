@@ -1,6 +1,35 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+
+
+.MovieCard {
+  border: 2px solid black;
+  width: 300px;
+  border-radius: 20px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.MovieCardTitle {
+  background-color: aliceblue;
+  height: 40px;
+  border-top: 1px solid black;
+  padding-top: 5px;
+  padding-left: 10px;
+  text-align: left;
+  border-bottom-right-radius: 17px;
+  border-bottom-left-radius: 17px;
+}
+.MovieCardButtons {
+  text-align: end;
+  padding-right: 10px;
+  border-top-right-radius: 17px;
+  border-top-left-radius: 17px;
+  height: 40px;
+}
+
 .input-wrapper input {
     width: 100%;
     background-color: var(--primary);
@@ -10,3 +39,4 @@
     color: var(--white);
     font-size: 1.25rem;
   }
+
