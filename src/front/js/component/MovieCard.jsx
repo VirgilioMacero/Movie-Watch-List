@@ -1,7 +1,9 @@
 import React from "react";
 
 export default function MovieCard(props) {
+
   return (
+
     <a className="text-decoration-none" href={props.movieUrl}>
       <div
         className="MovieCard"
@@ -11,6 +13,7 @@ export default function MovieCard(props) {
           backgroundRepeat: "no-repeat",
         }}
       >
+        
         <div className="MovieCardButtons">
           {props.isWatched != true ? (
             <a
