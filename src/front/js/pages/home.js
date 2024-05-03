@@ -5,21 +5,26 @@ import "../../styles/home.css";
 import MovieCard from "../component/MovieCard.jsx";
 import { Search } from "../component/search";
 
-
 export const Home = () => {
   const { store, actions } = useContext(Context);
 
   return (
     <div className="text-center mt-5 container">
-      <div className="d-grid">
-        <MovieCard
-          name="Pinocho"
-          imgUrl="https://media.poetryfoundation.org/uploads/media/default/0001/19/a8ddf0cc004e3fef6c20ae6e48cde0f10dd1f80d.jpeg"
-          movieUrl=" "
-        />
-      <Search/>
+      <Search />
+
+      <div className="row ">
+        {store.movies.map((movie) => {
+          console.log(movie);
+          return (
+            <MovieCard
+              name={movie.original_title}
+              imgUrl={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+              movieUrl=" "
+              className="col mt-3"
+            />
+          );
+        })}
       </div>
     </div>
   );
-
 };
