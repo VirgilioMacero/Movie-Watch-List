@@ -17,9 +17,10 @@ export const Home = () => {
           console.log(movie);
           return (
             <MovieCard
+              key={movie.id}
               name={movie.original_title}
               imgUrl={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-              movieUrl=" "
+              movieUrl={`/single/${movie.id}`}
               className="col mt-3"
             />
           );

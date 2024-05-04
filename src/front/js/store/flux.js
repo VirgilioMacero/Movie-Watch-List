@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMjRjZjRkNWRkOWE1MjY5OTkzZmYzMDZjMTFiZWUwNiIsInN1YiI6IjY2MzJjNDllODEzY2I2MDEyNzg2OGVhZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pEBxlVVlyO-l9XVSehVob973yrYU1poFbu1jwvUgau4`,
+      Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
     },
   };
   return {
@@ -40,6 +40,18 @@ const getState = ({ getStore, getActions, setStore }) => {
         const jsonMovies = await movies.json();
 
         setStore({ movies: jsonMovies.results });
+      },
+      getSingleMovie: async (movieId) => {
+        const movie = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}`,
+          config
+        );
+
+        const jsonMovie = await movie.json();
+
+        console.log(jsonMovie);
+
+        setStore({ movie: jsonMovie });
       },
       getMessage: async () => {
         try {

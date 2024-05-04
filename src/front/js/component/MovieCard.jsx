@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function MovieCard(props) {
   return (
     <div className={`${props.className}`}>
-      <a className="text-decoration-none" href={props.movieUrl}>
+      <Link className="text-decoration-none" to={props.movieUrl}>
         <div
           className="MovieCard"
           style={{
@@ -53,7 +54,7 @@ export default function MovieCard(props) {
             <p>{props.name}</p>
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

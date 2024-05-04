@@ -2,27 +2,44 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 
-export const Single = props => {
-	const { store, actions } = useContext(Context);
-	const params = useParams();
+export const Single = (props) => {
+  const { store, actions } = useContext(Context);
+  const params = useParams();
 
-	return (
-		<div className="jumbotron">
-			<h1 className="display-4">This will show the demo element: {store.demo[params.theid].title}</h1>
-			<img src={rigoImageUrl} />
-			<hr className="my-4" />
+  useEffect(() => {
+    actions.getSingleMovie(params.theid);
+  }, [params.theid]);
 
-			<Link to="/">
-				<span className="btn btn-primary btn-lg" href="#" role="button">
-					Back home
-				</span>
-			</Link>
-		</div>
-	);
+  const year = new Date(store.movie.release_date);
+
+  return (
+    <div className="container">
+      <div className="d-flex">
+        <h1>
+          <Link to={"/"}>
+            <i className="bi bi-caret-left"></i>
+          </Link>
+          {store.movie.original_title} ({year.getFullYear()})
+        </h1>
+      </div>
+      <div className="row mt-4">
+        <div className="col-4">
+          <img
+            width={300}
+            height={400}
+            src={`https://image.tmdb.org/t/p/original${store.movie.poster_path}`}
+          ></img>
+        </div>
+        <div className="col">
+          <h3>Description</h3>
+          <p>{store.movie.overview}</p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 Single.propTypes = {
-	match: PropTypes.object
+  match: PropTypes.object,
 };
