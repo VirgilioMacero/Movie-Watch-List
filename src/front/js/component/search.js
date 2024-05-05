@@ -1,5 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react"; // Import useEffect from react
 import { Context } from "../store/appContext";
+import "../../styles/index.css";
+
 export const Search = () => {
   const { store, actions } = useContext(Context);
 

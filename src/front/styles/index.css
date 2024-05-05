@@ -39,4 +39,9 @@
     color: var(--white);
     font-size: 1.25rem;
   }
+  .input-wrapper {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
 
