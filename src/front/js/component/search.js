@@ -1,10 +1,7 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
+import React from "react";
 import "../../styles/index.css";
 
 export const Search = ({ setSearchQuery }) => {
-  const { actions } = useContext(Context);
-
   const handleInputChange = (e) => {
     const searchQuery = e.target.value.trim(); // Trim any whitespace from input
     setSearchQuery(searchQuery); // Update search query
