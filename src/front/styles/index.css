@@ -2,7 +2,6 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 
-
 .MovieCard {
   border: 2px solid black;
   width: 300px;
@@ -29,8 +28,8 @@
   border-top-left-radius: 17px;
   height: 40px;
 }
-
 .input-wrapper input {
+
     width: 100%;
     background-color: var(--primary);
     padding: 10px;
@@ -44,4 +43,11 @@
     border-radius: 4px;
   }
   
-
+.crewImages {
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  /* border: 2px solid black; */
+  height: 150px;
+  /* border-radius: 15px; */
+}

@@ -22,10 +22,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           initial: "white"
         }
       ],
-      movies: [],
-      series: [],
-      movie: {},
-      isSeriesActive: false // Add isSeriesActive property to track the toggle state
+      isSeriesActive: false, // Add isSeriesActive property to track the toggle state
+      films: [],
+      film: {},
+      filmCredits: [],
     },
     actions: {
       exampleFunction: () => {
@@ -33,13 +33,16 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       getMoviesByName: async (name) => {
         const movies = await fetch(
-          `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(name)}&include_adult=false&language=en-US&page=1`,
+
+          `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+            name
+          )}&include_adult=false&language=en-US&page=1`,
           config
         );
 
         const jsonMovies = await movies.json();
 
-        setStore({ movies: jsonMovies.results });
+        setStore({ films: jsonMovies.results });
       },
       getSeriesByName: async (seriesName) => {
         const series = await fetch(
@@ -49,7 +52,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonSeries = await series.json();
 
-        setStore({ series: jsonSeries.results });
+        setStore({ films: jsonSeries.results });
       },
       getSingleMovie: async (movieId) => {
         const movie = await fetch(
@@ -59,17 +62,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonMovie = await movie.json();
 
-        setStore({ movie: jsonMovie });
+        setStore({ film: jsonMovie });
       },
-      getMessage: async () => {
-        try {
-          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-          const data = await resp.json();
-          setStore({ message: data.message });
-          return data;
-        } catch (error) {
-          console.log("Error loading message from backend", error);
-        }
+      getMovieCredits: async (movieId) => {
+        const credits = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}/credits`,
+          config
+        );
+        const jsonCredits = await credits.json();
+
+        setStore({ filmCredits: jsonCredits });
       },
       changeColor: (index, color) => {
         const store = getStore();
