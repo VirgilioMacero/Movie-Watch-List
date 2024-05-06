@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
 import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/search";
 import { Toggle } from "../component/toggle.js";
@@ -65,13 +63,12 @@ export const Home = () => {
                   key={film.id}
                   name={film.original_title}
                   imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
-                  filmsUrl={`/single/${film.id}`}
+                  filmUrl={`/single/${film.id}`}
                   className="col mt-3"
                 />
               ))}
         </div>
       )}
-
     </div>
   );
 };
