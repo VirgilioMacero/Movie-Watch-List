@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import CastCard from "../component/CastCard.jsx";
 
 export const Single = (props) => {
   const { store, actions } = useContext(Context);
@@ -9,9 +10,10 @@ export const Single = (props) => {
 
   useEffect(() => {
     actions.getSingleMovie(params.theid);
+    actions.getMovieCredits(params.theid);
   }, [params.theid]);
 
-  const year = new Date(store.movie.release_date);
+  const year = new Date(store.film.release_date);
 
   return (
     <div className="container">
@@ -20,20 +22,59 @@ export const Single = (props) => {
           <Link to={"/"}>
             <i className="bi bi-caret-left"></i>
           </Link>
-          {store.movie.original_title} ({year.getFullYear()})
+          {store.film.original_title} ({year.getFullYear()})
         </h1>
       </div>
       <div className="row mt-4">
-        <div className="col-4">
-          <img
-            width={300}
-            height={400}
-            src={`https://image.tmdb.org/t/p/original${store.movie.poster_path}`}
-          ></img>
+        <div className="col-xl-4">
+          {store.film.poster_path ? (
+            <img
+              className=" rounded-3"
+              width={300}
+              height={400}
+              src={`https://image.tmdb.org/t/p/original${store.film.poster_path}`}
+            ></img>
+          ) : (
+            ""
+          )}
         </div>
-        <div className="col">
+        <div className="col-xl-6">
           <h3>Description</h3>
-          <p>{store.movie.overview}</p>
+          <p>{store.film.overview}</p>
+          <div className="d-flex gap-3" style={{ height: "40px" }}>
+            {store.film.genres
+              ? store.film.genres.map((genre, index) => {
+                  return (
+                    <Link
+                      to={`/?genreId=${genre.id}`}
+                      key={index}
+                      className="btn btn-outline-primary"
+                    >
+                      {genre.name}
+                    </Link>
+                  );
+                })
+              : ""}
+          </div>
+          <div className="mt-3">
+            <h3>Cast</h3>
+          </div>
+          <div className="crewImages gap-3">
+            {store.filmCredits.cast
+              ? store.filmCredits.cast.map((member, index) => {
+                  if (member.profile_path != null) {
+                    return (
+                      <CastCard
+                        key={index}
+                        urlImage={`https://image.tmdb.org/t/p/original${member.profile_path}`}
+                        character={member.character}
+                        name={member.name}
+                      />
+                    );
+                  }
+                })
+              : ""}
+          </div>
         </div>
       </div>
     </div>

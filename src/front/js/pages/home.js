@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
-import MovieCard from "../component/MovieCard.jsx";
+import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/search";
-import { Toggle } from "../component/toggle.js"
+import { Toggle } from "../component/toggle.js";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
@@ -14,17 +14,18 @@ export const Home = () => {
       <Toggle />
       <Search />
       <div className="row ">
-        {store.movies.map((movie) => {
-          console.log(movie);
-          return (
-            <MovieCard
-              key={movie.id}
-              name={movie.original_title}
-              imgUrl={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-              movieUrl={`/single/${movie.id}`}
-              className="col mt-3"
-            />
-          );
+        {store.films.map((film) => {
+          if (film.backdrop_path != null) {
+            return (
+              <FilmCard
+                key={film.id}
+                name={film.original_title}
+                imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
+                filmUrl={`/single/${film.id}`}
+                className="col mt-3"
+              />
+            );
+          }
         })}
       </div>
     </div>

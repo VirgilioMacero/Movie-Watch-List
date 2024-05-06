@@ -21,8 +21,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           initial: "white",
         },
       ],
-      movies: [],
-      movie: {},
+      films: [],
+      film: {},
+      filmCredits: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -33,13 +34,13 @@ const getState = ({ getStore, getActions, setStore }) => {
         const movies = await fetch(
           `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
             name
-          )}&include_adult=true&language=en-US&page=1`,
+          )}&include_adult=false&language=en-US&page=1`,
           config
         );
 
         const jsonMovies = await movies.json();
 
-        setStore({ movies: jsonMovies.results });
+        setStore({ films: jsonMovies.results });
       },
       getSingleMovie: async (movieId) => {
         const movie = await fetch(
@@ -49,21 +50,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonMovie = await movie.json();
 
-        console.log(jsonMovie);
-
-        setStore({ movie: jsonMovie });
+        setStore({ film: jsonMovie });
       },
-      getMessage: async () => {
-        try {
-          // fetching data from the backend
-          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-          const data = await resp.json();
-          setStore({ message: data.message });
-          // don't forget to return something, that is how the async resolves
-          return data;
-        } catch (error) {
-          console.log("Error loading message from backend", error);
-        }
+      getMovieCredits: async (movieId) => {
+        const credits = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}/credits`,
+          config
+        );
+        const jsonCredits = await credits.json();
+
+        setStore({ filmCredits: jsonCredits });
       },
       changeColor: (index, color) => {
         //get the store
