@@ -3,7 +3,8 @@ const getState = ({ getStore, getActions, setStore }) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmVlMGI4ZGRjODZkNmFkYjAyNmJhYjAwZTQ3Mzg4OCIsInN1YiI6IjY2MzJjMzcxNjY1NjVhMDEyMzEzNjU1YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHo74_E1RoidGVwt8z_lSP-jaz0Ju7FG2ea9Q4jRnQg'    },
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmVlMGI4ZGRjODZkNmFkYjAyNmJhYjAwZTQ3Mzg4OCIsInN1YiI6IjY2MzJjMzcxNjY1NjVhMDEyMzEzNjU1YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHo74_E1RoidGVwt8z_lSP-jaz0Ju7FG2ea9Q4jRnQg'
+    }
   };
 
   return {
@@ -13,16 +14,18 @@ const getState = ({ getStore, getActions, setStore }) => {
         {
           title: "FIRST",
           background: "white",
-          initial: "white",
+          initial: "white"
         },
         {
           title: "SECOND",
           background: "white",
-          initial: "white",
-        },
+          initial: "white"
+        }
       ],
       movies: [],
+      series: [],
       movie: {},
+      isSeriesActive: false // Add isSeriesActive property to track the toggle state
     },
     actions: {
       exampleFunction: () => {
@@ -30,13 +33,23 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       getMoviesByName: async (name) => {
         const movies = await fetch(
-          `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(name)}&include_adult=true&language=en-US&page=1`,
+          `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(name)}&include_adult=false&language=en-US&page=1`,
           config
         );
 
         const jsonMovies = await movies.json();
 
         setStore({ movies: jsonMovies.results });
+      },
+      getSeriesByName: async (seriesName) => {
+        const series = await fetch(
+          `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(seriesName)}&include_adult=false&language=en-US&page=1`,
+          config
+        );
+
+        const jsonSeries = await series.json();
+
+        setStore({ series: jsonSeries.results });
       },
       getSingleMovie: async (movieId) => {
         const movie = await fetch(
@@ -66,7 +79,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         });
         setStore({ demo: demo });
       },
-    },
+      toggleSeries: () => {
+        const store = getStore();
+        setStore({ isSeriesActive: !store.isSeriesActive });
+      }
+    }
   };
 };
 

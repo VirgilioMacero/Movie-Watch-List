@@ -1,9 +1,18 @@
-import React, { useState, useContext, useEffect } from "react"; // Import useEffect from react
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
 
-export const Search = () => {
-  const { store, actions } = useContext(Context);
+export const Search = ({ setSearchQuery }) => {
+  const { actions } = useContext(Context);
+
+  const handleInputChange = (e) => {
+    const searchQuery = e.target.value.trim(); // Trim any whitespace from input
+    setSearchQuery(searchQuery); // Update search query
+  };
+
+  const handleInputEmpty = () => {
+    setSearchQuery(""); // Set search query to empty
+  };
 
   return (
     <div className="w-100">
@@ -11,8 +20,11 @@ export const Search = () => {
         <div className="input-wrapper">
           <input
             type="text"
-            onChange={(e) => {
-              actions.getMoviesByName(e.target.value);
+            onChange={handleInputChange}
+            onKeyUp={(e) => {
+              if (e.key === "Backspace" && e.target.value === "") {
+                handleInputEmpty(); // Call handleInputEmpty when backspacing and input is empty
+              }
             }}
             placeholder="Search from Title here ..."
           />
