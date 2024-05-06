@@ -28,16 +28,21 @@
   border-top-left-radius: 17px;
   height: 40px;
 }
-
 .input-wrapper input {
-  width: 100%;
-  background-color: var(--primary);
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  color: var(--white);
-  font-size: 1.25rem;
-}
+
+    width: 100%;
+    background-color: var(--primary);
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    color: var(--white);
+    font-size: 1.25rem;
+  }
+  .input-wrapper {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
 .crewImages {
   overflow-x: auto;
   white-space: nowrap;
