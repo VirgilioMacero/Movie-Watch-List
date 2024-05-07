@@ -53,8 +53,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonSeries = await series.json();
 
-        console.log(jsonSeries);
-
         setStore({ films: jsonSeries.results });
       },
       getSingleMovie: async (movieId) => {
@@ -74,8 +72,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         );
 
         const jsonTvShow = await tvShow.json();
-
-        console.log(jsonTvShow);
 
         setStore({ film: jsonTvShow });
       },

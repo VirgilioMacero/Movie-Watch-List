@@ -55,8 +55,8 @@ export const Home = () => {
                   key={film.id}
                   name={
                     film.original_title
-                      ? film.original_title
-                      : film.original_name
+                      ? film.original_title.substring(0, 35)
+                      : film.name.substring(0, 35)
                   }
                   imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
                   filmUrl={`/single/${film.id}`}

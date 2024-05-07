@@ -8,7 +8,6 @@ class User(db.Model):
     lastName = db.Column(db.String(70), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(257), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     favorites = db.relationship("Favorite",backref="user",lazy=True)
     recently_watched = db.relationship("Recently_Watched",backref="user",lazy=True)
 
