@@ -5,6 +5,8 @@ import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
+from flask_jwt_extended import JWTManager
+from flask_bcrypt import Bcrypt
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
@@ -18,7 +20,7 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-
+bcrypt = Bcrypt(app)
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
@@ -36,6 +38,10 @@ setup_admin(app)
 
 # add the admin
 setup_commands(app)
+
+app.config["JWT_SECRET_KEY"] = os.getenv("FLASK_APP_KEY")
+
+jwt = JWTManager(app)
 
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
