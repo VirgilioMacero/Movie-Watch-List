@@ -48,25 +48,23 @@ export const Home = () => {
         <p>Loading...</p>
       ) : (
         <div className="row">
-          {store.isSeriesActive
-            ? store.films.map((film) => (
+          {store.films.map((film) => {
+            if (film.backdrop_path != null) {
+              return (
                 <FilmCard
                   key={film.id}
-                  name={film.original_name}
+                  name={
+                    film.original_title
+                      ? film.original_title
+                      : film.original_name
+                  }
                   imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
                   filmUrl={`/single/${film.id}`}
                   className="col mt-3"
                 />
-              ))
-            : store.films.map((film) => (
-                <FilmCard
-                  key={film.id}
-                  name={film.original_title}
-                  imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
-                  filmUrl={`/single/${film.id}`}
-                  className="col mt-3"
-                />
-              ))}
+              );
+            }
+          })}
         </div>
       )}
     </div>
