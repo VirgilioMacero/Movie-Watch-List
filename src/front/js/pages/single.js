@@ -9,11 +9,21 @@ export const Single = (props) => {
   const params = useParams();
 
   useEffect(() => {
-    actions.getSingleMovie(params.theid);
-    actions.getMovieCredits(params.theid);
+    if (store.isSeriesActive) {
+      actions.getSingleTvShow(params.theid);
+      actions.getSeriesCredits(params.theid);
+    } else {
+      actions.getSingleMovie(params.theid);
+      actions.getMovieCredits(params.theid);
+    }
   }, [params.theid]);
 
-  const year = new Date(store.film.release_date);
+  const name = store.isSeriesActive
+    ? store.film.name
+    : store.film.original_title;
+  const year = new Date(
+    store.isSeriesActive ? store.film.first_air_date : store.film.release_date
+  );
 
   return (
     <div className="container">
@@ -22,7 +32,7 @@ export const Single = (props) => {
           <Link to={"/"}>
             <i className="bi bi-caret-left"></i>
           </Link>
-          {store.film.original_title} ({year.getFullYear()})
+          {name} ({year.getFullYear()})
         </h1>
       </div>
       <div className="row mt-4">

@@ -53,6 +53,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonSeries = await series.json();
 
+        console.log(jsonSeries);
+
         setStore({ films: jsonSeries.results });
       },
       getSingleMovie: async (movieId) => {
@@ -65,9 +67,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ film: jsonMovie });
       },
+      getSingleTvShow: async (showId) => {
+        const tvShow = await fetch(
+          `https://api.themoviedb.org/3/tv/${showId}`,
+          config
+        );
+
+        const jsonTvShow = await tvShow.json();
+
+        console.log(jsonTvShow);
+
+        setStore({ film: jsonTvShow });
+      },
       getMovieCredits: async (movieId) => {
         const credits = await fetch(
           `https://api.themoviedb.org/3/movie/${movieId}/credits`,
+          config
+        );
+        const jsonCredits = await credits.json();
+
+        setStore({ filmCredits: jsonCredits });
+      },
+      getSeriesCredits: async (serieId) => {
+        const credits = await fetch(
+          `https://api.themoviedb.org/3/tv/${serieId}/credits`,
           config
         );
         const jsonCredits = await credits.json();
