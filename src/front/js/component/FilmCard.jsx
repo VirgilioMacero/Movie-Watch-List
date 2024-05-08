@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Modal, Button, Form } from "react-bootstrap";
 
 export default function FilmCard(props) {
@@ -6,9 +7,10 @@ export default function FilmCard(props) {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   const handleIconClick = (event) => {
-    event.stopPropagation(); // Stop event propagation to prevent clicking on the card
+    event.preventDefault(); // Prevent the default behavior of the link click
     setShowLoginModal(true);
-  };
+};
+
 
   const handleNewUserClick = () => {
     setShowLoginModal(false); // Close the login modal
@@ -18,6 +20,7 @@ export default function FilmCard(props) {
 
   return (
     <div className={`${props.className}`}>
+      <Link className="text-decoration-none" to={props.filmUrl}>
       <div
         className="FilmCard"
         style={{
@@ -57,6 +60,7 @@ export default function FilmCard(props) {
           <p>{props.name}</p>
         </div>
       </div>
+      </Link>
 
       {/* Login Modal */}
       <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)} centered>
@@ -98,14 +102,19 @@ export default function FilmCard(props) {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="formBasicFullName">
-              <Form.Label>Full Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your full name" />
+            <Form.Group className="mb-3" controlId="formBasicFirstName">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control type="text" placeholder="Enter your first name" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicLastName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control type="text" placeholder="Enter your last name" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Control type="email" placeholder="Enter email address" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
