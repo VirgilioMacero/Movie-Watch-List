@@ -8,6 +8,7 @@ from flask_bcrypt import Bcrypt
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
+bcrypt = Bcrypt()
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -28,26 +29,36 @@ def create_token():
     email = request.json.get("email",None)
     password = request.json.get("password",None)
 
-    user = User.query.filter_by(email=email,password=password).first()
+    user = User.query.filter_by(email=email).first()
 
-    if user is None:
-        return jsonify({"error":"User ors Password not Found"}),401
+    if user and bcrypt.check_password_hash(user.password,password):
+            access_token = create_access_token(identity=user.id)
+            return jsonify({"token":access_token,"user_id":user.id}),200
+    
+    return jsonify({"error":"User or Password not Found"}),401
 
-    access_token = create_access_token(identity=user.id)
 
-    return jsonify({"token":access_token,"user_id":user.id}),200
 
 @api.route('/register',methods=['POST'])
 def register():
 
     name = request.json.get('name',None)
-    last_name = request.json.get('last_name',None)
+    last_name = request.json.get('lastName',None)
     email = request.json.get('email',None)
     password = request.json.get('password',None)
 
-    user = User.query.filter(User.email == email)
+    user = User.query.filter(User.email == email).first()
+
+    if name == None or last_name == None or email == None or password == None:
+        return jsonify({"Error":"Missing Info"})
+
 
     if user is None:
-        return
+        password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    return
+        new_user = User(name=name,lastName=last_name,email=email,password=password_hash)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({"Message":"User Created"})
+
+    return jsonify({"Message":"User already exist"})
