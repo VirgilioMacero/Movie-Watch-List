@@ -28,10 +28,13 @@
   border-bottom-left-radius: 17px;
 }
 .FilmCardButtons {
-  text-align: end;
+  text-align: center;
   padding-right: 10px;
+  padding-left: 8px;
   border-top-right-radius: 17px;
   border-bottom-left-radius: 17px;
+  display: flex;
+  justify-content: space-between;
   height: 40px;
   width: 27%;
   background-color: #ffffff;
