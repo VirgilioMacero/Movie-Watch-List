@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User ,Favorite, Recently_Watched
-from flask_jwt_extended import jwt_required, create_access_token
+from flask_jwt_extended import jwt_required, create_access_token,get_jwt_identity
 from flask_bcrypt import Bcrypt
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
@@ -62,3 +62,12 @@ def register():
         return jsonify({"Message":"User Created"})
 
     return jsonify({"Message":"User already exist"})
+
+@api.route('/favorites',methods=["GET"])
+@jwt_required
+def getFavorites():
+     current_user_id = get_jwt_identity()
+     user = User.query.get(current_user_id)
+
+     return jsonify({"Favorites":user.serialize_favorites()})
+     
