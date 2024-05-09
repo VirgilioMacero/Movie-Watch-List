@@ -9,61 +9,63 @@ export default function FilmCard(props) {
   const handleIconClick = (event) => {
     event.preventDefault(); // Prevent the default behavior of the link click
     setShowLoginModal(true);
-};
-
+  };
 
   const handleNewUserClick = () => {
     setShowLoginModal(false); // Close the login modal
     setShowRegisterModal(true); // Show the register modal
   };
-  
 
   return (
     <div className={`${props.className}`}>
       <Link className="text-decoration-none" to={props.filmUrl}>
-      <div
-        className="FilmCard"
-        style={{
-          backgroundImage: `url(${props.imgUrl})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="d-flex flex-row-reverse">
-          <div className="FilmCardButtons">
-            {props.isWatched !== true ? (
-              <i
-                onClick={(event) => handleIconClick(event)}
-                className="bi bi-eye-slash h3 text-dark"
-              ></i>
-            ) : (
-              <i
-                onClick={(event) => handleIconClick(event)}
-                className="bi bi-eye h3 "
-              ></i>
-            )}
-            {props.isFavorite !== true ? (
-              <i
-                onClick={(event) => handleIconClick(event)}
-                className="bi bi-star h3 text-dark"
-              ></i>
-            ) : (
-              <i
-                onClick={(event) => handleIconClick(event)}
-                className="bi bi-star-fill h3 text-warning"
-              ></i>
-            )}
+        <div
+          className="FilmCard"
+          style={{
+            backgroundImage: `url(${props.imgUrl})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="d-flex flex-row-reverse">
+            <div className="FilmCardButtons">
+              {props.isWatched !== true ? (
+                <i
+                  onClick={(event) => handleIconClick(event)}
+                  className="bi bi-eye-slash h3 text-dark"
+                ></i>
+              ) : (
+                <i
+                  onClick={(event) => handleIconClick(event)}
+                  className="bi bi-eye h3 "
+                ></i>
+              )}
+              {props.isFavorite !== true ? (
+                <i
+                  onClick={(event) => handleIconClick(event)}
+                  className="bi bi-star h3 text-dark"
+                ></i>
+              ) : (
+                <i
+                  onClick={(event) => handleIconClick(event)}
+                  className="bi bi-star-fill h3 text-warning"
+                ></i>
+              )}
+            </div>
+          </div>
+          <div className="FilmCardTitle">
+            <p>{props.name}</p>
           </div>
         </div>
-        <div className="FilmCardTitle">
-          <p>{props.name}</p>
-        </div>
-      </div>
       </Link>
 
       {/* Login Modal */}
-      <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)} centered>
+      <Modal
+        show={showLoginModal}
+        onHide={() => setShowLoginModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
@@ -81,18 +83,38 @@ export default function FilmCard(props) {
 
             <div className="d-flex justify-content-between align-items-center mb-3">
               <Form.Check type="checkbox" label="Remember me" />
-              <Button variant="link" className="text-decoration-none" onClick={handleNewUserClick}>
-              <Form.Text className="text" style={{ textDecoration: 'underline', color: 'blue', fontSize:'16px' }}>New User?</Form.Text>
-        </Button>
-    </div>
+              <Button
+                variant="link"
+                className="text-decoration-none"
+                onClick={handleNewUserClick}
+              >
+                <Form.Text
+                  className="text"
+                  style={{
+                    textDecoration: "underline",
+                    color: "blue",
+                    fontSize: "16px",
+                  }}
+                >
+                  New User?
+                </Form.Text>
+              </Button>
+            </div>
 
-
-            <Button variant="primary" type="submit" className="mt-3" style={{ width: '100%' }}> Forgot password?</Button>
+            <Button
+              variant="primary"
+              type="submit"
+              className="mt-3"
+              style={{ width: "100%" }}
+            >
+              {" "}
+              Forgot password?
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>
-       {/* Register Modal */}
-       <Modal
+      {/* Register Modal */}
+      <Modal
         show={showRegisterModal}
         onHide={() => setShowRegisterModal(false)}
         centered
@@ -127,7 +149,7 @@ export default function FilmCard(props) {
               <Form.Control type="password" placeholder="Re-enter password" />
             </Form.Group>
 
-            <Button variant="primary" type="submit" style={{ width: '100%' }}>
+            <Button variant="primary" type="submit" style={{ width: "100%" }}>
               Register
             </Button>
           </Form>
