@@ -71,23 +71,21 @@ export default function FilmCard(props) {
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Control type="email" placeholder="Enter email address" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>
-
-            <div className="d-flex justify-content-between align-items-center mb-3">
+            <Button variant="primary" type="submit" className="mt-3" style={{ width: '100%' }}> Submit </Button>
+            <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
               <Form.Check type="checkbox" label="Remember me" />
               <Button variant="link" className="text-decoration-none" onClick={handleNewUserClick}>
               <Form.Text className="text" style={{ textDecoration: 'underline', color: 'blue', fontSize:'16px' }}>New User?</Form.Text>
         </Button>
     </div>
-
-
-            <Button variant="primary" type="submit" className="mt-3" style={{ width: '100%' }}> Forgot password?</Button>
+            <Button variant="warning" type="forgot" className="forgotPassword" > Forgot Password? </Button>
           </Form>
         </Modal.Body>
       </Modal>
