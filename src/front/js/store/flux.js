@@ -141,6 +141,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       validatLoged: () => {
         if (localStorage.getItem("token")) {
           setStore({ isLoged: true });
+        } else {
+          setStore({ isLoged: false });
         }
       },
     },

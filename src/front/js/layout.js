@@ -24,9 +24,7 @@ const Layout = () => {
     <div>
       <BrowserRouter basename={basename}>
         <ScrollToTop>
-          <div className="container my-4">
-            <Navbar />
-          </div>
+          <Navbar />
           <Routes>
             <Route element={<Home />} path="/" />
             {/* <Route element={<Demo />} path="/demo" /> */}
