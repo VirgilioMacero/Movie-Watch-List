@@ -34,7 +34,7 @@ export const Navbar = () => {
             <Link to="/favorites">
               <li>Favorites</li>
             </Link>
-            <Link to="/recently_watched">
+            <Link to="/recently-watched">
               <li>Recently Watched</li>
             </Link>
             <Link to="/about_us">
