@@ -19,7 +19,9 @@ export const Navbar = () => {
         </button>
       </div>
       <div className="position-absolute start-50 translate-middle-x">
-        <img src={WatchGoImage} alt="Watch & Go" style={{ width: "160px" }} />
+        <Link to="/">
+          <img src={WatchGoImage} alt="Watch & Go" style={{ width: "160px" }} />
+        </Link>
       </div>
     </div>
   );
