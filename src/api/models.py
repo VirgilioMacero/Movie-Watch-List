@@ -33,12 +33,15 @@ class Favorite(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("user.id"))
     film_id = db.Column(db.Integer)
     film_name = db.Column(db.String(120))
+    is_movie = db.Column(db.Boolean,nullable=False)
+
 
     def serialize(self):
         return{
             "id":self.id,
             "film_id":self.film_id,
-            "film_name":self.film_name
+            "film_name":self.film_name,
+            "is_movie":self.is_movie
 
         }
 class Recently_Watched(db.Model):
@@ -46,11 +49,14 @@ class Recently_Watched(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("user.id"))
     film_id = db.Column(db.Integer)
     film_name = db.Column(db.String(120))
+    is_movie = db.Column(db.Boolean,nullable=False)
+
 
     def serialize(self):
         return{
             "id":self.id,
             "film_id":self.film_id,
-            "film_name":self.film_name
+            "film_name":self.film_name,
+            "is_movie":self.is_movie
 
         }
