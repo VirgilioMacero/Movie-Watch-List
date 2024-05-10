@@ -50,7 +50,7 @@ def register():
     user = User.query.filter(User.email == email).first()
 
     if name == None or last_name == None or email == None or password == None:
-        return jsonify({"Error":"Missing Info"})
+        return jsonify({"Error":"Missing Info"}),404
 
 
     if user is None:
@@ -59,15 +59,104 @@ def register():
         new_user = User(name=name,lastName=last_name,email=email,password=password_hash)
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"Message":"User Created"})
+        return jsonify({"Message":"User Created"}),200
 
-    return jsonify({"Message":"User already exist"})
+    return jsonify({"Message":"User already exist"}),409
 
 @api.route('/favorites',methods=["GET"])
-@jwt_required
+@jwt_required()
 def getFavorites():
      current_user_id = get_jwt_identity()
      user = User.query.get(current_user_id)
 
-     return jsonify({"Favorites":user.serialize_favorites()})
+     return jsonify({"Favorites":user.serialize_favorites()}),200
+
+@api.route('/recently_watched',methods=["GET"])
+@jwt_required()
+def getRecents():
+     current_user_id = get_jwt_identity()
+     user = User.query.get(current_user_id)
+
+     return jsonify({"Recently Watched":user.serialize_recently_watched()}),200
+
+@api.route('/favorites',methods=["POST"])
+@jwt_required()
+def addFavorite():
+     
+    data = request.get_json()
+
+    if "film_id" not in data or "film_name" not in data or "is_movie" not in data:
+        return jsonify({"Error":"Missing Data"}),400
+
+    film_id = data["film_id"]
+    film_name = data["film_name"]
+    is_movie = data["is_movie"]
+    current_user_id = get_jwt_identity()
+    
+    user = User.query.get(current_user_id)
+    for favorite in user.serialize_favorites():
+        if favorite["film_id"] == film_id and favorite["is_movie"] is is_movie:
+              return jsonify({"Message":"Favorite already used"}),200
+         
+
+    new_favorite = Favorite(user_id=current_user_id,film_id=film_id,film_name=film_name,is_movie=is_movie) 
+     
+    db.session.add(new_favorite)
+    db.session.commit()
+     
+    return jsonify({"message": "Favorite created successfully"}), 201
+
+@api.route('/recently_watched',methods=["POST"])
+@jwt_required()
+def addRecently():
+     
+    data = request.get_json()
+
+    if "film_id" not in data or "film_name" not in data or "is_movie" not in data:
+        return jsonify({"Error":"Missing Data"}),400
+
+    film_id = data["film_id"]
+    film_name = data["film_name"]
+    is_movie = data["is_movie"]
+    current_user_id = get_jwt_identity()
+     
+    user = User.query.get(current_user_id)
+    for recent in user.serialize_recently_watched():
+        if recent["film_id"] == film_id and recent["is_movie"] is is_movie:
+              return jsonify({"Message":"Recent Viewed already used"}),200
+
+    new_recent = Recently_Watched(user_id=current_user_id,film_id=film_id,film_name=film_name,is_movie=is_movie) 
+     
+    db.session.add(new_recent)
+    db.session.commit()
+     
+    return jsonify({"message": "Recently Watched created successfully"}), 201
+
+@api.route('/favorites',methods=["DELETE"])
+@jwt_required()
+def deleteFavorite():
+     favorite_id = request.json.get("favorite_id")
+     favorite_to_delete = Favorite.query.get(favorite_id)
+
+     if favorite_to_delete is None:
+          return jsonify({"Message":"Favorite Does Not Exist"}),404
+    
+     db.session.delete(favorite_to_delete)
+     db.session.commit()
+
+     return jsonify({"Message":"Favorite Deleted"}),201
+
+@api.route('/recently_watched',methods=["DELETE"])
+@jwt_required()
+def deleteRecently():
+     recently_id = request.json.get("recently_id")
+     recently_to_delete = Recently_Watched.query.get(recently_id)
+
+     if recently_to_delete is None:
+          return jsonify({"Message":"Recently Watched Does Not Exist"}),404
+    
+     db.session.delete(recently_to_delete)
+     db.session.commit()
+
+     return jsonify({"Message":"Recently Watched Deleted"}),200
      

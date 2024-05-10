@@ -26,6 +26,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       films: [],
       film: {},
       filmCredits: [],
+      isLoged: false,
+      favoriteFilms: [],
+      recentlyWatchedFilms: [],
     },
     actions: {
       exampleFunction: () => {
@@ -104,6 +107,41 @@ const getState = ({ getStore, getActions, setStore }) => {
       toggleSeries: () => {
         const store = getStore();
         setStore({ isSeriesActive: !store.isSeriesActive });
+      },
+      login: async (email, password) => {
+        const login = await fetch(process.env.BACKEND_URL + "api/token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+        if (login.status === 200) {
+          const data = await login.json();
+          setStore({ isLoged: true });
+          localStorage.setItem("token", data.token);
+        } else {
+          return login.statusText;
+        }
+      },
+      register: async (name, lastname, email, password) => {
+        const register = await fetch(process.env.BACKEND_URL + "api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, lastName: lastname, email, password }),
+        });
+
+        if (!register.ok) {
+          throw Error("There was a problem in the login request");
+        } else {
+          return register.statusText;
+        }
+      },
+      validatLoged: () => {
+        if (localStorage.getItem("token")) {
+          setStore({ isLoged: true });
+        }
       },
     },
   };
