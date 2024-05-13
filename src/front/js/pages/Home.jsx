@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx"; // Import the Filter component
 
+
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
@@ -56,14 +57,15 @@ export const Home = () => {
   return (
     <div className="text-center mt-5 container">
       <Toggle />
-      <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent:"center", width: "100%" }}>
         <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
-        <FontAwesomeIcon
-          icon={faFilter}
-          onClick={handleFilterToggle}
-          style={{ fontSize: "50px", cursor: "pointer", width: "10%" }} // Styles for the filter icon
-        />{" "}
-        {/* Filter toggle icon */}
+        <div className="filter-icon-wrapper">
+          <FontAwesomeIcon
+            icon={faFilter}
+            onClick={handleFilterToggle}
+            className="filter-icon"
+          />{" "}
+        </div>
       </div>
       {showFilter && <Filter onSelect={handleFilterSelect} />}{" "}
       {/* Render Filter component if showFilter is true */}
