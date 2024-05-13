@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Button, Modal } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 import VirgiliosResume from "../../../../public/VirgiliosResume.pdf";
 import SonysResume from "../../../../public/SonysResume.pdf";
 import VirgilioImage from "../../../../public/virgilio-img.png";
@@ -28,15 +29,22 @@ export const About = () => {
   };
 
   return (
-    <div className="text-center mt-5 container">
-      <h2>About Us</h2>
-      <div className="row mt-4">
+    <div className="mt-5 container">
+      <h1>
+          <Link to={"/"}>
+            <i className="bi bi-caret-left"></i>
+          </Link>
+      About Us        
+      </h1>
+      <p style={{ fontSize: '18px' }}>Welcome to Watch &amp; Go, your ultimate destination for discovering, organizing, and enjoying your favorite movies and TV shows. At Watch &amp; Go, we're passionate about bringing the magic of cinema into your home, allowing you to explore an endless universe of entertainment at your fingertips.</p>
+      <h2 style={{ fontSize: '36px', textAlign: 'center' }}>The Development Team</h2>
+      <div className="row text-center mt-4">
         {/* First Card */}
-        <div className="col-md-6">
+        <div className="col-md-6 mb-3 mb-md-0">
           <Card>
+          <Card.Title style={{ fontSize: '30px' }}>Virgilio Macero</Card.Title>
             <Card.Img variant="top" src={VirgilioImage} alt="Virgilio Macero" style={{ height: "400px" }} />
             <Card.Body>
-            <Card.Title style={{ fontSize: '28px' }}>Virgilio Macero</Card.Title>
               <div className="d-flex justify-content-around">
                 <div className="d-flex flex-column align-items-center">
                   <Button variant="link" href="https://www.linkedin.com/in/virgilio-macero/">
@@ -61,11 +69,11 @@ export const About = () => {
           </Card>
         </div>
         {/* Second Card */}
-        <div className="col-md-6">
+        <div className="col-md-6 mb-3 mb-md-0">
           <Card>
-            <Card.Img variant="top" src={SonyImage} alt="Sony Raymond" style={{ height: "400px", width: "" }} />
+          <Card.Title style={{ fontSize: '30px' }}>Sony Raymond </Card.Title>
+            <Card.Img variant="top" src={SonyImage} alt="Sony Raymond" style={{ height: "400px"}} />
             <Card.Body>
-            <Card.Title style={{ fontSize: '28px' }}>Sony Raymond </Card.Title>
               <div className="d-flex justify-content-around">
                 <div className="d-flex flex-column align-items-center">
                   <Button variant="link" href="https://www.linkedin.com/in/wilclerson/">
