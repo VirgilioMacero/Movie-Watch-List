@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { Context } from "../store/appContext";
+import { Context } from "../store/appContext.js";
 import FilmCard from "../component/FilmCard.jsx";
-import { Search } from "../component/search";
+import { Search } from "../component/search.js";
 import { Toggle } from "../component/toggle.js";
-import { Filter } from "../component/filter.js"; // Import the Filter component
+import { Filter } from "../component/filter.jsx"; // Import the Filter component
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
@@ -58,13 +58,15 @@ export const Home = () => {
       <Toggle />
       <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
         <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
-        <FontAwesomeIcon 
-          icon={faFilter} 
-          onClick={handleFilterToggle} 
+        <FontAwesomeIcon
+          icon={faFilter}
+          onClick={handleFilterToggle}
           style={{ fontSize: "50px", cursor: "pointer", width: "10%" }} // Styles for the filter icon
-        /> {/* Filter toggle icon */}
+        />{" "}
+        {/* Filter toggle icon */}
       </div>
-      {showFilter && <Filter onSelect={handleFilterSelect} />} {/* Render Filter component if showFilter is true */}
+      {showFilter && <Filter onSelect={handleFilterSelect} />}{" "}
+      {/* Render Filter component if showFilter is true */}
       {isLoading ? (
         <p>Loading...</p>
       ) : (

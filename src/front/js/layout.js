@@ -3,19 +3,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import { Home } from "./pages/home";
+import { Home } from "./pages/Home.jsx";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
-import { RecentlyWatched } from "./pages/recentlyWatched.js"; 
-import { Favorites } from "./pages/favorites.js"; 
-import { About } from "./pages/about.js"; 
-
-
+import { RecentlyWatched } from "./pages/recentlyWatched.js";
+import { Favorites } from "./pages/favorites.js";
+import { About } from "./pages/About.jsx";
 
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
+import { Footer } from "./component/Footer.jsx";
 
 //create your first component
 const Layout = () => {
@@ -35,9 +33,9 @@ const Layout = () => {
             <Route element={<Home />} path="/" />
             {/* <Route element={<Demo />} path="/demo" /> */}
             <Route element={<Single />} path="/single/:theid" />
-            <Route element={<Favorites/>} path="/favorites" /> 
-            <Route element={<RecentlyWatched />} path="/recently-watched" /> 
-            <Route element={<About />} path="/about_us" /> 
+            <Route element={<Favorites />} path="/favorites" />
+            <Route element={<RecentlyWatched />} path="/recently-watched" />
+            <Route element={<About />} path="/about_us" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
