@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx"; // Import the updated Filter component
 
+
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);

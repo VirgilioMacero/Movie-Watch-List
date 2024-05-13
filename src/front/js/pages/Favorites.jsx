@@ -48,7 +48,7 @@ export const Favorites = () => {
         <p>Loading...</p>
       ) : (
         <div className="row">
-          {store.films.map((film) => {
+          {store.favorites.map((film) => {
             if (film.backdrop_path != null) {
               return (
                 <FilmCard
