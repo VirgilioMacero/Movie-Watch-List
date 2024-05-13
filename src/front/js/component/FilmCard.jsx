@@ -35,6 +35,8 @@ export default function FilmCard(props) {
     } else {
       console.log("Loged");
       setShowLoginModal(false);
+      // If user is logged in, add the film to recently watched list
+      actions.addRecentlyWatched(props.film.id, props.film.original_title, props.isMovie);
     }
   };
 
