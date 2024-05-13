@@ -5,7 +5,7 @@ import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { Filter } from "../component/filter.jsx"; // Import the Filter component
+import { Filter } from "../component/Filter.jsx"; // Import the Filter component
 
 export const Home = () => {
   const { store, actions } = useContext(Context);

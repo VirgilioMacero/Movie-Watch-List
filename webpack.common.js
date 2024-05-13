@@ -46,7 +46,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      favicon: "WatchGO-DarkMode.ico",
+      favicon: "./src/front/img/Watch & Go.ico",
       template: "template.html",
     }),
     new Dotenv({ safe: true, systemvars: true }),
