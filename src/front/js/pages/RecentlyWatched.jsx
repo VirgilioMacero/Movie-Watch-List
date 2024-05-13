@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../store/appContext";
+import { Context } from "../store/appContext.js";
 import FilmCard from "../component/FilmCard.jsx";
-import { Search } from "../component/search";
-import { Toggle } from "../component/toggle.js";
+import { Search } from "../component/Search.jsx";
+import { Toggle } from "../component/Toggle.jsx";
 
-export const Favorites = () => {
+export const RecentlyWatched = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(""); // Track search query
@@ -41,15 +41,16 @@ export const Favorites = () => {
 
   return (
     <div className="text-center mt-5 container">
-        <h2> Favorites </h2>
+      <h2>Recently Watched</h2>
       <Toggle />
       <Search setSearchQuery={setSearchQuery} />
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <div className="row">
-          {store.films.map((film) => {
-            if (film.backdrop_path != null) {
+          {store.recentlyWatchedFilms.map((filmId) => {
+            const film = store.films.find((item) => item.id === filmId);
+            if (film && film.backdrop_path != null) {
               return (
                 <FilmCard
                   key={film.id}

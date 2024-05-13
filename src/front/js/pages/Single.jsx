@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
+import { Context } from "../store/appContext.js";
 import CastCard from "../component/CastCard.jsx";
 
 export const Single = (props) => {
@@ -26,7 +26,7 @@ export const Single = (props) => {
   );
 
   return (
-    <div className="container">
+    <div className="container" style={{ marginTop: "100px" }}>
       <div className="d-flex">
         <h1>
           <Link to={"/"}>

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import WatchGoImage from "../../img/WatchGO-LightMode.png";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { action } from "easy-peasy";
 
 export const Navbar = () => {
   const [showNavBar, setShowNavBar] = useState(false);
@@ -47,8 +48,7 @@ export const Navbar = () => {
                 className="btn bg-danger"
                 style={{ fontWeight: "bolder", marginLeft: "10px" }}
                 onClick={() => {
-                  localStorage.removeItem("token");
-                  actions.validatLoged();
+                  actions.logOut();
                   setShowNavBar(false);
                 }}
               >

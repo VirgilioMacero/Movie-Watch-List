@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../store/appContext";
+import { Context } from "../store/appContext.js";
 import FilmCard from "../component/FilmCard.jsx";
-import { Search } from "../component/search";
-import { Toggle } from "../component/toggle.js";
+import { Search } from "../component/Search.jsx";
+import { Toggle } from "../component/Toggle.jsx";
 
-export const Home = () => {
+export const Favorites = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(""); // Track search query
@@ -41,8 +41,8 @@ export const Home = () => {
 
   return (
     <div className="text-center mt-5 container">
+      <h2> Favorites </h2>
       <Toggle />
-
       <Search setSearchQuery={setSearchQuery} />
       {isLoading ? (
         <p>Loading...</p>
