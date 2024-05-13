@@ -9,7 +9,7 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/Single.jsx";
 import { RecentlyWatched } from "./pages/RecentlyWatched.jsx";
 import { Favorites } from "./pages/Favorites.jsx";
-import { About } from "./pages/about.js";
+import { About } from "./pages/About.jsx";
 
 import injectContext from "./store/appContext";
 

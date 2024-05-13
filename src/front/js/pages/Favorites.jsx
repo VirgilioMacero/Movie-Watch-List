@@ -40,15 +40,17 @@ export const Favorites = () => {
   }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
 
   return (
-    <div className="text-center mt-5 container">
+    <div className="text-left container" style={{ marginTop: "100px" }}>
       <h2> Favorites </h2>
-      <Toggle />
-      <Search setSearchQuery={setSearchQuery} />
+      <div className="d-flex flex-row-reverse mt-4">
+        <Toggle />
+        <Search setSearchQuery={setSearchQuery} />
+      </div>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <div className="row">
-          {store.favorites.map((film) => {
+          {store.favoriteFilms.map((film) => {
             if (film.backdrop_path != null) {
               return (
                 <FilmCard

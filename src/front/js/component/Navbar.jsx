@@ -29,31 +29,64 @@ export const Navbar = () => {
             </button>
           </div>
           <ul>
-            <Link to="/">
+            <Link
+              to="/"
+              onClick={() => {
+                setShowNavBar(false);
+              }}
+            >
               <li>Home</li>
             </Link>
-            <Link to="/favorites">
+            <Link
+              to="/favorites"
+              onClick={() => {
+                setShowNavBar(false);
+              }}
+            >
               <li>Favorites</li>
             </Link>
-            <Link to="/recently-watched">
+            <Link
+              to="/recently-watched"
+              onClick={() => {
+                setShowNavBar(false);
+              }}
+            >
               <li>Recently Watched</li>
             </Link>
-            <Link to="/about_us">
+            <Link
+              to="/about_us"
+              onClick={() => {
+                setShowNavBar(false);
+              }}
+            >
               <li>About Us</li>
             </Link>
           </ul>
           <ul>
             <li>
-              <button
-                className="btn bg-danger"
-                style={{ fontWeight: "bolder", marginLeft: "10px" }}
-                onClick={() => {
-                  actions.logOut();
-                  setShowNavBar(false);
-                }}
-              >
-                Log Out
-              </button>
+              {!store.isLoged ? (
+                <button
+                  className="btn bg-primary"
+                  style={{ fontWeight: "bolder", marginLeft: "10px" }}
+                  onClick={() => {
+                    actions.setShowLoginModal(true);
+                    setShowNavBar(false);
+                  }}
+                >
+                  Login
+                </button>
+              ) : (
+                <button
+                  className="btn bg-danger"
+                  style={{ fontWeight: "bolder", marginLeft: "10px" }}
+                  onClick={() => {
+                    actions.logOut();
+                    setShowNavBar(false);
+                  }}
+                >
+                  Log Out
+                </button>
+              )}
             </li>
           </ul>
         </div>

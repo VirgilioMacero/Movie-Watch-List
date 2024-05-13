@@ -132,6 +132,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await login.json();
           setStore({ isLoged: true });
           localStorage.setItem("token", data.token);
+          getActions().loadFavorites();
+          getActions().loadRecenlyWatched();
         } else {
           return login.statusText;
         }
@@ -209,6 +211,14 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.error("Error:", error);
         }
+      },
+      loadFavorites: async () => {
+        const token = localStorage.getItem("token");
+
+        const favorites = await fetch(
+          process.env.BACKEND_URL + "api/favorites",
+          { method: "GET", headers: { "Content-Type": "application/json" } }
+        );
       },
     },
   };
