@@ -5,6 +5,7 @@ import { BackendURL } from "./component/BackendURL.jsx";
 
 import { Home } from "./pages/Home.jsx";
 import { Demo } from "./pages/demo";
+
 import { Single } from "./pages/Single.jsx";
 import { RecentlyWatched } from "./pages/RecentlyWatched.jsx";
 import { Favorites } from "./pages/Favorites.jsx";

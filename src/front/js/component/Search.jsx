@@ -12,7 +12,7 @@ export const Search = ({ setSearchQuery }) => {
   };
 
   return (
-    <div className="w-100">
+    <div className="search-wrapper">
       <div className="add-content">
         <div className="input-wrapper">
           <input

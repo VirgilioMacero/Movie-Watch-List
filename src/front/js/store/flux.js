@@ -98,6 +98,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ filmCredits: jsonCredits });
       },
+      getMovieGenre: async (movieGenre) => {
+        const genre = await fetch(
+          `https://api.themoviedb.org/3/${movieGenre}/movie/list?language=en`,
+          config
+        );
+        const jsonmovieGenres = await genre.json();
+
+        setStore({ films: jsonmovieGenres });
+      },
       changeColor: (index, color) => {
         const store = getStore();
         const demo = store.demo.map((elm, i) => {
