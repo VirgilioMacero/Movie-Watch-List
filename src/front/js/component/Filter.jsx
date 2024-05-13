@@ -1,40 +1,58 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faStar, faTimes } from "@fortawesome/free-solid-svg-icons";
+import 'bootstrap/dist/css/bootstrap.min.css'; // For Bootstrap styles
 
-export const Filter = ({ onSelect }) => {
-  const handleOptionSelect = (option) => {
-    onSelect(option);
+export const Filter = ({ show, onClose }) => {
+  const [selectedRating, setSelectedRating] = useState(0);
+
+  const handleStarClick = (rating) => {
+    setSelectedRating(rating);
   };
 
+  if (!show) {
+    return null;
+  }
+
   return (
-    <div>
-      <button onClick={() => handleOptionSelect("genre")}>Genre</button>
-      <button onClick={() => handleOptionSelect("reviews")}>Reviews</button>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="close-button" onClick={onClose}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        <h2>Filter By Date</h2>
+        <div className="date-filter">
+          <div className="date-input">
+            <label>From:</label>
+            <input type="date" />
+            <FontAwesomeIcon icon={faCalendarAlt} />
+          </div>
+          <div className="date-input">
+            <label>To:</label>
+            <input type="date" />
+            <FontAwesomeIcon icon={faCalendarAlt} />
+          </div>
+        </div>
+        <h2 class="genreHeader">Filter By Genre</h2>
+        <select>
+          <option value="">Select Genre</option>
+          <option value="action">Action</option>
+          <option value="comedy">Comedy</option>
+          <option value="drama">Drama</option>
+          {/* Add more genres as needed */}
+        </select>
+        <h2  class="ratingHeader">Filter By Rating</h2>
+        <div className="rating">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <FontAwesomeIcon
+              key={star}
+              icon={faStar}
+              className={star <= selectedRating ? 'selected' : ''}
+              onClick={() => handleStarClick(star)}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
-
-const Home = () => {
-  const [showFilter, setShowFilter] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState(null);
-
-  const handleFilterToggle = () => {
-    setShowFilter(!showFilter);
-  };
-
-  const handleFilterSelect = (option) => {
-    setSelectedFilter(option);
-    setShowFilter(false); // Close the filter component after selection
-  };
-
-  return (
-    <div>
-      <FontAwesomeIcon icon={faFilter} onClick={handleFilterToggle} />
-      {showFilter && <Filter onSelect={handleFilterSelect} />}
-      {selectedFilter && <p>Selected Filter: {selectedFilter}</p>}
-    </div>
-  );
-};
-
-export default Home;
