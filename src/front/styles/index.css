@@ -98,3 +98,7 @@
   color: #0d6efd !important; /* Change color to #0d6efd on hover */
   transition: 0.15s;
 }
+
+.search-wrapper {
+  width: 90%;
+}

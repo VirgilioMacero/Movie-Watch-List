@@ -1,13 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { Context } from "../store/appContext";
 import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/search";
 import { Toggle } from "../component/toggle.js";
+import { Filter } from "../component/filter.js"; // Import the Filter component
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(""); // Track search query
+  const [showFilter, setShowFilter] = useState(false); // State for filter visibility
+  const [selectedFilter, setSelectedFilter] = useState(null); // State for selected filter option
 
   useEffect(() => {
     if (store.isSeriesActive) {
@@ -39,11 +44,27 @@ export const Home = () => {
     }
   }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
 
+  const handleFilterToggle = () => {
+    setShowFilter(!showFilter); // Toggle filter visibility
+  };
+
+  const handleFilterSelect = (option) => {
+    setSelectedFilter(option); // Update selected filter option
+    setShowFilter(false); // Hide filter component after selection
+  };
+
   return (
     <div className="text-center mt-5 container">
       <Toggle />
-
-      <Search setSearchQuery={setSearchQuery} />
+      <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
+        <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
+        <FontAwesomeIcon 
+          icon={faFilter} 
+          onClick={handleFilterToggle} 
+          style={{ fontSize: "50px", cursor: "pointer", width: "10%" }} // Styles for the filter icon
+        /> {/* Filter toggle icon */}
+      </div>
+      {showFilter && <Filter onSelect={handleFilterSelect} />} {/* Render Filter component if showFilter is true */}
       {isLoading ? (
         <p>Loading...</p>
       ) : (
