@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx"; // Import the Filter component
 
-
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,7 +56,14 @@ export const Home = () => {
   return (
     <div className="text-center mt-5 container">
       <Toggle />
-      <div style={{ display: "flex", alignItems: "center", justifyContent:"center", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
         <div className="filter-icon-wrapper">
           <FontAwesomeIcon
@@ -83,6 +89,7 @@ export const Home = () => {
                       ? film.original_title.substring(0, 35)
                       : film.name.substring(0, 35)
                   }
+                  id={film.id}
                   imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
                   filmUrl={`/single/${film.id}`}
                   className="col mt-3"

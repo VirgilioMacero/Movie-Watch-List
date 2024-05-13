@@ -11,7 +11,6 @@ export default function FilmCard(props) {
       actions.setShowLoginModal(true);
       console.log(store.setShowLoginModal);
     } else {
-      console.log("Loged");
     }
   };
 

@@ -51,6 +51,7 @@ export default function login(props) {
             onClick={(e) => {
               e.preventDefault();
               actions.login(loginEmail, loginPassword);
+
               props.setShowLoginModal(false);
             }}
           >
