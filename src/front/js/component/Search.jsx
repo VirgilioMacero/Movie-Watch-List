@@ -23,7 +23,7 @@ export const Search = ({ setSearchQuery }) => {
                 handleInputEmpty(); // Call handleInputEmpty when backspacing and input is empty
               }
             }}
-            placeholder="Search from Title here ..."
+            placeholder="Search for a Movie or TV Series here..."
           />
         </div>
       </div>

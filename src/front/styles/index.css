@@ -100,5 +100,28 @@
 }
 
 .search-wrapper {
-  width: 90%;
+  width: 40%;
 }
+
+.filter-icon-wrapper {
+  width: 6%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.filter-icon {
+  font-size: 36px;
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 5px; /* Optional: to give slightly rounded corners */
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Drop shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effect */
+}
+
+.filter-icon:hover {
+  transform: scale(1.1); /* Slightly increase the size on hover */
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* Stronger drop shadow on hover */
+}
+
