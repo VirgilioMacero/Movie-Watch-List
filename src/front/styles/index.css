@@ -198,18 +198,21 @@
 }
 
 .rating svg.selected {
-  color: black;
+  color: rgb(228, 194, 0);
 }
 .genreHeader{
   padding-top: 1em;
 }
 .genreBar{
   padding: 0.25em;
-  font-size: 20px;
+  font-size: 22px !important;
   width: 50%;
   text-align: center;
 }
 .ratingHeader{
   padding-top: 1em;
+}
+.ratingSection{
+  padding-bottom: 1em;
 }
 

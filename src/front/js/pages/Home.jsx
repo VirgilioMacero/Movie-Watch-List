@@ -47,8 +47,12 @@ export const Home = () => {
     setShowFilter(!showFilter); // Toggle filter visibility
   };
 
-  const handleFilterSelect = (option) => {
-    // Handle the filter selection logic here
+  const handleFilterApply = (genre, rating) => {
+    if (genre) {
+      actions.getMoviesByGenre(genre);
+      actions.getSeriesByGenre(genre);
+
+    }
     setShowFilter(false); // Hide filter component after selection
   };
 
@@ -65,7 +69,7 @@ export const Home = () => {
           />{" "}
         </div>
       </div>
-      <Filter show={showFilter} onClose={handleFilterToggle} /> {/* Render Filter component as a modal */}
+      <Filter show={showFilter} onClose={handleFilterToggle} onApply={handleFilterApply} /> {/* Render Filter component as a modal */}
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -93,3 +97,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
