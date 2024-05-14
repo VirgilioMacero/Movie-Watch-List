@@ -3,16 +3,65 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faStar, faTimes } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css'; // For Bootstrap styles
 
-export const Filter = ({ show, onClose }) => {
+export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
+  const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedRating, setSelectedRating] = useState(0);
 
   const handleStarClick = (rating) => {
     setSelectedRating(rating);
   };
 
+  const handleApply = () => {
+    onApply(selectedGenre, selectedRating);
+    onClose();
+  };
+
   if (!show) {
     return null;
   }
+
+  const movieGenres = [
+    { value: "action", label: "Action" },
+    { value: "adventure", label: "Adventure" },
+    { value: "animation", label: "Animation" },
+    { value: "comedy", label: "Comedy" },
+    { value: "crime", label: "Crime" },
+    { value: "documentary", label: "Documentary" },
+    { value: "drama", label: "Drama" },
+    { value: "family", label: "Family" },
+    { value: "fantasy", label: "Fantasy" },
+    { value: "history", label: "History" },
+    { value: "horror", label: "Horror" },
+    { value: "music", label: "Music" },
+    { value: "mystery", label: "Mystery" },
+    { value: "romance", label: "Romance" },
+    { value: "science fiction", label: "Science Fiction" },
+    { value: "tv movie", label: "TV Movie" },
+    { value: "thriller", label: "Thriller" },
+    { value: "war", label: "War" },
+    { value: "western", label: "Western" },
+  ];
+
+  const seriesGenres = [
+    { value: "actionAdventure", label: "Action & Adventure" },
+    { value: "animation", label: "Animation" },
+    { value: "comedy", label: "Comedy" },
+    { value: "crime", label: "Crime" },
+    { value: "documentary", label: "Documentary" },
+    { value: "drama", label: "Drama" },
+    { value: "family", label: "Family" },
+    { value: "kids", label: "Kids" },
+    { value: "mystery", label: "Mystery" },
+    { value: "news", label: "News" },
+    { value: "reality", label: "Reality" },
+    { value: "scifiFantasy", label: "Sci-Fi & Fantasy" },
+    { value: "soap", label: "Soap" },
+    { value: "talk", label: "Talk" },
+    { value: "warPolitics", label: "War & Politics" },
+    { value: "western", label: "Western" },
+  ];
+
+  const genres = isSeriesActive ? seriesGenres : movieGenres;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -25,34 +74,46 @@ export const Filter = ({ show, onClose }) => {
           <div className="date-input">
             <label>From:</label>
             <input type="date" />
-            <FontAwesomeIcon icon={faCalendarAlt} />
           </div>
           <div className="date-input">
             <label>To:</label>
             <input type="date" />
-            <FontAwesomeIcon icon={faCalendarAlt} />
           </div>
         </div>
-        <h2 class="genreHeader">Filter By Genre</h2>
-        <select>
-          <option value="">Select Genre</option>
-          <option value="action">Action</option>
-          <option value="comedy">Comedy</option>
-          <option value="drama">Drama</option>
-          {/* Add more genres as needed */}
-        </select>
-        <h2  class="ratingHeader">Filter By Rating</h2>
-        <div className="rating">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <FontAwesomeIcon
-              key={star}
-              icon={faStar}
-              className={star <= selectedRating ? 'selected' : ''}
-              onClick={() => handleStarClick(star)}
-            />
-          ))}
+        <div className="genreContent">
+          <h2 className="genreHeader">Filter By Genre</h2>
+          <div className="genreForm">
+            <select
+              className="genreBar form-select"
+              value={selectedGenre}
+              onChange={(e) => setSelectedGenre(e.target.value)}
+            >
+              {genres.map((genre) => (
+                <option key={genre.value} value={genre.value}>
+                  {genre.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+        <div className="ratingSection">
+          <h2 className="ratingHeader">Filter By Rating</h2>
+          <div className="rating">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <FontAwesomeIcon
+                key={star}
+                icon={faStar}
+                className={star <= selectedRating ? 'selected' : ''}
+                onClick={() => handleStarClick(star)}
+              />
+            ))}
+          </div>
+        </div>
+        <button className="apply-button btn btn-primary" onClick={handleApply}>
+          Apply
+        </button>
       </div>
     </div>
   );
 };
+ 

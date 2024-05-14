@@ -140,7 +140,7 @@
 .modal-content {
   background: white !important;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 15px !important;
   position: relative;
   width: 90%;
   max-width: 500px;
@@ -165,11 +165,20 @@
 .date-input {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .date-input input {
-  flex: 1;
+  padding: 0.25em;
+  font-size: 20px;
+  text-align: center;
 }
+.date-input label {
+  padding: 0.25em;
+  font-size: 24px;
+  text-align: left;
+}
+
 
 .date-input svg {
   margin-left: 10px;
@@ -189,12 +198,26 @@
 }
 
 .rating svg.selected {
-  color: black;
+  color: rgb(228, 194, 0);
 }
 .genreHeader{
   padding-top: 1em;
 }
+.genreBar{
+  padding: 0.25em;
+  font-size: 22px !important;
+  width: 65% !important;
+  justify-content: center;
+  text-align: center;
+}
+.genreForm{
+  display: flex;
+  justify-content: center;
+}
 .ratingHeader{
   padding-top: 1em;
+}
+.ratingSection{
+  padding-bottom: 1em;
 }
 
