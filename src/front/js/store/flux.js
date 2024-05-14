@@ -152,11 +152,11 @@ const getState = ({ getStore, getActions, setStore }) => {
         
         const genreSeriesId = genreSeriesIdMap[genreSeries];
         const seriesGenre = await fetch(
-          `https://api.themoviedb.org/3/discover/tv?with_genres=${genreId}&include_adult=false&language=en`,
+          `https://api.themoviedb.org/3/discover/tv?with_genres=${genreSeriesId}&include_adult=false&language=en`,
           config
         );
         
-        const jsonSeries = await series.json();
+        const jsonSeries = await seriesGenre.json();
 
         setStore({ films: jsonSeries.results });
       },

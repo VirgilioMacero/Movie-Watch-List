@@ -49,9 +49,11 @@ export const Home = () => {
 
   const handleFilterApply = (genre, rating) => {
     if (genre) {
-      actions.getMoviesByGenre(genre);
-      actions.getSeriesByGenre(genre);
-
+      if (store.isSeriesActive) {
+        actions.getSeriesByGenre(genre);
+      } else {
+        actions.getMoviesByGenre(genre);
+      }
     }
     setShowFilter(false); // Hide filter component after selection
   };
