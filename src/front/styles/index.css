@@ -140,7 +140,7 @@
 .modal-content {
   background: white !important;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 15px !important;
   position: relative;
   width: 90%;
   max-width: 500px;
@@ -170,7 +170,7 @@
 
 .date-input input {
   padding: 0.25em;
-  font-size: 18px;
+  font-size: 20px;
   text-align: center;
 }
 .date-input label {
@@ -205,7 +205,7 @@
 }
 .genreBar{
   padding: 0.25em;
-  font-size: 18px;
+  font-size: 20px;
   width: 50%;
   text-align: center;
 }
