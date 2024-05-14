@@ -71,7 +71,12 @@ export const Home = () => {
           />{" "}
         </div>
       </div>
-      <Filter show={showFilter} onClose={handleFilterToggle} onApply={handleFilterApply} /> {/* Render Filter component as a modal */}
+      <Filter 
+        show={showFilter} 
+        onClose={handleFilterToggle} 
+        onApply={handleFilterApply} 
+        isSeriesActive={store.isSeriesActive} // Pass isSeriesActive to Filter component
+      />
       {isLoading ? (
         <p>Loading...</p>
       ) : (
