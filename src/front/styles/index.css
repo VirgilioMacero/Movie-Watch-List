@@ -165,11 +165,20 @@
 .date-input {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .date-input input {
-  flex: 1;
+  padding: 0.25em;
+  font-size: 18px;
+  text-align: center;
 }
+.date-input label {
+  padding: 0.25em;
+  font-size: 24px;
+  text-align: left;
+}
+
 
 .date-input svg {
   margin-left: 10px;
@@ -193,6 +202,12 @@
 }
 .genreHeader{
   padding-top: 1em;
+}
+.genreBar{
+  padding: 0.25em;
+  font-size: 18px;
+  width: 50%;
+  text-align: center;
 }
 .ratingHeader{
   padding-top: 1em;

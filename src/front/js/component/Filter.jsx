@@ -25,22 +25,36 @@ export const Filter = ({ show, onClose }) => {
           <div className="date-input">
             <label>From:</label>
             <input type="date" />
-            <FontAwesomeIcon icon={faCalendarAlt} />
           </div>
           <div className="date-input">
             <label>To:</label>
             <input type="date" />
-            <FontAwesomeIcon icon={faCalendarAlt} />
           </div>
         </div>
+        <div class="genreContent">
         <h2 class="genreHeader">Filter By Genre</h2>
-        <select>
-          <option value="">Select Genre</option>
-          <option value="action">Action</option>
-          <option value="comedy">Comedy</option>
-          <option value="drama">Drama</option>
-          {/* Add more genres as needed */}
+        <select class="genreBar">
+            <option value="action">Action</option>
+            <option value="adventure">Adventure</option>
+            <option value="animation">Animation</option>
+            <option value="comedy">Comedy</option>
+            <option value="crime">Crime</option>
+            <option value="documentary">Documentary</option>
+            <option value="drama">Drama</option>
+            <option value="family">Family</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="history">History</option>
+            <option value="horror">Horror</option>
+            <option value="music">Music</option>
+            <option value="mystery">Mystery</option>
+            <option value="romance">Romance</option>
+            <option value="science fiction">Science Fiction</option>
+            <option value="tv movie">TV Movie</option>
+            <option value="thriller">Thriller</option>
+            <option value="war">War</option>
+            <option value="western">Western</option>
         </select>
+        </div>
         <h2  class="ratingHeader">Filter By Rating</h2>
         <div className="rating">
           {[1, 2, 3, 4, 5].map((star) => (
