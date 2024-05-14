@@ -116,3 +116,4 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
     </div>
   );
 };
+ 
