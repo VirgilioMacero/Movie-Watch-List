@@ -55,7 +55,14 @@ export const Home = () => {
   return (
     <div className="text-center mt-5 container">
       <Toggle />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
         <div className="filter-icon-wrapper">
           <FontAwesomeIcon
@@ -65,7 +72,8 @@ export const Home = () => {
           />{" "}
         </div>
       </div>
-      <Filter show={showFilter} onClose={handleFilterToggle} /> {/* Render Filter component as a modal */}
+      <Filter show={showFilter} onClose={handleFilterToggle} />{" "}
+      {/* Render Filter component as a modal */}
       {isLoading ? (
         <p>Loading...</p>
       ) : (

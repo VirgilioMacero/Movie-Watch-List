@@ -2,6 +2,10 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 
+#flexSwitchCheckChecked:hover {
+  cursor: pointer;
+}
+
 .FilmCard {
   border: 2px solid black;
   box-shadow: 2px 2px 5px black;
@@ -191,10 +195,9 @@
 .rating svg.selected {
   color: black;
 }
-.genreHeader{
+.genreHeader {
   padding-top: 1em;
 }
-.ratingHeader{
+.ratingHeader {
   padding-top: 1em;
 }
-

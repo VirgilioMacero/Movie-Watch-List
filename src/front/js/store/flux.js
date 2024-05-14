@@ -132,8 +132,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await login.json();
           setStore({ isLoged: true });
           localStorage.setItem("token", data.token);
-          getActions().loadFavorites();
-          getActions().loadRecenlyWatched();
+          // getActions().loadFavorites();
+          // getActions().loadRecenlyWatched();
         } else {
           return login.statusText;
         }
@@ -217,8 +217,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const favorites = await fetch(
           process.env.BACKEND_URL + "api/favorites",
-          { method: "GET", headers: { "Content-Type": "application/json" } }
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+        const jsonFavorites = await favorites.json();
+        console.log(jsonFavorites);
+        setStore({ favoriteFilms: jsonFavorites });
       },
     },
   };

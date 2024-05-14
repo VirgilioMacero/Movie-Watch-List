@@ -10,16 +10,8 @@ export const Favorites = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Track search query
 
   useEffect(() => {
-    if (store.isSeriesActive) {
-      actions.getSeriesByName("A").then(() => {
-        setIsLoading(false);
-      });
-    } else {
-      actions.getMoviesByName("A").then(() => {
-        setIsLoading(false);
-      });
-    }
-  }, [store.isSeriesActive]); // Fetch data when isSeriesActive changes
+    actions.loadFavorites();
+  }, []); // Fetch data when isSeriesActive changes
 
   useEffect(() => {
     if (searchQuery === "") {
