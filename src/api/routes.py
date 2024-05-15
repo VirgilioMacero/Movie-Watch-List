@@ -7,6 +7,7 @@ from flask_jwt_extended import jwt_required, create_access_token,get_jwt_identit
 from flask_bcrypt import Bcrypt
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from datetime import timedelta
 
 bcrypt = Bcrypt()
 api = Blueprint('api', __name__)
@@ -32,7 +33,7 @@ def create_token():
     user = User.query.filter_by(email=email).first()
 
     if user and bcrypt.check_password_hash(user.password,password):
-            access_token = create_access_token(identity=user.id)
+            access_token = create_access_token(identity=user.id,expires_delta=timedelta(days=3650))
             return jsonify({"token":access_token,"user_id":user.id}),200
     
     return jsonify({"error":"User or Password not Found"}),401
@@ -82,14 +83,15 @@ def getRecents():
 @api.route('/favorites',methods=["POST"])
 @jwt_required()
 def addFavorite():
-     
+    
     data = request.get_json()
 
-    if "film_id" not in data or "film_name" not in data or "is_movie" not in data:
+    if "film_id" not in data or "film_name" not in data or "is_movie" not in data or "film_image" not in data:
         return jsonify({"Error":"Missing Data"}),400
 
     film_id = data["film_id"]
     film_name = data["film_name"]
+    film_image = data["film_image"]
     is_movie = data["is_movie"]
     current_user_id = get_jwt_identity()
     
@@ -99,7 +101,7 @@ def addFavorite():
               return jsonify({"Message":"Favorite already used"}),200
          
 
-    new_favorite = Favorite(user_id=current_user_id,film_id=film_id,film_name=film_name,is_movie=is_movie) 
+    new_favorite = Favorite(user_id=current_user_id,film_id=film_id,film_name=film_name,film_image=film_image,is_movie=is_movie) 
      
     db.session.add(new_favorite)
     db.session.commit()
@@ -112,11 +114,12 @@ def addRecently():
      
     data = request.get_json()
 
-    if "film_id" not in data or "film_name" not in data or "is_movie" not in data:
+    if "film_id" not in data or "film_name" not in data or "is_movie" not in data or "film_image" not in data:
         return jsonify({"Error":"Missing Data"}),400
 
     film_id = data["film_id"]
     film_name = data["film_name"]
+    film_image = data["film_image"]
     is_movie = data["is_movie"]
     current_user_id = get_jwt_identity()
      
@@ -125,7 +128,7 @@ def addRecently():
         if recent["film_id"] == film_id and recent["is_movie"] is is_movie:
               return jsonify({"Message":"Recent Viewed already used"}),200
 
-    new_recent = Recently_Watched(user_id=current_user_id,film_id=film_id,film_name=film_name,is_movie=is_movie) 
+    new_recent = Recently_Watched(user_id=current_user_id,film_id=film_id,film_name=film_name,film_image=film_image,is_movie=is_movie) 
      
     db.session.add(new_recent)
     db.session.commit()

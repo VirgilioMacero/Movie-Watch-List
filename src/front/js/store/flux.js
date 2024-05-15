@@ -132,7 +132,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await login.json();
           setStore({ isLoged: true });
           localStorage.setItem("token", data.token);
-          // getActions().loadFavorites();
+          getActions().loadFavorites();
           // getActions().loadRecenlyWatched();
         } else {
           return login.statusText;
@@ -214,20 +214,75 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       loadFavorites: async () => {
         const token = localStorage.getItem("token");
-
         const favorites = await fetch(
           process.env.BACKEND_URL + "api/favorites",
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: "Bearer " + token,
             },
           }
         );
+
         const jsonFavorites = await favorites.json();
-        console.log(jsonFavorites);
-        setStore({ favoriteFilms: jsonFavorites });
+        setStore({ favoriteFilms: jsonFavorites.Favorites });
+      },
+      setFavorite: async (film_id, film_name, film_image, is_movie) => {
+        const token = localStorage.getItem("token");
+
+        const favorite = await fetch(
+          process.env.BACKEND_URL + "api/favorites",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ film_id, film_name, film_image, is_movie }),
+          }
+        );
+
+        if (favorite.ok) {
+          getActions().loadFavorites();
+        }
+      },
+      deleteFavorite: async (favorite_id) => {
+        const token = localStorage.getItem("token");
+        const favoriteToDelete = await fetch(
+          process.env.BACKEND_URL + "api/favorites",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ favorite_id: favorite_id }),
+          }
+        );
+        if (favoriteToDelete.ok) {
+          getActions().loadFavorites();
+        }
+        console.log(favoriteToDelete.text());
+      },
+      getFavoriteSeriesByName: (Search) => {
+        const store = getStore();
+        const value = Search.toLowerCase();
+        const filteredValue = store.favoriteFilms.filter(
+          (film) =>
+            film.film_name.toLowerCase().includes(value) && !film.is_movie
+        );
+
+        setStore({ favoriteFilms: filteredValue });
+      },
+      getFavoriteMoviesByName: (Search) => {
+        const store = getStore();
+        const value = Search.toLowerCase();
+        const filteredValue = store.favoriteFilms.filter(
+          (film) =>
+            film.film_name.toLowerCase().includes(value) && film.is_movie
+        );
+        setStore({ favoriteFilms: filteredValue });
       },
     },
   };

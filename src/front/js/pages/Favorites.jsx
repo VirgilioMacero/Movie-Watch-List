@@ -15,18 +15,13 @@ export const Favorites = () => {
 
   useEffect(() => {
     if (searchQuery === "") {
-      // If searchQuery is empty, reload initial movies or series
-      if (store.isSeriesActive) {
-        actions.getSeriesByName("A");
-      } else {
-        actions.getMoviesByName("A");
-      }
+      actions.loadFavorites();
     } else {
       // If searchQuery is not empty, search for movies or series
       if (store.isSeriesActive) {
-        actions.getSeriesByName(searchQuery);
+        actions.getFavoriteSeriesByName(searchQuery);
       } else {
-        actions.getMoviesByName(searchQuery);
+        actions.getFavoriteMoviesByName(searchQuery);
       }
     }
   }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
@@ -38,29 +33,49 @@ export const Favorites = () => {
         <Toggle />
         <Search setSearchQuery={setSearchQuery} />
       </div>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
+      {
         <div className="row">
           {store.favoriteFilms.map((film) => {
-            if (film.backdrop_path != null) {
-              return (
-                <FilmCard
-                  key={film.id}
-                  name={
-                    film.original_title
-                      ? film.original_title.substring(0, 35)
-                      : film.name.substring(0, 35)
-                  }
-                  imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
-                  filmUrl={`/single/${film.id}`}
-                  className="col mt-3"
-                />
-              );
+            if (film.film_image != null) {
+              if (store.isSeriesActive && !film.is_movie) {
+                return (
+                  <FilmCard
+                    key={film.id}
+                    id={film.id}
+                    name={film.film_name.substring(0, 35)}
+                    imgUrl={`https://image.tmdb.org/t/p/original/${film.film_image}`}
+                    film_image={film.film_image}
+                    isFavorite={store.favoriteFilms.some(
+                      (film) => film.film_id === film.film_id
+                    )}
+                    film_id={film.film_id}
+                    is_movie={film.is_movie}
+                    filmUrl={`/single/${film.film_id}`}
+                    className="col mt-3"
+                  />
+                );
+              } else if (!store.isSeriesActive && film.is_movie) {
+                return (
+                  <FilmCard
+                    key={film.id}
+                    id={film.id}
+                    name={film.film_name.substring(0, 35)}
+                    imgUrl={`https://image.tmdb.org/t/p/original/${film.film_image}`}
+                    film_image={film.film_image}
+                    film_id={film.film_id}
+                    is_movie={film.is_movie}
+                    isFavorite={store.favoriteFilms.some(
+                      (film) => film.film_id === film.film_id
+                    )}
+                    filmUrl={`/single/${film.film_id}`}
+                    className="col mt-3"
+                  />
+                );
+              }
             }
           })}
         </div>
-      )}
+      }
     </div>
   );
 };

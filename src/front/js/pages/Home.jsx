@@ -52,6 +52,14 @@ export const Home = () => {
     setShowFilter(false); // Hide filter component after selection
   };
 
+  const getFavoriteId = (movieId, is_movie) => {
+    const result = store.favoriteFilms.filter(
+      (film) => film.film_id === movieId && film.is_movie === is_movie
+    );
+
+    return result.id;
+  };
+
   return (
     <div className="text-center mt-5 container">
       <Toggle />
@@ -83,14 +91,20 @@ export const Home = () => {
               return (
                 <FilmCard
                   key={film.id}
+                  id={getFavoriteId(film.id, !store.isSeriesActive)}
                   name={
                     film.original_title
                       ? film.original_title.substring(0, 35)
                       : film.name.substring(0, 35)
                   }
-                  id={film.id}
+                  film_id={film.id}
                   imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
+                  film_image={film.backdrop_path}
+                  isFavorite={store.favoriteFilms.some(
+                    (filme) => filme.film_id === film.id
+                  )}
                   filmUrl={`/single/${film.id}`}
+                  is_movie={!store.isSeriesActive}
                   className="col mt-3"
                 />
               );
