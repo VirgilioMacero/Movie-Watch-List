@@ -53,11 +53,11 @@ export const Home = () => {
   };
 
   const getFavoriteId = (movieId, is_movie) => {
-    const result = store.favoriteFilms.filter(
+    const result = store.favoriteFilms.find(
       (film) => film.film_id === movieId && film.is_movie === is_movie
     );
 
-    return result.id;
+    return result ? result.id : null;
   };
 
   return (
@@ -88,10 +88,11 @@ export const Home = () => {
         <div className="row">
           {store.films.map((film) => {
             if (film.backdrop_path != null) {
+              const id = getFavoriteId(film.id, !store.isSeriesActive);
               return (
                 <FilmCard
                   key={film.id}
-                  id={getFavoriteId(film.id, !store.isSeriesActive)}
+                  id={id}
                   name={
                     film.original_title
                       ? film.original_title.substring(0, 35)
