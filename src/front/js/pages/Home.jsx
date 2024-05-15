@@ -14,43 +14,71 @@ export const Home = () => {
   const [showFilter, setShowFilter] = useState(false); // State for filter visibility
 
   useEffect(() => {
-    if (store.isSeriesActive) {
-      actions.getSeriesByName("A").then(() => {
-        setIsLoading(false);
-      });
-    } else {
-      actions.getMoviesByName("A").then(() => {
-        setIsLoading(false);
-      });
-    }
+    const fetchData = async () => {
+      setIsLoading(true);
+      if (store.isSeriesActive) {
+        await actions.getSeriesByName("A");
+      } else {
+        await actions.getMoviesByName("A");
+      }
+      setIsLoading(false);
+    };
+    fetchData();
   }, [store.isSeriesActive]); // Fetch data when isSeriesActive changes
 
   useEffect(() => {
-    if (searchQuery === "") {
-      // If searchQuery is empty, reload initial movies or series
-      if (store.isSeriesActive) {
-        actions.getSeriesByName("A");
+    const fetchSearchResults = async () => {
+      if (searchQuery === "") {
+        if (store.isSeriesActive) {
+          await actions.getSeriesByName("A");
+        } else {
+          await actions.getMoviesByName("A");
+        }
       } else {
-        actions.getMoviesByName("A");
+        if (store.isSeriesActive) {
+          await actions.getSeriesByName(searchQuery);
+        } else {
+          await actions.getMoviesByName(searchQuery);
+        }
       }
-    } else {
-      // If searchQuery is not empty, search for movies or series
-      if (store.isSeriesActive) {
-        actions.getSeriesByName(searchQuery);
-      } else {
-        actions.getMoviesByName(searchQuery);
-      }
-    }
+    };
+    fetchSearchResults();
   }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
 
   const handleFilterToggle = () => {
     setShowFilter(!showFilter); // Toggle filter visibility
   };
 
-  const handleFilterSelect = (option) => {
-    // Handle the filter selection logic here
-    setShowFilter(false); // Hide filter component after selection
+  const handleFilterApply = async (selectedGenre, selectedRating) => {
+    setIsLoading(true);
+    let minRating = 0;
+    let maxRating = 10; // Maximum rating value
+    if (selectedRating) {
+      // Set rating range based on selected rating
+      minRating = (selectedRating - 1) * 2; // Adjust min rating based on selected star
+      maxRating = selectedRating * 2; // Adjust max rating based on selected star
+    }
+    try {
+      if (selectedGenre) {
+        if (store.isSeriesActive) {
+          await actions.getSeriesByGenre(selectedGenre);
+        } else {
+          await actions.getMoviesByGenre(selectedGenre);
+        }
+      }
+      if (store.isSeriesActive) {
+        await actions.getSeriesByRating({ min: minRating, max: maxRating });
+      } else {
+        await actions.getMoviesByRating({ min: minRating, max: maxRating });
+      }
+      setShowFilter(false); // Hide filter component after selection
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    setIsLoading(false);
   };
+  
+  
 
   const getFavoriteId = (movieId, is_movie) => {
     const result = store.favoriteFilms.find(
@@ -80,8 +108,13 @@ export const Home = () => {
           />{" "}
         </div>
       </div>
-      <Filter show={showFilter} onClose={handleFilterToggle} />{" "}
-      {/* Render Filter component as a modal */}
+
+      <Filter 
+        show={showFilter} 
+        onClose={handleFilterToggle} 
+        onApply={handleFilterApply} 
+        isSeriesActive={store.isSeriesActive} // Pass isSeriesActive to Filter component
+      />
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -105,14 +138,17 @@ export const Home = () => {
                     (filme) => filme.film_id === film.id
                   )}
                   filmUrl={`/single/${film.id}`}
+
                   is_movie={!store.isSeriesActive}
                   className="col mt-3"
                 />
-              );
-            }
-          })}
+              </div>
+            )
+          ))}
         </div>
       )}
     </div>
   );
 };
+
+export default Home;
