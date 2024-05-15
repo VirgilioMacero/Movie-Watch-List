@@ -9,8 +9,17 @@ export default function FilmCard(props) {
     event.preventDefault(); // Prevent the default behavior of the link click
     if (!store.isLoged) {
       actions.setShowLoginModal(true);
-      console.log(store.setShowLoginModal);
     } else {
+      if (!props.isFavorite) {
+        actions.setFavorite(
+          props.film_id,
+          props.name,
+          props.film_image,
+          props.is_movie
+        );
+      } else {
+        actions.deleteFavorite(props.id);
+      }
     }
   };
 

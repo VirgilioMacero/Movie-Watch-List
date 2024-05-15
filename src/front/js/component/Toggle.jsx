@@ -5,11 +5,6 @@ export const Toggle = () => {
   const { store, actions } = useContext(Context);
 
   const handleToggle = () => {
-    if (store.isSeriesActive) {
-      actions.getSeriesByName("A"); // Fetch series if switch toggles to "Series"
-    } else {
-      actions.getMoviesByName("A"); // Fetch movies if switch toggles to "Movies"
-    }
     actions.toggleSeries(); // Toggle between Movies and Series
   };
 

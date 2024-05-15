@@ -33,6 +33,7 @@ class Favorite(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("user.id"))
     film_id = db.Column(db.Integer)
     film_name = db.Column(db.String(120))
+    film_image = db.Column(db.String(200)) 
     is_movie = db.Column(db.Boolean,nullable=False)
 
 
@@ -41,6 +42,7 @@ class Favorite(db.Model):
             "id":self.id,
             "film_id":self.film_id,
             "film_name":self.film_name,
+            "film_image":self.film_image,
             "is_movie":self.is_movie
 
         }
@@ -49,6 +51,7 @@ class Recently_Watched(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("user.id"))
     film_id = db.Column(db.Integer)
     film_name = db.Column(db.String(120))
+    film_image = db.Column(db.String(200)) 
     is_movie = db.Column(db.Boolean,nullable=False)
 
 
@@ -57,6 +60,7 @@ class Recently_Watched(db.Model):
             "id":self.id,
             "film_id":self.film_id,
             "film_name":self.film_name,
+            "film_image":self.film_image,
             "is_movie":self.is_movie
 
         }

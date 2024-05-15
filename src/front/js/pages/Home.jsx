@@ -80,10 +80,25 @@ export const Home = () => {
   
   
 
+  const getFavoriteId = (movieId, is_movie) => {
+    const result = store.favoriteFilms.find(
+      (film) => film.film_id === movieId && film.is_movie === is_movie
+    );
+
+    return result ? result.id : null;
+  };
+
   return (
     <div className="text-center mt-5 container">
       <Toggle />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
         <div className="filter-icon-wrapper">
           <FontAwesomeIcon
@@ -93,6 +108,7 @@ export const Home = () => {
           />{" "}
         </div>
       </div>
+
       <Filter 
         show={showFilter} 
         onClose={handleFilterToggle} 
@@ -103,14 +119,28 @@ export const Home = () => {
         <p>Loading...</p>
       ) : (
         <div className="row">
-          {store.films.map((film) => (
-            film.backdrop_path && (
-              <div className="col-md-3 mb-4" key={film.id}>
+          {store.films.map((film) => {
+            if (film.backdrop_path != null) {
+              const id = getFavoriteId(film.id, !store.isSeriesActive);
+              return (
                 <FilmCard
-                  id={film.id}
-                  name={film.original_title ? film.original_title.substring(0, 35) : film.name.substring(0, 35)}
+                  key={film.id}
+                  id={id}
+                  name={
+                    film.original_title
+                      ? film.original_title.substring(0, 35)
+                      : film.name.substring(0, 35)
+                  }
+                  film_id={film.id}
                   imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
+                  film_image={film.backdrop_path}
+                  isFavorite={store.favoriteFilms.some(
+                    (filme) => filme.film_id === film.id
+                  )}
                   filmUrl={`/single/${film.id}`}
+
+                  is_movie={!store.isSeriesActive}
+                  className="col mt-3"
                 />
               </div>
             )

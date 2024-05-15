@@ -96,13 +96,14 @@ export const Navbar = () => {
       <div className=" container my-4 position-relative d-flex justify-content-between">
         <div>
           <button
-            className="navbar-toggler navbar-light text-dark border border-secondary mx-2 my-2"
+            className="btn navbar-light text-dark border  p-2 px-3 shadow"
             type="button"
+            style={{ color: "black" }}
             onClick={() => {
               setShowNavBar(!showNavBar);
             }}
           >
-            <span className="navbar-toggler-icon"></span>
+            <i className="bi bi-list h4"></i>
           </button>
         </div>
         <div className="position-absolute start-50 translate-middle-x">
