@@ -26,6 +26,14 @@ export const Favorites = () => {
     }
   }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
 
+  const getRecentlyId = (movieId, is_movie) => {
+    const result = store.recentlyWatchedFilms.find(
+      (film) => film.film_id === movieId && film.is_movie === is_movie
+    );
+
+    return result ? result.id : null;
+  };
+
   return (
     <div className="text-left container" style={{ marginTop: "100px" }}>
       <h2> Favorites </h2>
@@ -36,17 +44,22 @@ export const Favorites = () => {
       {
         <div className="row">
           {store.favoriteFilms.map((film) => {
+            const recently_id = getRecentlyId(film.id, !store.isSeriesActive);
             if (film.film_image != null) {
               if (store.isSeriesActive && !film.is_movie) {
                 return (
                   <FilmCard
                     key={film.id}
-                    id={film.id}
+                    favorite_id={film.id}
+                    recently_id={recently_id}
                     name={film.film_name.substring(0, 35)}
                     imgUrl={`https://image.tmdb.org/t/p/original/${film.film_image}`}
                     film_image={film.film_image}
                     isFavorite={store.favoriteFilms.some(
                       (film) => film.film_id === film.film_id
+                    )}
+                    isWatched={store.recentlyWatchedFilms.some(
+                      (filme) => filme.film_id === film.film_id
                     )}
                     film_id={film.film_id}
                     is_movie={film.is_movie}
@@ -58,7 +71,8 @@ export const Favorites = () => {
                 return (
                   <FilmCard
                     key={film.id}
-                    id={film.id}
+                    favorite_id={film.id}
+                    recently_id={recently_id}
                     name={film.film_name.substring(0, 35)}
                     imgUrl={`https://image.tmdb.org/t/p/original/${film.film_image}`}
                     film_image={film.film_image}
@@ -66,6 +80,9 @@ export const Favorites = () => {
                     is_movie={film.is_movie}
                     isFavorite={store.favoriteFilms.some(
                       (film) => film.film_id === film.film_id
+                    )}
+                    isWatched={store.recentlyWatchedFilms.some(
+                      (filme) => filme.film_id === film.film_id
                     )}
                     filmUrl={`/single/${film.film_id}`}
                     className="col mt-3"

@@ -82,6 +82,7 @@ export const Navbar = () => {
                   onClick={() => {
                     actions.logOut();
                     setShowNavBar(false);
+                    window.location.reload();
                   }}
                 >
                   Log Out

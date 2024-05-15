@@ -78,7 +78,7 @@ def getRecents():
      current_user_id = get_jwt_identity()
      user = User.query.get(current_user_id)
 
-     return jsonify({"Recently Watched":user.serialize_recently_watched()}),200
+     return jsonify({"Recently_Watched":user.serialize_recently_watched()}),200
 
 @api.route('/favorites',methods=["POST"])
 @jwt_required()
