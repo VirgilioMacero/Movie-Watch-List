@@ -77,11 +77,16 @@ export const Home = () => {
     }
     setIsLoading(false);
   };
-  
-  
 
   const getFavoriteId = (movieId, is_movie) => {
     const result = store.favoriteFilms.find(
+      (film) => film.film_id === movieId && film.is_movie === is_movie
+    );
+
+    return result ? result.id : null;
+  };
+  const getRecentlyId = (movieId, is_movie) => {
+    const result = store.recentlyWatchedFilms.find(
       (film) => film.film_id === movieId && film.is_movie === is_movie
     );
 
@@ -109,10 +114,10 @@ export const Home = () => {
         </div>
       </div>
 
-      <Filter 
-        show={showFilter} 
-        onClose={handleFilterToggle} 
-        onApply={handleFilterApply} 
+      <Filter
+        show={showFilter}
+        onClose={handleFilterToggle}
+        onApply={handleFilterApply}
         isSeriesActive={store.isSeriesActive} // Pass isSeriesActive to Filter component
       />
       {isLoading ? (
@@ -121,11 +126,13 @@ export const Home = () => {
         <div className="row">
           {store.films.map((film) => {
             if (film.backdrop_path != null) {
-              const id = getFavoriteId(film.id, !store.isSeriesActive);
+              const favorite_id = getFavoriteId(film.id, !store.isSeriesActive);
+              const recently_id = getRecentlyId(film.id, !store.isSeriesActive);
               return (
                 <FilmCard
                   key={film.id}
-                  id={id}
+                  favorite_id={favorite_id}
+                  recently_id={recently_id}
                   name={
                     film.original_title
                       ? film.original_title.substring(0, 35)
@@ -137,14 +144,16 @@ export const Home = () => {
                   isFavorite={store.favoriteFilms.some(
                     (filme) => filme.film_id === film.id
                   )}
+                  isWatched={store.recentlyWatchedFilms.some(
+                    (filme) => filme.film_id === film.id
+                  )}
                   filmUrl={`/single/${film.id}`}
-
                   is_movie={!store.isSeriesActive}
                   className="col mt-3"
                 />
-              </div>
-            )
-          ))}
+              );
+            }
+          })}
         </div>
       )}
     </div>

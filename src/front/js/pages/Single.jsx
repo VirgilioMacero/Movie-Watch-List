@@ -29,9 +29,14 @@ export const Single = (props) => {
     <div className="container" style={{ marginTop: "100px" }}>
       <div className="d-flex">
         <h1>
-          <Link to={"/"}>
+          <a
+            className="backButton"
+            onClick={() => {
+              window.history.back();
+            }}
+          >
             <i className="bi bi-caret-left"></i>
-          </Link>
+          </a>
           {name} ({year.getFullYear()})
         </h1>
       </div>

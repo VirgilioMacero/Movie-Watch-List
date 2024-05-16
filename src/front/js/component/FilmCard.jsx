@@ -18,7 +18,7 @@ export default function FilmCard(props) {
           props.is_movie
         );
       } else {
-        actions.deleteFavorite(props.id);
+        actions.deleteFavorite(props.favorite_id);
       }
     }
   };
@@ -28,14 +28,16 @@ export default function FilmCard(props) {
     if (!store.isLoged) {
       actions.setShowLoginModal(true);
     } else {
-      console.log("Loged");
-
-      // If user is logged in, add the film to recently watched list
-      actions.addRecentlyWatched(
-        props.film.id,
-        props.film.original_title,
-        props.isMovie
-      );
+      if (!props.isWatched) {
+        actions.setRecently(
+          props.film_id,
+          props.name,
+          props.film_image,
+          props.is_movie
+        );
+      } else {
+        actions.deleteRecently(props.recently_id);
+      }
     }
   };
 

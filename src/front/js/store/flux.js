@@ -17,7 +17,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
     if (reviews.length === 0) return 0;
 
-    const totalRating = reviews.reduce((acc, review) => acc + review.author_details.rating, 0);
+    const totalRating = reviews.reduce(
+      (acc, review) => acc + review.author_details.rating,
+      0
+    );
     return totalRating / reviews.length;
   };
 
@@ -132,15 +135,15 @@ const getState = ({ getStore, getActions, setStore }) => {
           war: 10752,
           western: 37,
         };
-        
+
         const genreId = genreIdMap[genre];
         const movies = await fetch(
           `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&include_adult=false&language=en`,
           config
         );
-        
+
         const jsonMovies = await movies.json();
-        
+
         setStore({ films: jsonMovies.results });
       },
       getSeriesByGenre: async (genreSeries) => {
@@ -162,13 +165,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           warPolitics: 10768,
           western: 37,
         };
-        
+
         const genreSeriesId = genreSeriesIdMap[genreSeries];
         const seriesGenre = await fetch(
           `https://api.themoviedb.org/3/discover/tv?with_genres=${genreSeriesId}&include_adult=false&language=en`,
           config
         );
-        
+
         const jsonSeries = await seriesGenre.json();
 
         setStore({ films: jsonSeries.results });
@@ -187,7 +190,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const ratedMovies = [];
         for (const movie of movies) {
-          const avgRating = await getAverageRating('movie', movie.id);
+          const avgRating = await getAverageRating("movie", movie.id);
           if (avgRating >= rating.min && avgRating <= rating.max) {
             ratedMovies.push(movie);
           }
@@ -209,22 +212,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const ratedSeries = [];
         for (const serie of series) {
-          const avgRating = await getAverageRating('tv', serie.id);
+          const avgRating = await getAverageRating("tv", serie.id);
           if (avgRating >= rating.min && avgRating <= rating.max) {
             ratedSeries.push(serie);
           }
         }
 
         setStore({ films: ratedSeries });
-      },
-      
-      changeColor: (index, color) => {
-        const store = getStore();
-        const demo = store.demo.map((elm, i) => {
-          if (i === index) elm.background = color;
-          return elm;
-        });
-        setStore({ demo: demo });
       },
       toggleSeries: () => {
         const store = getStore();
@@ -244,7 +238,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ isLoged: true });
           localStorage.setItem("token", data.token);
           getActions().loadFavorites();
-          // getActions().loadRecenlyWatched();
+          getActions().loadRecently();
         } else {
           return login.statusText;
         }
@@ -273,55 +267,76 @@ const getState = ({ getStore, getActions, setStore }) => {
         localStorage.removeItem("token");
         getActions().validatLoged();
       },
-      addRecentlyWatched: async (filmId, filmName, isMovie) => {
-        console.log("Film ID:", filmId);
-        console.log("Film Name:", filmName);
-        console.log("Is Movie:", isMovie);
-
-        // Ensure that all required data is provided
-        if (!filmId || !filmName || typeof isMovie === "undefined") {
-          console.error(
-            "Missing required data for adding recently watched film"
-          );
-          return;
-        }
-
-        // Retrieve JWT token from local storage
+      loadRecently: async () => {
+        const token = localStorage.getItem("token");
+        const recently_watched = await fetch(
+          process.env.BACKEND_URL + "api/recently_watched",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        const jsonRecently = await recently_watched.json();
+        setStore({ recentlyWatchedFilms: jsonRecently.Recently_Watched });
+      },
+      setRecently: async (film_id, film_name, film_image, is_movie) => {
         const token = localStorage.getItem("token");
 
-        // Check if token exists
-        if (!token) {
-          console.error("JWT token not found in local storage");
-          return;
-        }
-
-        // Send request to add recently watched film
-        try {
-          const response = await fetch(
-            `${process.env.BACKEND_URL}api/recently_watched`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                // Include JWT token in the Authorization header
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                film_id: filmId,
-                film_name: filmName,
-                is_movie: isMovie,
-              }),
-            }
-          );
-
-          if (response.ok) {
-            console.log("Film added to recently watched");
-          } else {
-            console.error("Failed to add film to recently watched");
+        const recently_watched = await fetch(
+          process.env.BACKEND_URL + "api/recently_watched",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ film_id, film_name, film_image, is_movie }),
           }
-        } catch (error) {
-          console.error("Error:", error);
+        );
+
+        if (recently_watched.ok) {
+          getActions().loadRecently();
         }
+      },
+      deleteRecently: async (recently_id) => {
+        const token = localStorage.getItem("token");
+        const recentlyToDelete = await fetch(
+          process.env.BACKEND_URL + "api/recently_watched",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ recently_id: recently_id }),
+          }
+        );
+        if (recentlyToDelete.ok) {
+          getActions().loadRecently();
+        }
+        console.log(recentlyToDelete.text());
+      },
+      getRecentlySeriesByName: (Search) => {
+        const store = getStore();
+        const value = Search.toLowerCase();
+        const filteredValue = store.recentlyWatchedFilms.filter(
+          (film) =>
+            film.film_name.toLowerCase().includes(value) && !film.is_movie
+        );
+
+        setStore({ recentlyWatchedFilms: filteredValue });
+      },
+      getRecentlyMoviesByName: (Search) => {
+        const store = getStore();
+        const value = Search.toLowerCase();
+        const filteredValue = store.recentlyWatchedFilms.filter(
+          (film) =>
+            film.film_name.toLowerCase().includes(value) && film.is_movie
+        );
+        setStore({ recentlyWatchedFilms: filteredValue });
       },
       loadFavorites: async () => {
         const token = localStorage.getItem("token");
