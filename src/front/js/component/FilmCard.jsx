@@ -41,8 +41,6 @@ export default function FilmCard(props) {
     }
   };
 
-  console.log(props.isWatched);
-
   return (
     <div className={`${props.className}`}>
       <Link className="text-decoration-none" to={props.filmUrl}>

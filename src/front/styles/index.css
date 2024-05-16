@@ -97,6 +97,12 @@
   height: 150px;
   /* border-radius: 15px; */
 }
+
+.backButton {
+  color: #0d6efd;
+  cursor: pointer;
+}
+
 /* Define hover effect for icons */
 .FilmCardButtons i:hover {
   color: #0d6efd !important; /* Change color to #0d6efd on hover */
@@ -183,7 +189,6 @@
   text-align: left;
 }
 
-
 .date-input svg {
   margin-left: 10px;
   cursor: pointer;
@@ -207,21 +212,20 @@
 .genreHeader {
   padding-top: 1em;
 }
-.genreBar{
+.genreBar {
   padding: 0.25em;
   font-size: 22px !important;
   width: 65% !important;
   justify-content: center;
   text-align: center;
 }
-.genreForm{
+.genreForm {
   display: flex;
   justify-content: center;
 }
-.ratingHeader{
+.ratingHeader {
   padding-top: 1em;
 }
-.ratingSection{
+.ratingSection {
   padding-bottom: 1em;
 }
-

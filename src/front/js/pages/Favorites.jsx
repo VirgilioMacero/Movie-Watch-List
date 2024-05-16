@@ -3,25 +3,26 @@ import { Context } from "../store/appContext.js";
 import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
+import NeedLogin from "../component/NeedLogin.jsx";
 
 export const Favorites = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(""); // Track search query
 
-  useEffect(() => {
-    actions.loadFavorites();
-  }, []); // Fetch data when isSeriesActive changes
+  // Fetch data when isSeriesActive changes
 
   useEffect(() => {
-    if (searchQuery === "") {
-      actions.loadFavorites();
-    } else {
-      // If searchQuery is not empty, search for movies or series
-      if (store.isSeriesActive) {
-        actions.getFavoriteSeriesByName(searchQuery);
+    if (store.isLoged) {
+      if (searchQuery === "") {
+        actions.loadFavorites();
       } else {
-        actions.getFavoriteMoviesByName(searchQuery);
+        // If searchQuery is not empty, search for movies or series
+        if (store.isSeriesActive) {
+          actions.getFavoriteSeriesByName(searchQuery);
+        } else {
+          actions.getFavoriteMoviesByName(searchQuery);
+        }
       }
     }
   }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
@@ -41,10 +42,13 @@ export const Favorites = () => {
         <Toggle />
         <Search setSearchQuery={setSearchQuery} />
       </div>
-      {
+      {store.isLoged ? (
         <div className="row">
           {store.favoriteFilms.map((film) => {
-            const recently_id = getRecentlyId(film.id, !store.isSeriesActive);
+            const recently_id = getRecentlyId(
+              film.film_id,
+              !store.isSeriesActive
+            );
             if (film.film_image != null) {
               if (store.isSeriesActive && !film.is_movie) {
                 return (
@@ -92,7 +96,9 @@ export const Favorites = () => {
             }
           })}
         </div>
-      }
+      ) : (
+        <NeedLogin />
+      )}
     </div>
   );
 };

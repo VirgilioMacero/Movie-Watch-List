@@ -3,6 +3,7 @@ import { Context } from "../store/appContext.js";
 import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
+import NeedLogin from "../component/NeedLogin.jsx";
 
 export const RecentlyWatched = () => {
   const { store, actions } = useContext(Context);
@@ -10,18 +11,17 @@ export const RecentlyWatched = () => {
   const [searchQuery, setSearchQuery] = useState(""); // Track search query
 
   useEffect(() => {
-    actions.loadRecently();
-  }, []); // Fetch data when isSeriesActive changes
-
-  useEffect(() => {
-    if (searchQuery === "") {
+    if (store.isLoged) {
       actions.loadRecently();
-    } else {
-      // If searchQuery is not empty, search for movies or series
-      if (store.isSeriesActive) {
-        actions.getRecentlySeriesByName(searchQuery);
+      if (searchQuery === "") {
+        actions.loadRecently();
       } else {
-        actions.getRecentlyMoviesByName(searchQuery);
+        // If searchQuery is not empty, search for movies or series
+        if (store.isSeriesActive) {
+          actions.getRecentlySeriesByName(searchQuery);
+        } else {
+          actions.getRecentlyMoviesByName(searchQuery);
+        }
       }
     }
   }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
@@ -40,10 +40,13 @@ export const RecentlyWatched = () => {
         <Toggle />
         <Search setSearchQuery={setSearchQuery} />
       </div>
-      {
+      {store.isLoged ? (
         <div className="row">
           {store.recentlyWatchedFilms.map((film) => {
-            const favorite_id = getFavoriteId(film.id, !store.isSeriesActive);
+            const favorite_id = getFavoriteId(
+              film.film_id,
+              !store.isSeriesActive
+            );
             if (film.film_image != null) {
               if (store.isSeriesActive && !film.is_movie) {
                 return (
@@ -55,7 +58,7 @@ export const RecentlyWatched = () => {
                     imgUrl={`https://image.tmdb.org/t/p/original/${film.film_image}`}
                     film_image={film.film_image}
                     isFavorite={store.favoriteFilms.some(
-                      (film) => film.film_id === film.film_id
+                      (filme) => filme.film_id === film.film_id
                     )}
                     isWatched={store.recentlyWatchedFilms.some(
                       (filme) => filme.film_id === film.film_id
@@ -78,7 +81,7 @@ export const RecentlyWatched = () => {
                     film_id={film.film_id}
                     is_movie={film.is_movie}
                     isFavorite={store.favoriteFilms.some(
-                      (film) => film.film_id === film.film_id
+                      (filme) => filme.film_id === film.film_id
                     )}
                     isWatched={store.recentlyWatchedFilms.some(
                       (filme) => filme.film_id === film.film_id
@@ -91,7 +94,9 @@ export const RecentlyWatched = () => {
             }
           })}
         </div>
-      }
+      ) : (
+        <NeedLogin />
+      )}
     </div>
   );
 };

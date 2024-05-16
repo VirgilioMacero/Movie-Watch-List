@@ -238,7 +238,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ isLoged: true });
           localStorage.setItem("token", data.token);
           getActions().loadFavorites();
-          // getActions().loadRecenlyWatched();
+          getActions().loadRecently();
         } else {
           return login.statusText;
         }
