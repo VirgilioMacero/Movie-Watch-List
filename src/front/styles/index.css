@@ -202,21 +202,6 @@ button.loginButton:hover {
   cursor: pointer;
 }
 
-.rating {
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-}
-
-.rating svg {
-  cursor: pointer;
-  font-size: 24px;
-  color: lightgray;
-}
-
-.rating svg.selected {
-  color: rgb(228, 194, 0);
-}
 .genreHeader {
   padding-top: 1em;
 }
@@ -231,11 +216,22 @@ button.loginButton:hover {
   display: flex;
   justify-content: center;
 }
-.ratingHeader {
+.categoryHeader {
   padding-top: 1em;
 }
-.ratingSection {
+.categoryContent {
   padding-bottom: 1em;
+}
+.categoryBar {
+  padding: 0.25em;
+  font-size: 22px !important;
+  width: 65% !important;
+  justify-content: center;
+  text-align: center;
+}
+.categoryForm {
+  display: flex;
+  justify-content: center;
 }
 .passwordInput {
   border: 1px solid #dee2e6;
@@ -244,4 +240,38 @@ button.loginButton:hover {
 }
 .passwordInput > input:focus {
   border: none;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.page-button,
+.page-arrow {
+  border: 1px solid #007bff;
+  background-color: #fff;
+  color: #007bff;
+  padding: 2px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+.page-button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.page-button:hover,
+.page-arrow:hover {
+  background-color: #007bff;
+  color: #fff;
+  transform: 0.3s;
+  transition: 0.3s;
+}
+.ratingContainer{
+  font-size: 24px;
+    color: rgb(27, 116, 250);
 }

@@ -5,9 +5,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // For Bootstrap styles
 
 export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   const handleApply = () => {
-    onApply(selectedGenre);
+    onApply(selectedGenre, selectedCategory, fromDate, toDate);
     onClose();
   };
 
@@ -16,6 +19,7 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   }
 
   const movieGenres = [
+    { value: "", label: "Choose a Genre" },
     { value: "action", label: "Action" },
     { value: "adventure", label: "Adventure" },
     { value: "animation", label: "Animation" },
@@ -38,6 +42,7 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   ];
 
   const seriesGenres = [
+    { value: "", label: "Choose a Genre" },
     { value: "actionAdventure", label: "Action & Adventure" },
     { value: "animation", label: "Animation" },
     { value: "comedy", label: "Comedy" },
@@ -56,6 +61,13 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
     { value: "western", label: "Western" },
   ];
 
+  const categories = [
+    { value: "", label: "Choose a Category" },
+    { value: "topRated", label: "Top Rated" },
+    { value: "popular", label: "Popular" },
+    { value: "trending", label: "Trending" },
+  ];
+
   const genres = isSeriesActive ? seriesGenres : movieGenres;
 
   return (
@@ -68,11 +80,19 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
         <div className="date-filter">
           <div className="date-input">
             <label>From:</label>
-            <input type="date" />
+            <input 
+              type="date" 
+              value={fromDate} 
+              onChange={(e) => setFromDate(e.target.value)} 
+            />
           </div>
           <div className="date-input">
             <label>To:</label>
-            <input type="date" />
+            <input 
+              type="date" 
+              value={toDate} 
+              onChange={(e) => setToDate(e.target.value)} 
+            />
           </div>
         </div>
         <div className="genreContent">
@@ -86,6 +106,22 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
               {genres.map((genre) => (
                 <option key={genre.value} value={genre.value}>
                   {genre.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="categoryContent">
+          <h2 className="categoryHeader">Filter By Category</h2>
+          <div className="categoryForm">
+            <select
+              className="categoryBar form-select"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
                 </option>
               ))}
             </select>
