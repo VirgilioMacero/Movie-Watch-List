@@ -7,23 +7,6 @@ const getState = ({ getStore, getActions, setStore }) => {
     },
   };
 
-  const getAverageRating = async (type, id) => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/${type}/${id}/reviews`,
-      config
-    );
-    const data = await response.json();
-    const reviews = data.results;
-
-    if (reviews.length === 0) return 0;
-
-    const totalRating = reviews.reduce(
-      (acc, review) => acc + review.author_details.rating,
-      0
-    );
-    return totalRating / reviews.length;
-  };
-
   return {
     store: {
       message: null,
@@ -48,6 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       user: {},
       favoriteFilms: [],
       recentlyWatchedFilms: [],
+      selectedGenre: "", // Add selectedGenre to the store
     },
     actions: {
       setShowLoginModal: (value) => {
@@ -117,27 +101,19 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ filmCredits: jsonCredits });
       },
       getMoviesByGenre: async (genre) => {
-        const genreIdMap = {
-          action: 28,
-          adventure: 12,
-          animation: 16,
-          comedy: 35,
-          crime: 80,
-          documentary: 99,
-          drama: 18,
-          family: 10751,
-          fantasy: 14,
-          history: 36,
-          horror: 27,
-          music: 10402,
-          mystery: 9648,
-          romance: 10749,
-          thriller: 53,
-          war: 10752,
-          western: 37,
-        };
+        const genresResponse = await fetch(
+          'https://api.themoviedb.org/3/genre/movie/list?language=en',
+          config
+        );
+        const genresData = await genresResponse.json();
+        const genreObject = genresData.genres.find((g) => g.name.toLowerCase() === genre.toLowerCase());
+        
+        if (!genreObject) {
+          console.error('Genre not found');
+          return;
+        }
 
-        const genreId = genreIdMap[genre];
+        const genreId = genreObject.id;
         const movies = await fetch(
           `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&include_adult=false&language=en`,
           config
@@ -148,28 +124,21 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ films: jsonMovies.results });
       },
       getSeriesByGenre: async (genreSeries) => {
-        const genreSeriesIdMap = {
-          actionAdventure: 10759,
-          animation: 16,
-          comedy: 35,
-          crime: 80,
-          documentary: 99,
-          drama: 18,
-          family: 10751,
-          kids: 10762,
-          mystery: 9648,
-          news: 10763,
-          reality: 10764,
-          scifiFantasy: 10765,
-          soap: 10766,
-          talk: 10767,
-          warPolitics: 10768,
-          western: 37,
-        };
+        const genresResponse = await fetch(
+          'https://api.themoviedb.org/3/genre/tv/list?language=en',
+          config
+        );
+        const genresData = await genresResponse.json();
+        const genreObject = genresData.genres.find((g) => g.name.toLowerCase() === genreSeries.toLowerCase());
+        
+        if (!genreObject) {
+          console.error('Genre not found');
+          return;
+        }
 
-        const genreSeriesId = genreSeriesIdMap[genreSeries];
+        const genreId = genreObject.id;
         const seriesGenre = await fetch(
-          `https://api.themoviedb.org/3/discover/tv?with_genres=${genreSeriesId}&include_adult=false&language=en`,
+          `https://api.themoviedb.org/3/discover/tv?with_genres=${genreId}&include_adult=false&language=en`,
           config
         );
 
@@ -177,49 +146,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ films: jsonSeries.results });
       },
-
-      getMoviesByRating: async (rating) => {
-        const actions = getActions();
-        const store = getStore();
-
-        const allMovies = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US`,
-          config
-        );
-        const jsonMovies = await allMovies.json();
-        const movies = jsonMovies.results;
-
-        const ratedMovies = [];
-        for (const movie of movies) {
-          const avgRating = await getAverageRating("movie", movie.id);
-          if (avgRating >= rating.min && avgRating <= rating.max) {
-            ratedMovies.push(movie);
-          }
-        }
-
-        setStore({ films: ratedMovies });
+      setSelectedGenre: (genre) => {
+        setStore({ selectedGenre: genre });
       },
-
-      getSeriesByRating: async (rating) => {
-        const actions = getActions();
-        const store = getStore();
-
-        const allSeries = await fetch(
-          `https://api.themoviedb.org/3/discover/tv?include_adult=false&language=en-US`,
-          config
-        );
-        const jsonSeries = await allSeries.json();
-        const series = jsonSeries.results;
-
-        const ratedSeries = [];
-        for (const serie of series) {
-          const avgRating = await getAverageRating("tv", serie.id);
-          if (avgRating >= rating.min && avgRating <= rating.max) {
-            ratedSeries.push(serie);
-          }
-        }
-
-        setStore({ films: ratedSeries });
+      setFilteredFilms: (films) => {
+        setStore({ films });
       },
       toggleSeries: () => {
         const store = getStore();
