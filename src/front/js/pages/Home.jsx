@@ -62,10 +62,18 @@ export const Home = () => {
     setShowFilter(!showFilter);
   };
 
-  const handleFilterApply = async (selectedGenre, selectedCategory) => {
+  const handleFilterApply = async (selectedGenre, selectedCategory, fromDate, toDate) => {
     setIsLoading(true);
 
     try {
+      if (selectedGenre) {
+        if (store.isSeriesActive) {
+          await actions.getSeriesByGenre(selectedGenre);
+        } else {
+          await actions.getMoviesByGenre(selectedGenre);
+        }
+      }
+
       if (selectedCategory) {
         if (selectedCategory === "trending") {
           if (store.isSeriesActive) {
@@ -86,11 +94,13 @@ export const Home = () => {
             await actions.getPopularMovies();
           }
         }
-      } else if (selectedGenre) {
+      }
+
+      if (fromDate && toDate) {
         if (store.isSeriesActive) {
-          await actions.getSeriesByGenre(selectedGenre);
+          await actions.getSeriesDate(fromDate, toDate);
         } else {
-          await actions.getMoviesByGenre(selectedGenre);
+          await actions.getMovieDate(fromDate, toDate);
         }
       }
 
@@ -98,7 +108,6 @@ export const Home = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-
     setIsLoading(false);
   };
 

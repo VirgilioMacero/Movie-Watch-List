@@ -206,6 +206,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ films: jsonPopularSeries.results });
       },
+      getMovieDate: async (startDate, endDate) => {
+        const allMovies = await fetch(
+          `https://api.themoviedb.org/3/discover/movie?primary_release_date.gte=${startDate}&primary_release_date.lte=${endDate}`,
+          config
+        );
+        const jsonMovies = await allMovies.json();
+        setStore({ films: jsonMovies.results });
+      },
+      getSeriesDate: async (startDate, endDate) => {
+        const allSeries = await fetch(
+          `https://api.themoviedb.org/3/discover/tv?first_air_date.gte=${startDate}&first_air_date.lte=${endDate}`,
+          config
+        );
+        const jsonSeries = await allSeries.json();
+        setStore({ films: jsonSeries.results });
+      },
       setSelectedGenre: (genre) => {
         setStore({ selectedGenre: genre });
       },
