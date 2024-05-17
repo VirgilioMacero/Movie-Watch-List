@@ -240,7 +240,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           getActions().loadFavorites();
           getActions().loadRecently();
         } else {
-          return login.statusText;
+          alert("The data from the email or the password is wrong");
         }
       },
       register: async (name, lastname, email, password) => {

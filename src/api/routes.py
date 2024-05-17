@@ -162,4 +162,13 @@ def deleteRecently():
      db.session.commit()
 
      return jsonify({"Message":"Recently Watched Deleted"}),200
+
+@api.route('/profile',methods=["GET"])
+@jwt_required()
+def getProfile():
+     current_user_id = get_jwt_identity()
+     user = User.query.get(current_user_id)
+
+     return jsonify(user.serialize())
+
      
