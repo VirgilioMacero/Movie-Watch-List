@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import CastCard from "../component/CastCard.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,8 +48,8 @@ export const Single = (props) => {
             <i className="bi bi-caret-left"></i>
           </a>
           {name} ({year.getFullYear()})
-          {store.filmRating && (
-            <span className="ms-3">
+          {store.reviewCount > 0 && (
+            <span className="ms-3 ratingContainer">
               {store.filmRating} <FontAwesomeIcon icon={faStar} /> ({store.reviewCount} reviews)
             </span>
           )}

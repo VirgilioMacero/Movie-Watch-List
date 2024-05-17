@@ -241,3 +241,37 @@ button.loginButton:hover {
 .passwordInput > input:focus {
   border: none;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.page-button,
+.page-arrow {
+  border: 1px solid #007bff;
+  background-color: #fff;
+  color: #007bff;
+  padding: 2px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+.page-button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.page-button:hover,
+.page-arrow:hover {
+  background-color: #007bff;
+  color: #fff;
+  transform: 0.3s;
+  transition: 0.3s;
+}
+.ratingContainer{
+  font-size: 24px;
+    color: rgb(27, 116, 250);
+}

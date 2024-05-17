@@ -4,7 +4,7 @@ import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx";
 
 export const Home = () => {
@@ -12,51 +12,57 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilter, setShowFilter] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageGroup, setPageGroup] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       if (store.isSeriesActive) {
-        await actions.getSeriesByName("A");
+        await actions.getPopularSeries(currentPage);
       } else {
-        await actions.getMoviesByName("A");
+        await actions.getPopularMovies(currentPage);
       }
       setIsLoading(false);
     };
     fetchData();
-  }, [store.isSeriesActive]);
+  }, [store.isSeriesActive, currentPage]);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
+      setIsLoading(true);
       if (searchQuery === "") {
         if (store.isSeriesActive) {
-          await actions.getSeriesByName("A");
+          await actions.getPopularSeries(currentPage);
         } else {
-          await actions.getMoviesByName("A");
+          await actions.getPopularMovies(currentPage);
         }
       } else {
         if (store.isSeriesActive) {
-          await actions.getSeriesByName(searchQuery);
+          await actions.getSeriesByName(searchQuery, currentPage);
         } else {
-          await actions.getMoviesByName(searchQuery);
+          await actions.getMoviesByName(searchQuery, currentPage);
         }
       }
+      setIsLoading(false);
     };
     fetchSearchResults();
-  }, [searchQuery, store.isSeriesActive]);
+  }, [searchQuery, store.isSeriesActive, currentPage]);
 
   useEffect(() => {
     const fetchGenreResults = async () => {
+      setIsLoading(true);
       if (store.selectedGenre) {
         if (store.isSeriesActive) {
-          await actions.getSeriesByGenre(store.selectedGenre);
+          await actions.getSeriesByGenre(store.selectedGenre, currentPage);
         } else {
-          await actions.getMoviesByGenre(store.selectedGenre);
+          await actions.getMoviesByGenre(store.selectedGenre, currentPage);
         }
       }
+      setIsLoading(false);
     };
     fetchGenreResults();
-  }, [store.selectedGenre, store.isSeriesActive]);
+  }, [store.selectedGenre, store.isSeriesActive, currentPage]);
 
   const handleFilterToggle = () => {
     setShowFilter(!showFilter);
@@ -64,43 +70,45 @@ export const Home = () => {
 
   const handleFilterApply = async (selectedGenre, selectedCategory, fromDate, toDate) => {
     setIsLoading(true);
+    setCurrentPage(1); // Reset to the first page
+    setPageGroup(0); // Reset to the first page group
 
     try {
       if (selectedGenre) {
         if (store.isSeriesActive) {
-          await actions.getSeriesByGenre(selectedGenre);
+          await actions.getSeriesByGenre(selectedGenre, 1);
         } else {
-          await actions.getMoviesByGenre(selectedGenre);
+          await actions.getMoviesByGenre(selectedGenre, 1);
         }
       }
 
       if (selectedCategory) {
         if (selectedCategory === "trending") {
           if (store.isSeriesActive) {
-            await actions.getTrendingSeries();
+            await actions.getTrendingSeries(1);
           } else {
-            await actions.getTrendingMovies();
+            await actions.getTrendingMovies(1);
           }
         } else if (selectedCategory === "topRated") {
           if (store.isSeriesActive) {
-            await actions.getTopRatedSeries();
+            await actions.getTopRatedSeries(1);
           } else {
-            await actions.getTopRatedMovies();
+            await actions.getTopRatedMovies(1);
           }
         } else if (selectedCategory === "popular") {
           if (store.isSeriesActive) {
-            await actions.getPopularSeries();
+            await actions.getPopularSeries(1);
           } else {
-            await actions.getPopularMovies();
+            await actions.getPopularMovies(1);
           }
         }
       }
 
       if (fromDate && toDate) {
         if (store.isSeriesActive) {
-          await actions.getSeriesDate(fromDate, toDate);
+          await actions.getSeriesDate(fromDate, toDate, 1);
         } else {
-          await actions.getMovieDate(fromDate, toDate);
+          await actions.getMovieDate(fromDate, toDate, 1);
         }
       }
 
@@ -125,6 +133,53 @@ export const Home = () => {
     );
 
     return result ? result.id : null;
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleNextGroup = () => {
+    setPageGroup(pageGroup + 1);
+  };
+
+  const handlePrevGroup = () => {
+    setPageGroup(pageGroup - 1);
+  };
+
+  const renderPagination = () => {
+    const totalPageGroups = Math.ceil(store.totalPages / 10);
+    const startPage = pageGroup * 10 + 1;
+    const endPage = Math.min(startPage + 9, store.totalPages);
+    const pages = [];
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={`page-button ${currentPage === i ? "active" : ""}`}
+        >
+          {i}
+        </button>
+      );
+    }
+
+    return (
+      <div className="pagination">
+        {pageGroup > 0 && (
+          <button onClick={handlePrevGroup} className="page-arrow">
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+        )}
+        {pages}
+        {pageGroup < totalPageGroups - 1 && (
+          <button onClick={handleNextGroup} className="page-arrow">
+            <FontAwesomeIcon icon={faArrowRight} />
+          </button>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -190,6 +245,7 @@ export const Home = () => {
           })}
         </div>
       )}
+      {renderPagination()}
     </div>
   );
 };
