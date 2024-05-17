@@ -32,6 +32,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       favoriteFilms: [],
       recentlyWatchedFilms: [],
       selectedGenre: "", // Add selectedGenre to the store
+      filmRating: null, // Add filmRating to the store
+      reviewCount: 0,   // Add reviewCount to the store
     },
     actions: {
       setShowLoginModal: (value) => {
@@ -72,6 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const jsonMovie = await movie.json();
 
         setStore({ film: jsonMovie });
+        getActions().getMovieRatings(movieId); // Fetch movie ratings
       },
       getSingleTvShow: async (showId) => {
         const tvShow = await fetch(
@@ -81,6 +84,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const jsonTvShow = await tvShow.json();
 
         setStore({ film: jsonTvShow });
+        getActions().getSeriesRatings(showId); // Fetch series ratings
       },
       getMovieCredits: async (movieId) => {
         const credits = await fetch(
@@ -99,6 +103,38 @@ const getState = ({ getStore, getActions, setStore }) => {
         const jsonCredits = await credits.json();
 
         setStore({ filmCredits: jsonCredits });
+      },
+      getMovieRatings: async (movieId) => {
+        const ratings = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}/reviews`,
+          config
+        );
+        const jsonRatings = await ratings.json();
+        const reviews = jsonRatings.results;
+
+        if (reviews.length > 0) {
+          const totalRating = reviews.reduce((acc, review) => acc + (review.author_details.rating || 0), 0);
+          const averageRating = totalRating / reviews.length;
+          setStore({ filmRating: averageRating.toFixed(1), reviewCount: reviews.length });
+        } else {
+          setStore({ filmRating: null, reviewCount: 0 });
+        }
+      },
+      getSeriesRatings: async (seriesId) => {
+        const ratings = await fetch(
+          `https://api.themoviedb.org/3/tv/${seriesId}/reviews`,
+          config
+        );
+        const jsonRatings = await ratings.json();
+        const reviews = jsonRatings.results;
+
+        if (reviews.length > 0) {
+          const totalRating = reviews.reduce((acc, review) => acc + (review.author_details.rating || 0), 0);
+          const averageRating = totalRating / reviews.length;
+          setStore({ filmRating: averageRating.toFixed(1), reviewCount: reviews.length });
+        } else {
+          setStore({ filmRating: null, reviewCount: 0 });
+        }
       },
       getMoviesByGenre: async (genre) => {
         const genresResponse = await fetch(

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import CastCard from "../component/CastCard.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export const Single = (props) => {
   const { store, actions } = useContext(Context);
@@ -13,9 +15,11 @@ export const Single = (props) => {
     if (store.isSeriesActive) {
       actions.getSingleTvShow(params.theid);
       actions.getSeriesCredits(params.theid);
+      actions.getSeriesRatings(params.theid); // Fetch series ratings
     } else {
       actions.getSingleMovie(params.theid);
       actions.getMovieCredits(params.theid);
+      actions.getMovieRatings(params.theid); // Fetch movie ratings
     }
   }, [params.theid]);
 
@@ -44,6 +48,11 @@ export const Single = (props) => {
             <i className="bi bi-caret-left"></i>
           </a>
           {name} ({year.getFullYear()})
+          {store.filmRating && (
+            <span className="ms-3">
+              {store.filmRating} <FontAwesomeIcon icon={faStar} /> ({store.reviewCount} reviews)
+            </span>
+          )}
         </h1>
       </div>
       <div className="row mt-4">
