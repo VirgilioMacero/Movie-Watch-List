@@ -69,23 +69,23 @@ def register():
 def getFavorites():
      current_user_id = get_jwt_identity()
      user = User.query.get(current_user_id)
-
-     return jsonify({"Favorites":user.serialize_favorites()}),200
-
-@api.route('/recently_watched',methods=["GET"])
-@jwt_required()
-def getRecents():
-     current_user_id = get_jwt_identity()
-     user = User.query.get(current_user_id)
-
-     return jsonify({"Recently_Watched":user.serialize_recently_watched()}),200
-
-@api.route('/favorites',methods=["POST"])
-@jwt_required()
-def addFavorite():
     
-    data = request.get_json()
-
+     return jsonify({"Favorites":user.serialize_favorites()}),200   
+    
+@api.route('/recently_watched',methods=["GET"]) 
+@jwt_required() 
+def getRecents():   
+     current_user_id = get_jwt_identity()   
+     user = User.query.get(current_user_id) 
+    
+     return jsonify({"Recently_Watched":user.serialize_recently_watched()}),200 
+    
+@api.route('/favorites',methods=["POST"])   
+@jwt_required() 
+def addFavorite():  
+        
+    data = request.get_json()   
+    
     if "film_id" not in data or "film_name" not in data or "is_movie" not in data or "film_image" not in data:
         return jsonify({"Error":"Missing Data"}),400
 

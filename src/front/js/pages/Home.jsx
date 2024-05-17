@@ -54,29 +54,45 @@ export const Home = () => {
     let minRating = 0;
     let maxRating = 10; // Maximum rating value
     if (selectedRating) {
-      // Set rating range based on selected rating
-      minRating = (selectedRating - 1) * 2; // Adjust min rating based on selected star
-      maxRating = selectedRating * 2; // Adjust max rating based on selected star
+        // Set rating range based on selected rating
+        minRating = (selectedRating - 1) * 2; // Adjust min rating based on selected star
+        maxRating = selectedRating * 2; // Adjust max rating based on selected star
     }
+
     try {
-      if (selectedGenre) {
-        if (store.isSeriesActive) {
-          await actions.getSeriesByGenre(selectedGenre);
-        } else {
-          await actions.getMoviesByGenre(selectedGenre);
+        let films = [];
+
+        // First, get films by genre
+        if (selectedGenre) {
+            if (store.isSeriesActive) {
+                await actions.getSeriesByGenre(selectedGenre);
+            } else {
+                await actions.getMoviesByGenre(selectedGenre);
+            }
+            films = store.films; // Store the results in films
         }
-      }
-      if (store.isSeriesActive) {
-        await actions.getSeriesByRating({ min: minRating, max: maxRating });
-      } else {
-        await actions.getMoviesByRating({ min: minRating, max: maxRating });
-      }
-      setShowFilter(false); // Hide filter component after selection
+
+        // If rating filter is applied, filter the already fetched films by rating
+        if (selectedRating) {
+            const filteredFilms = [];
+            for (const film of films) {
+                const avgRating = await getAverageRating(store.isSeriesActive ? "tv" : "movie", film.id);
+                if (avgRating >= minRating && avgRating <= maxRating) {
+                    filteredFilms.push(film);
+                }
+            }
+            setStore({ films: filteredFilms });
+        } else {
+            setStore({ films }); // If no rating filter, use the films from genre filter
+        }
+        
+        setShowFilter(false); // Hide filter component after selection
     } catch (error) {
-      console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error);
     }
     setIsLoading(false);
-  };
+};
+
 
   const getFavoriteId = (movieId, is_movie) => {
     const result = store.favoriteFilms.find(
