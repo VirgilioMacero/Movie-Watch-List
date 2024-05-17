@@ -166,6 +166,46 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ films: jsonTrendingSeries.results });
       },
+      getTopRatedMovies: async () => {
+        const topRatedMovies = await fetch(
+          'https://api.themoviedb.org/3/movie/top_rated',
+          config
+        );
+
+        const jsonTopRatedMovies = await topRatedMovies.json();
+
+        setStore({ films: jsonTopRatedMovies.results });
+      },
+      getTopRatedSeries: async () => {
+        const topRatedSeries = await fetch(
+          'https://api.themoviedb.org/3/tv/top_rated',
+          config
+        );
+
+        const jsonTopRatedSeries = await topRatedSeries.json();
+
+        setStore({ films: jsonTopRatedSeries.results });
+      },
+      getPopularMovies: async () => {
+        const popularMovies = await fetch(
+          'https://api.themoviedb.org/3/movie/popular',
+          config
+        );
+
+        const jsonPopularMovies = await popularMovies.json();
+
+        setStore({ films: jsonPopularMovies.results });
+      },
+      getPopularSeries: async () => {
+        const popularSeries = await fetch(
+          'https://api.themoviedb.org/3/tv/popular',
+          config
+        );
+
+        const jsonPopularSeries = await popularSeries.json();
+
+        setStore({ films: jsonPopularSeries.results });
+      },
       setSelectedGenre: (genre) => {
         setStore({ selectedGenre: genre });
       },
