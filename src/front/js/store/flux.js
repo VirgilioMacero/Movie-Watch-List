@@ -7,23 +7,6 @@ const getState = ({ getStore, getActions, setStore }) => {
     },
   };
 
-  const getAverageRating = async (type, id) => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/${type}/${id}/reviews`,
-      config
-    );
-    const data = await response.json();
-    const reviews = data.results;
-
-    if (reviews.length === 0) return 0;
-
-    const totalRating = reviews.reduce(
-      (acc, review) => acc + review.author_details.rating,
-      0
-    );
-    return totalRating / reviews.length;
-  };
-
   return {
     store: {
       message: null,
@@ -167,48 +150,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       setFilteredFilms: (films) => {
         setStore({ films });
-      },
-      getMoviesByRating: async (rating) => {
-        const actions = getActions();
-        const store = getStore();
-
-        const allMovies = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US`,
-          config
-        );
-        const jsonMovies = await allMovies.json();
-        const movies = jsonMovies.results;
-
-        const ratedMovies = [];
-        for (const movie of movies) {
-          const avgRating = await getAverageRating("movie", movie.id);
-          if (avgRating >= rating.min && avgRating <= rating.max) {
-            ratedMovies.push(movie);
-          }
-        }
-
-        setStore({ films: ratedMovies });
-      },
-      getSeriesByRating: async (rating) => {
-        const actions = getActions();
-        const store = getStore();
-
-        const allSeries = await fetch(
-          `https://api.themoviedb.org/3/discover/tv?include_adult=false&language=en-US`,
-          config
-        );
-        const jsonSeries = await allSeries.json();
-        const series = jsonSeries.results;
-
-        const ratedSeries = [];
-        for (const serie of series) {
-          const avgRating = await getAverageRating("tv", serie.id);
-          if (avgRating >= rating.min && avgRating <= rating.max) {
-            ratedSeries.push(serie);
-          }
-        }
-
-        setStore({ films: ratedSeries });
       },
       toggleSeries: () => {
         const store = getStore();

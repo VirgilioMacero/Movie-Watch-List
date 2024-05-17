@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt, faStar, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css'; // For Bootstrap styles
 
 export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   const [selectedGenre, setSelectedGenre] = useState("");
-  const [selectedRating, setSelectedRating] = useState(0);
-
-  const handleStarClick = (rating) => {
-    setSelectedRating(rating);
-  };
 
   const handleApply = () => {
-    onApply(selectedGenre, selectedRating);
+    onApply(selectedGenre);
     onClose();
   };
 
@@ -96,19 +91,6 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
             </select>
           </div>
         </div>
-        <div className="ratingSection">
-          <h2 className="ratingHeader">Filter By Rating</h2>
-          <div className="rating">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <FontAwesomeIcon
-                key={star}
-                icon={faStar}
-                className={star <= selectedRating ? 'selected' : ''}
-                onClick={() => handleStarClick(star)}
-              />
-            ))}
-          </div>
-        </div>
         <button className="apply-button btn btn-primary" onClick={handleApply}>
           Apply
         </button>
@@ -116,4 +98,3 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
     </div>
   );
 };
- 

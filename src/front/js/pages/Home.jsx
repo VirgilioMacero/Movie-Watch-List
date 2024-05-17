@@ -62,45 +62,26 @@ export const Home = () => {
     setShowFilter(!showFilter);
   };
 
-  const handleFilterApply = async (selectedGenre, selectedRating) => {
+  const handleFilterApply = async (selectedGenre) => {
     setIsLoading(true);
-    let minRating = 0;
-    let maxRating = 10;
-    if (selectedRating) {
-      minRating = (selectedRating - 1) * 2;
-      maxRating = selectedRating * 2;
-    }
-
+  
     try {
-      let films = [];
       if (selectedGenre) {
         if (store.isSeriesActive) {
           await actions.getSeriesByGenre(selectedGenre);
         } else {
           await actions.getMoviesByGenre(selectedGenre);
         }
-        films = store.films;
-      }
-
-      if (selectedRating) {
-        const filteredFilms = [];
-        for (const film of films) {
-          const avgRating = await actions.getAverageRating(store.isSeriesActive ? "tv" : "movie", film.id);
-          if (avgRating >= minRating && avgRating <= maxRating) {
-            filteredFilms.push(film);
-          }
-        }
-        actions.setFilteredFilms(filteredFilms);
-      } else {
-        actions.setFilteredFilms(films);
       }
       
       setShowFilter(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    
     setIsLoading(false);
   };
+  
 
   const getFavoriteId = (movieId, is_movie) => {
     const result = store.favoriteFilms.find(
