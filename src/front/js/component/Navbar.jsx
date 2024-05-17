@@ -32,7 +32,7 @@ export const Navbar = () => {
           </div>
           <div
             className="d-flex flex-column justify-content-between"
-            style={{ height: "95%" }}
+            style={{ gap: "50vh" }}
           >
             <ul>
               <Link
