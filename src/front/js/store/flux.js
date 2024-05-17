@@ -47,6 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       isLoged: false,
       favoriteFilms: [],
       recentlyWatchedFilms: [],
+      selectedGenre: "", // Add selectedGenre to the store
     },
     actions: {
       setShowLoginModal: (value) => {
@@ -116,7 +117,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ filmCredits: jsonCredits });
       },
       getMoviesByGenre: async (genre) => {
-        // Fetching the genre list to get the correct genre ID
         const genresResponse = await fetch(
           'https://api.themoviedb.org/3/genre/movie/list?language=en',
           config
@@ -140,7 +140,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ films: jsonMovies.results });
       },
       getSeriesByGenre: async (genreSeries) => {
-        // Fetching the genre list to get the correct genre ID
         const genresResponse = await fetch(
           'https://api.themoviedb.org/3/genre/tv/list?language=en',
           config
@@ -162,6 +161,12 @@ const getState = ({ getStore, getActions, setStore }) => {
         const jsonSeries = await seriesGenre.json();
 
         setStore({ films: jsonSeries.results });
+      },
+      setSelectedGenre: (genre) => {
+        setStore({ selectedGenre: genre });
+      },
+      setFilteredFilms: (films) => {
+        setStore({ films });
       },
       getMoviesByRating: async (rating) => {
         const actions = getActions();

@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import CastCard from "../component/CastCard.jsx";
 
 export const Single = (props) => {
   const { store, actions } = useContext(Context);
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (store.isSeriesActive) {
@@ -25,6 +26,11 @@ export const Single = (props) => {
     store.isSeriesActive ? store.film.first_air_date : store.film.release_date
   );
 
+  const handleGenreClick = (genre) => {
+    actions.setSelectedGenre(genre);
+    navigate('/'); // Navigate to the home page
+  };
+
   return (
     <div className="container" style={{ marginTop: "100px" }}>
       <div className="d-flex">
@@ -32,7 +38,7 @@ export const Single = (props) => {
           <a
             className="backButton"
             onClick={() => {
-              window.history.back();
+              navigate(-1); // Navigate back
             }}
           >
             <i className="bi bi-caret-left"></i>
@@ -44,7 +50,7 @@ export const Single = (props) => {
         <div className="col-xl-4">
           {store.film.poster_path ? (
             <img
-              className=" rounded-3"
+              className="rounded-3"
               width={300}
               height={400}
               src={`https://image.tmdb.org/t/p/original${store.film.poster_path}`}
@@ -60,13 +66,13 @@ export const Single = (props) => {
             {store.film.genres
               ? store.film.genres.map((genre, index) => {
                   return (
-                    <Link
-                      to={`/?genreId=${genre.id}`}
+                    <button
                       key={index}
+                      onClick={() => handleGenreClick(genre.name)}
                       className="btn btn-outline-primary"
                     >
                       {genre.name}
-                    </Link>
+                    </button>
                   );
                 })
               : ""}

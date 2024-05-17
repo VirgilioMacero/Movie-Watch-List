@@ -5,13 +5,13 @@ import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { Filter } from "../component/Filter.jsx"; // Import the updated Filter component
+import { Filter } from "../component/Filter.jsx";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(""); // Track search query
-  const [showFilter, setShowFilter] = useState(false); // State for filter visibility
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilter, setShowFilter] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +24,7 @@ export const Home = () => {
       setIsLoading(false);
     };
     fetchData();
-  }, [store.isSeriesActive]); // Fetch data when isSeriesActive changes
+  }, [store.isSeriesActive]);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -43,56 +43,64 @@ export const Home = () => {
       }
     };
     fetchSearchResults();
-  }, [searchQuery, store.isSeriesActive]); // Reload when searchQuery or isSeriesActive changes
+  }, [searchQuery, store.isSeriesActive]);
+
+  useEffect(() => {
+    const fetchGenreResults = async () => {
+      if (store.selectedGenre) {
+        if (store.isSeriesActive) {
+          await actions.getSeriesByGenre(store.selectedGenre);
+        } else {
+          await actions.getMoviesByGenre(store.selectedGenre);
+        }
+      }
+    };
+    fetchGenreResults();
+  }, [store.selectedGenre, store.isSeriesActive]);
 
   const handleFilterToggle = () => {
-    setShowFilter(!showFilter); // Toggle filter visibility
+    setShowFilter(!showFilter);
   };
 
   const handleFilterApply = async (selectedGenre, selectedRating) => {
     setIsLoading(true);
     let minRating = 0;
-    let maxRating = 10; // Maximum rating value
+    let maxRating = 10;
     if (selectedRating) {
-        // Set rating range based on selected rating
-        minRating = (selectedRating - 1) * 2; // Adjust min rating based on selected star
-        maxRating = selectedRating * 2; // Adjust max rating based on selected star
+      minRating = (selectedRating - 1) * 2;
+      maxRating = selectedRating * 2;
     }
 
     try {
-        let films = [];
-
-        // First, get films by genre
-        if (selectedGenre) {
-            if (store.isSeriesActive) {
-                await actions.getSeriesByGenre(selectedGenre);
-            } else {
-                await actions.getMoviesByGenre(selectedGenre);
-            }
-            films = store.films; // Store the results in films
-        }
-
-        // If rating filter is applied, filter the already fetched films by rating
-        if (selectedRating) {
-            const filteredFilms = [];
-            for (const film of films) {
-                const avgRating = await getAverageRating(store.isSeriesActive ? "tv" : "movie", film.id);
-                if (avgRating >= minRating && avgRating <= maxRating) {
-                    filteredFilms.push(film);
-                }
-            }
-            setStore({ films: filteredFilms });
+      let films = [];
+      if (selectedGenre) {
+        if (store.isSeriesActive) {
+          await actions.getSeriesByGenre(selectedGenre);
         } else {
-            setStore({ films }); // If no rating filter, use the films from genre filter
+          await actions.getMoviesByGenre(selectedGenre);
         }
-        
-        setShowFilter(false); // Hide filter component after selection
+        films = store.films;
+      }
+
+      if (selectedRating) {
+        const filteredFilms = [];
+        for (const film of films) {
+          const avgRating = await actions.getAverageRating(store.isSeriesActive ? "tv" : "movie", film.id);
+          if (avgRating >= minRating && avgRating <= maxRating) {
+            filteredFilms.push(film);
+          }
+        }
+        actions.setFilteredFilms(filteredFilms);
+      } else {
+        actions.setFilteredFilms(films);
+      }
+      
+      setShowFilter(false);
     } catch (error) {
-        console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error);
     }
     setIsLoading(false);
-};
-
+  };
 
   const getFavoriteId = (movieId, is_movie) => {
     const result = store.favoriteFilms.find(
@@ -101,6 +109,7 @@ export const Home = () => {
 
     return result ? result.id : null;
   };
+
   const getRecentlyId = (movieId, is_movie) => {
     const result = store.recentlyWatchedFilms.find(
       (film) => film.film_id === movieId && film.is_movie === is_movie
@@ -126,7 +135,7 @@ export const Home = () => {
             icon={faFilter}
             onClick={handleFilterToggle}
             className="filter-icon"
-          />{" "}
+          />
         </div>
       </div>
 
@@ -134,7 +143,7 @@ export const Home = () => {
         show={showFilter}
         onClose={handleFilterToggle}
         onApply={handleFilterApply}
-        isSeriesActive={store.isSeriesActive} // Pass isSeriesActive to Filter component
+        isSeriesActive={store.isSeriesActive}
       />
       {isLoading ? (
         <p>Loading...</p>
