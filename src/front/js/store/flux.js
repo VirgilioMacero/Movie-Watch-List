@@ -116,27 +116,20 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ filmCredits: jsonCredits });
       },
       getMoviesByGenre: async (genre) => {
-        const genreIdMap = {
-          action: 28,
-          adventure: 12,
-          animation: 16,
-          comedy: 35,
-          crime: 80,
-          documentary: 99,
-          drama: 18,
-          family: 10751,
-          fantasy: 14,
-          history: 36,
-          horror: 27,
-          music: 10402,
-          mystery: 9648,
-          romance: 10749,
-          thriller: 53,
-          war: 10752,
-          western: 37,
-        };
+        // Fetching the genre list to get the correct genre ID
+        const genresResponse = await fetch(
+          'https://api.themoviedb.org/3/genre/movie/list?language=en',
+          config
+        );
+        const genresData = await genresResponse.json();
+        const genreObject = genresData.genres.find((g) => g.name.toLowerCase() === genre.toLowerCase());
+        
+        if (!genreObject) {
+          console.error('Genre not found');
+          return;
+        }
 
-        const genreId = genreIdMap[genre];
+        const genreId = genreObject.id;
         const movies = await fetch(
           `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&include_adult=false&language=en`,
           config
@@ -147,28 +140,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ films: jsonMovies.results });
       },
       getSeriesByGenre: async (genreSeries) => {
-        const genreSeriesIdMap = {
-          actionAdventure: 10759,
-          animation: 16,
-          comedy: 35,
-          crime: 80,
-          documentary: 99,
-          drama: 18,
-          family: 10751,
-          kids: 10762,
-          mystery: 9648,
-          news: 10763,
-          reality: 10764,
-          scifiFantasy: 10765,
-          soap: 10766,
-          talk: 10767,
-          warPolitics: 10768,
-          western: 37,
-        };
+        // Fetching the genre list to get the correct genre ID
+        const genresResponse = await fetch(
+          'https://api.themoviedb.org/3/genre/tv/list?language=en',
+          config
+        );
+        const genresData = await genresResponse.json();
+        const genreObject = genresData.genres.find((g) => g.name.toLowerCase() === genreSeries.toLowerCase());
+        
+        if (!genreObject) {
+          console.error('Genre not found');
+          return;
+        }
 
-        const genreSeriesId = genreSeriesIdMap[genreSeries];
+        const genreId = genreObject.id;
         const seriesGenre = await fetch(
-          `https://api.themoviedb.org/3/discover/tv?with_genres=${genreSeriesId}&include_adult=false&language=en`,
+          `https://api.themoviedb.org/3/discover/tv?with_genres=${genreId}&include_adult=false&language=en`,
           config
         );
 
@@ -176,7 +163,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ films: jsonSeries.results });
       },
-
       getMoviesByRating: async (rating) => {
         const actions = getActions();
         const store = getStore();
@@ -198,7 +184,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ films: ratedMovies });
       },
-
       getSeriesByRating: async (rating) => {
         const actions = getActions();
         const store = getStore();
