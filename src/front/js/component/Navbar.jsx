@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import WatchGoImage from "../../img/WatchGO-LightMode.png";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -7,6 +7,10 @@ import { action } from "easy-peasy";
 export const Navbar = () => {
   const [showNavBar, setShowNavBar] = useState(false);
   const { store, actions } = useContext(Context);
+
+  useEffect(() => {
+    actions.getUser();
+  }, []);
 
   return (
     <div>
@@ -141,6 +145,15 @@ export const Navbar = () => {
             />
           </Link>
         </div>
+        {store.isLoged ? (
+          <div style={{ alignContent: "end" }}>
+            <h5>
+              Hello again, {store.user.name} {store.user.lastName}
+            </h5>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

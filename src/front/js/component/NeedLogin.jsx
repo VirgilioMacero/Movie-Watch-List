@@ -6,6 +6,7 @@ export default function NeedLogin() {
 
   return (
     <div
+      className="shadow"
       style={{
         border: "2px solid #DEE2E6",
         padding: "20px",

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import NeedLogin from "../component/NeedLogin.jsx";
 
@@ -11,6 +11,10 @@ export default function Profile() {
   const [reEmail, setReEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
+
+  useEffect(() => {
+    actions.getUser();
+  }, []);
 
   function handleShowPassword(e) {
     e.preventDefault();
@@ -31,6 +35,31 @@ export default function Profile() {
     e.preventDefault();
 
     if (email != "" || password != "") {
+      // change Mail
+      if (email != "" && reEmail != "") {
+        if (email === reEmail) {
+          actions.changeEmail(email);
+          actions.getUser();
+          setEmail("");
+          setReEmail("");
+        } else {
+          alert("The Email should be same in bouth fields");
+        }
+      } else if (email != "" && rePassword === "") {
+        alert("You need to Re-enter the email for it to save");
+      }
+      // change Password
+      if (password != "" && rePassword != "") {
+        if (password === rePassword) {
+          actions.changePassword(password);
+          setPassword("");
+          setRePassword("");
+        } else {
+          alert("The Password should be same in bouth fields");
+        }
+      } else if (password != "" && rePassword === "") {
+        alert("You need to Re-enter the Password for it to save");
+      }
     } else {
       alert("You need to add some data to change");
     }
@@ -42,13 +71,19 @@ export default function Profile() {
         <NeedLogin />
       ) : (
         <div
+          className="shadow"
           style={{
             border: "1px solid #DEE2E6",
             borderRadius: "10px",
             padding: "50px",
           }}
         >
-          <h3>Change Profile</h3>
+          <div className="d-flex justify-content-between">
+            <h3>Change Profile</h3>
+            <p style={{ fontSize: "20px" }}>
+              <strong>Current Email</strong>: {store.user.email}
+            </p>
+          </div>
           <form>
             <div className="d-flex flex-column mt-4">
               <label htmlFor="email" style={{ fontWeight: "bold" }}>
@@ -159,6 +194,7 @@ export default function Profile() {
                   fontWeight: "bold",
                   paddingTop: "10px",
                   paddingBottom: "10px",
+                  borderRadius: "10px",
                 }}
                 onClick={(e) => {
                   handleSave(e);

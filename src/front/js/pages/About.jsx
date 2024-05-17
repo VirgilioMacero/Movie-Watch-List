@@ -57,7 +57,7 @@ export const About = () => {
       <div className="row text-center mt-4">
         {/* First Card */}
         <div className="col-md-6 mb-3 mb-md-0">
-          <Card style={{ borderRadius: "10px" }}>
+          <Card className="shadow" style={{ borderRadius: "10px" }}>
             <Card.Title
               style={{
                 fontSize: "30px",
@@ -130,7 +130,7 @@ export const About = () => {
         </div>
         {/* Second Card */}
         <div className="col-md-6 mb-3 mb-md-0">
-          <Card style={{ borderRadius: "10px" }}>
+          <Card className="shadow" style={{ borderRadius: "10px" }}>
             <Card.Title
               style={{
                 fontSize: "30px",

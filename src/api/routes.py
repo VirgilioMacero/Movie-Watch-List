@@ -171,4 +171,32 @@ def getProfile():
 
      return jsonify(user.serialize())
 
+@api.route('/profile/password',methods=["PUT"])
+@jwt_required()
+def changePassword():
+     current_user_id = get_jwt_identity()
+     user = User.query.get(current_user_id)
+     password = request.json.get('password',None)
+     password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+     user.password = password_hash
+     db.session.commit()
+     return jsonify({"Message":"Password Changed"}),200
+
+@api.route('/profile/email',methods=["PUT"])
+@jwt_required()
+def changeEmail():
+     current_user_id = get_jwt_identity()
+     
+     email = request.json.get('email',None)
+     user = User.query.get(current_user_id)
+
+     existing_email = User.query.filter_by(email=email).first()
+
+     if existing_email is None:
+        user.email = email
+        db.session.commit()
+        return jsonify({"Message":"Email Changed"}),200
+     
+     return jsonify({"Message":"Email in use"}),409
+
      
