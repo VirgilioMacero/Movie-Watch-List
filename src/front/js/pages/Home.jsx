@@ -62,26 +62,45 @@ export const Home = () => {
     setShowFilter(!showFilter);
   };
 
-  const handleFilterApply = async (selectedGenre) => {
+  const handleFilterApply = async (selectedGenre, selectedCategory) => {
     setIsLoading(true);
-  
+
     try {
-      if (selectedGenre) {
+      if (selectedCategory) {
+        if (selectedCategory === "trending") {
+          if (store.isSeriesActive) {
+            await actions.getTrendingSeries();
+          } else {
+            await actions.getTrendingMovies();
+          }
+        } else if (selectedCategory === "topRated") {
+          if (store.isSeriesActive) {
+            await actions.getTopRatedSeries();
+          } else {
+            await actions.getTopRatedMovies();
+          }
+        } else if (selectedCategory === "popular") {
+          if (store.isSeriesActive) {
+            await actions.getPopularSeries();
+          } else {
+            await actions.getPopularMovies();
+          }
+        }
+      } else if (selectedGenre) {
         if (store.isSeriesActive) {
           await actions.getSeriesByGenre(selectedGenre);
         } else {
           await actions.getMoviesByGenre(selectedGenre);
         }
       }
-      
+
       setShowFilter(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    
+
     setIsLoading(false);
   };
-  
 
   const getFavoriteId = (movieId, is_movie) => {
     const result = store.favoriteFilms.find(
@@ -100,7 +119,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="text-center container" style={{ marginTop: "70px" }}>
+    <div className="text-center mt-5 container">
       <Toggle />
       <div
         style={{

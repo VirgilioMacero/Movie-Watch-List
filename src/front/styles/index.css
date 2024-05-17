@@ -202,21 +202,6 @@ button.loginButton:hover {
   cursor: pointer;
 }
 
-.rating {
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-}
-
-.rating svg {
-  cursor: pointer;
-  font-size: 24px;
-  color: lightgray;
-}
-
-.rating svg.selected {
-  color: rgb(228, 194, 0);
-}
 .genreHeader {
   padding-top: 1em;
 }
@@ -231,11 +216,22 @@ button.loginButton:hover {
   display: flex;
   justify-content: center;
 }
-.ratingHeader {
+.categoryHeader {
   padding-top: 1em;
 }
-.ratingSection {
+.categoryContent {
   padding-bottom: 1em;
+}
+.categoryBar {
+  padding: 0.25em;
+  font-size: 22px !important;
+  width: 65% !important;
+  justify-content: center;
+  text-align: center;
+}
+.categoryForm {
+  display: flex;
+  justify-content: center;
 }
 .passwordInput {
   border: 1px solid #dee2e6;

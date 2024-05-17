@@ -146,6 +146,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         setStore({ films: jsonSeries.results });
       },
+      getTrendingMovies: async () => {
+        const trendingMovies = await fetch(
+          'https://api.themoviedb.org/3/trending/movie/week',
+          config
+        );
+
+        const jsonTrendingMovies = await trendingMovies.json();
+
+        setStore({ films: jsonTrendingMovies.results });
+      },
+      getTrendingSeries: async () => {
+        const trendingSeries = await fetch(
+          'https://api.themoviedb.org/3/trending/tv/week',
+          config
+        );
+
+        const jsonTrendingSeries = await trendingSeries.json();
+
+        setStore({ films: jsonTrendingSeries.results });
+      },
       setSelectedGenre: (genre) => {
         setStore({ selectedGenre: genre });
       },

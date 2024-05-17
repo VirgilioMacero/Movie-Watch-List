@@ -5,9 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // For Bootstrap styles
 
 export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleApply = () => {
-    onApply(selectedGenre);
+    onApply(selectedGenre, selectedCategory);
     onClose();
   };
 
@@ -56,6 +57,12 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
     { value: "western", label: "Western" },
   ];
 
+  const categories = [
+    { value: "topRated", label: "Top Rated" },
+    { value: "popular", label: "Popular" },
+    { value: "trending", label: "Trending" },
+  ];
+
   const genres = isSeriesActive ? seriesGenres : movieGenres;
 
   return (
@@ -86,6 +93,22 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
               {genres.map((genre) => (
                 <option key={genre.value} value={genre.value}>
                   {genre.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="categoryContent">
+          <h2 className="categoryHeader">Filter By Category</h2>
+          <div className="categoryForm">
+            <select
+              className="categoryBar form-select"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
                 </option>
               ))}
             </select>
