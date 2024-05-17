@@ -45,6 +45,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       film: {},
       filmCredits: [],
       isLoged: false,
+      user: {},
       favoriteFilms: [],
       recentlyWatchedFilms: [],
     },
@@ -237,10 +238,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await login.json();
           setStore({ isLoged: true });
           localStorage.setItem("token", data.token);
+          getActions().getUser();
           getActions().loadFavorites();
           getActions().loadRecently();
         } else {
-          return login.statusText;
+          alert("The data from the email or the password is wrong");
         }
       },
       register: async (name, lastname, email, password) => {
@@ -254,6 +256,63 @@ const getState = ({ getStore, getActions, setStore }) => {
           throw Error("There was a problem in the login request");
         } else {
           return register.statusText;
+        }
+      },
+      getUser: async () => {
+        const token = localStorage.getItem("token");
+
+        const user = await fetch(process.env.BACKEND_URL + "api/profile", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+
+        const jsonUser = await user.json();
+
+        setStore({ user: jsonUser });
+      },
+      changeEmail: async (email) => {
+        const token = localStorage.getItem("token");
+
+        const user = await fetch(
+          process.env.BACKEND_URL + "api/profile/email",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ email }),
+          }
+        );
+        if (user.status === 200) {
+          alert("Email changed Sucesfully");
+        } else if (user.status === 409) {
+          alert(`The email ${email} is already registered try with other`);
+        } else {
+          alert("There was an issue");
+        }
+      },
+      changePassword: async (password) => {
+        const token = localStorage.getItem("token");
+
+        const changePassword = await fetch(
+          process.env.BACKEND_URL + "api/profile/password",
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ password }),
+          }
+        );
+        if (changePassword.status === 200) {
+          alert("Password Updated");
+        } else {
+          alert("Something went wrong");
         }
       },
       validatLoged: () => {

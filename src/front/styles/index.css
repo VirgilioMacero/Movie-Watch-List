@@ -7,10 +7,10 @@
 }
 
 .FilmCard {
-  border: 2px solid black;
-  box-shadow: 2px 2px 5px black;
+  border: 2px solid #dee2e6;
+  box-shadow: 2px 2px 5px #dee2e6;
   width: 300px;
-  border-radius: 20px;
+  border-radius: 10px;
   height: 200px;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 .FilmCard:hover {
-  border: 2px solid #ffffff;
+  border: 2px solid black;
 }
 
 .FilmCardTitle {
@@ -28,14 +28,14 @@
   padding-top: 5px;
   padding-left: 10px;
   text-align: left;
-  border-bottom-right-radius: 17px;
-  border-bottom-left-radius: 17px;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
 }
 .FilmCardButtons {
   text-align: center;
   padding-right: 10px;
   padding-left: 8px;
-  border-top-right-radius: 17px;
+  border-top-right-radius: 7px;
   border-bottom-left-radius: 17px;
   display: flex;
   justify-content: space-between;
@@ -52,41 +52,49 @@
   left: 0;
   z-index: 100;
   background-color: #f8f9fa;
-  border-right: 2px solid black;
+  border-right: 2px solid #dee2e6;
 }
-.Side-NavBar > ul {
+.Side-NavBar > div > button:hover {
+  background-color: rgb(252, 81, 81);
+}
+.Side-NavBar > div > ul {
   margin-bottom: 0px;
   padding-left: 0px;
   margin-top: 20px;
 }
-.Side-NavBar > ul > a > li {
+.Side-NavBar > div > ul > a > li {
   list-style: none;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 10px;
   background-color: #f8f9fa;
+  color: gray;
 }
-.Side-NavBar > ul > a > li:hover {
+.Side-NavBar > div > ul > a > li:hover {
   background-color: #ccc;
   cursor: pointer;
+  color: #0a72ca;
 }
-.Side-NavBar > ul > a > li {
+.Side-NavBar > div > ul > a {
   text-decoration: none;
   font-size: large;
   font-weight: 500;
+}
+button.loginButton:hover {
+  color: #ffffff;
 }
 .input-wrapper input {
   width: 100%;
   background-color: var(--primary);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   border: none;
   color: var(--white);
   font-size: 1.25rem;
 }
 .input-wrapper {
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 .crewImages {
@@ -125,8 +133,8 @@
   cursor: pointer;
   padding: 8px;
   border: 1px solid gray;
-  border-radius: 5px; /* Optional: to give slightly rounded corners */
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Drop shadow */
+  border-radius: 10px; /* Optional: to give slightly rounded corners */
+  box-shadow: 4px 4px 10px #f8f9fa; /* Drop shadow */
   transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effect */
 }
 
@@ -228,4 +236,12 @@
 }
 .ratingSection {
   padding-bottom: 1em;
+}
+.passwordInput {
+  border: 1px solid #dee2e6;
+  align-items: center;
+  border-radius: 10px;
+}
+.passwordInput > input:focus {
+  border: none;
 }

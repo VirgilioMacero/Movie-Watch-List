@@ -94,7 +94,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="text-center mt-5 container">
+    <div className="text-center container" style={{ marginTop: "70px" }}>
       <Toggle />
       <div
         style={{

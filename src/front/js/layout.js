@@ -7,6 +7,7 @@ import { Home } from "./pages/Home.jsx";
 import { Demo } from "./pages/demo";
 
 import { Single } from "./pages/Single.jsx";
+import Profile from "./pages/Profile.jsx";
 import { RecentlyWatched } from "./pages/RecentlyWatched.jsx";
 import { Favorites } from "./pages/Favorites.jsx";
 import { About } from "./pages/About.jsx";
@@ -38,6 +39,7 @@ const Layout = () => {
             <Route element={<Favorites />} path="/favorites" />
             <Route element={<RecentlyWatched />} path="/recently-watched" />
             <Route element={<About />} path="/about_us" />
+            <Route element={<Profile />} path="/profile" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Authentication />
