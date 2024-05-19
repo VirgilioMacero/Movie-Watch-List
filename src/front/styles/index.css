@@ -16,7 +16,11 @@
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
+
 .FilmCard:hover {
   border: 2px solid black;
 }
@@ -30,7 +34,9 @@
   text-align: left;
   border-bottom-right-radius: 7px;
   border-bottom-left-radius: 7px;
+  color: black;
 }
+
 .FilmCardButtons {
   text-align: center;
   padding-right: 10px;
@@ -43,7 +49,9 @@
   width: 27%;
   background-color: #ffffff;
   cursor: pointer;
+  color: black;
 }
+
 .Side-NavBar {
   position: fixed;
   width: 300px;
@@ -53,15 +61,19 @@
   z-index: 100;
   background-color: #f8f9fa;
   border-right: 2px solid #dee2e6;
+  transition: background-color 0.3s, border-color 0.3s;
 }
+
 .Side-NavBar > div > button:hover {
   background-color: rgb(252, 81, 81);
 }
+
 .Side-NavBar > div > ul {
   margin-bottom: 0px;
   padding-left: 0px;
   margin-top: 20px;
 }
+
 .Side-NavBar > div > ul > a > li {
   list-style: none;
   padding-top: 10px;
@@ -69,20 +81,25 @@
   padding-left: 10px;
   background-color: #f8f9fa;
   color: gray;
+  transition: background-color 0.3s, color 0.3s;
 }
+
 .Side-NavBar > div > ul > a > li:hover {
   background-color: #ccc;
   cursor: pointer;
   color: #0a72ca;
 }
+
 .Side-NavBar > div > ul > a {
   text-decoration: none;
   font-size: large;
   font-weight: 500;
 }
+
 button.loginButton:hover {
   color: #ffffff;
 }
+
 .input-wrapper input {
   width: 100%;
   background-color: var(--primary);
@@ -92,6 +109,7 @@ button.loginButton:hover {
   color: var(--white);
   font-size: 1.25rem;
 }
+
 .input-wrapper {
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -101,9 +119,7 @@ button.loginButton:hover {
   overflow-x: auto;
   white-space: nowrap;
   display: flex;
-  /* border: 2px solid black; */
   height: 150px;
-  /* border-radius: 15px; */
 }
 
 .backButton {
@@ -113,7 +129,7 @@ button.loginButton:hover {
 
 /* Define hover effect for icons */
 .FilmCardButtons i:hover {
-  color: #0d6efd !important; /* Change color to #0d6efd on hover */
+  color: #0d6efd !important;
   transition: 0.15s;
 }
 
@@ -133,15 +149,16 @@ button.loginButton:hover {
   cursor: pointer;
   padding: 8px;
   border: 1px solid gray;
-  border-radius: 10px; /* Optional: to give slightly rounded corners */
-  box-shadow: 4px 4px 10px #f8f9fa; /* Drop shadow */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effect */
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px #f8f9fa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .filter-icon:hover {
-  transform: scale(1.1); /* Slightly increase the size on hover */
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3); /* Stronger drop shadow on hover */
+  transform: scale(1.1);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -162,6 +179,7 @@ button.loginButton:hover {
   position: relative;
   width: 90%;
   max-width: 500px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .close-button {
@@ -191,6 +209,7 @@ button.loginButton:hover {
   font-size: 20px;
   text-align: center;
 }
+
 .date-input label {
   padding: 0.25em;
   font-size: 24px;
@@ -205,6 +224,7 @@ button.loginButton:hover {
 .genreHeader {
   padding-top: 1em;
 }
+
 .genreBar {
   padding: 0.25em;
   font-size: 22px !important;
@@ -212,16 +232,20 @@ button.loginButton:hover {
   justify-content: center;
   text-align: center;
 }
+
 .genreForm {
   display: flex;
   justify-content: center;
 }
+
 .categoryHeader {
   padding-top: 1em;
 }
+
 .categoryContent {
   padding-bottom: 1em;
 }
+
 .categoryBar {
   padding: 0.25em;
   font-size: 22px !important;
@@ -229,18 +253,22 @@ button.loginButton:hover {
   justify-content: center;
   text-align: center;
 }
+
 .categoryForm {
   display: flex;
   justify-content: center;
 }
+
 .passwordInput {
   border: 1px solid #dee2e6;
   align-items: center;
   border-radius: 10px;
 }
+
 .passwordInput > input:focus {
   border: none;
 }
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -257,6 +285,7 @@ button.loginButton:hover {
   cursor: pointer;
   border-radius: 10px;
   font-size: 24px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .page-button.active {
@@ -271,7 +300,84 @@ button.loginButton:hover {
   transform: 0.3s;
   transition: 0.3s;
 }
-.ratingContainer{
+
+.ratingContainer {
   font-size: 24px;
-    color: rgb(27, 116, 250);
+  color: rgb(27, 116, 250);
 }
+
+.watch-link {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.watch-link:hover {
+  background-color: #0056b3;
+}
+
+/* Define light and dark mode variables */
+:root {
+  --background-color: #ffffff !important;
+  --text-color: #000000 !important;
+  --button-background: #007bff !important;
+  --button-text-color: #ffffff !important;
+  transform: 0.3s;
+  transition: 0.3s;
+}
+
+body.dark-mode {
+  --background-color: #121212 !important;
+  --text-color: #ffffff !important;
+  --button-background: #1f1f1f !important;
+  --button-text-color: #ffffff !important;
+  transform: 0.3s;
+  transition: 0.3s;
+
+}
+body.dark-mode .bi-list {
+  color: #ffffff; /* Change to white in dark mode */
+}
+body.dark-mode .bi-sun-fill{
+  color: #ffffff; /* Change to white in dark mode */
+}
+body.dark-mode .px-2.py-1.mb-0{
+border: 1px solid white !important;
+border-radius: 10px;
+}
+
+body.dark-mode .FilmCard:hover {
+  border: 2px solid rgb(255, 251, 0);
+  box-shadow: none;
+}
+
+
+/* Apply the variables */
+body {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  transform: 0.3s;
+  transition: 0.3s;
+}
+
+.active {
+  background-color: var(--button-background-active);
+}
+
+.dark-mode-toggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 1.5em;
+}
+
+.filter-icon-wrapper .filter-icon {
+  cursor: pointer;
+}
+
+/* Add other necessary styles for dark mode if needed */
