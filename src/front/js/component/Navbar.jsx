@@ -8,21 +8,21 @@ export const Navbar = () => {
   const [showNavBar, setShowNavBar] = useState(false);
   const { store, actions } = useContext(Context);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('isDarkMode') === 'true';
+    return localStorage.getItem("isDarkMode") === "true";
   });
 
   useEffect(() => {
     actions.getUser();
-  }, [actions]);
+  }, []);
 
   useEffect(() => {
-    const darkModeClass = isDarkMode ? 'dark-mode' : '';
+    const darkModeClass = isDarkMode ? "dark-mode" : "";
     document.body.className = darkModeClass;
-    localStorage.setItem('isDarkMode', isDarkMode);
+    localStorage.setItem("isDarkMode", isDarkMode);
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {
-    setIsDarkMode(prevMode => !prevMode);
+    setIsDarkMode((prevMode) => !prevMode);
   };
 
   return (
@@ -38,22 +38,35 @@ export const Navbar = () => {
               <i className="bi bi-x-lg h4"></i>
             </button>
           </div>
-          <div className="d-flex flex-column justify-content-between" style={{ gap: "50vh" }}>
+          <div
+            className="d-flex flex-column justify-content-between"
+            style={{ gap: "50vh" }}
+          >
             <ul>
               <Link to="/" onClick={() => setShowNavBar(false)}>
-                <li><i className="bi bi-house-fill h5"></i> Home</li>
+                <li>
+                  <i className="bi bi-house-fill h5"></i> Home
+                </li>
               </Link>
               <Link to="/favorites" onClick={() => setShowNavBar(false)}>
-                <li><i className="bi bi-star-fill h5"></i> Favorites</li>
+                <li>
+                  <i className="bi bi-star-fill h5"></i> Favorites
+                </li>
               </Link>
               <Link to="/recently-watched" onClick={() => setShowNavBar(false)}>
-                <li><i className="bi bi-eye-fill h5"></i> Recently Watched</li>
+                <li>
+                  <i className="bi bi-eye-fill h5"></i> Recently Watched
+                </li>
               </Link>
               <Link to="/about_us" onClick={() => setShowNavBar(false)}>
-                <li><i className="bi bi-question-circle-fill h5"></i> About Us</li>
+                <li>
+                  <i className="bi bi-question-circle-fill h5"></i> About Us
+                </li>
               </Link>
               <Link to="/profile" onClick={() => setShowNavBar(false)}>
-                <li><i className="bi bi-person-circle h4"></i> Profile</li>
+                <li>
+                  <i className="bi bi-person-circle h4"></i> Profile
+                </li>
               </Link>
             </ul>
             <ul>
@@ -105,7 +118,9 @@ export const Navbar = () => {
             style={{ color: "black", marginLeft: "10px" }}
             onClick={toggleDarkMode}
           >
-            <i className={`bi ${isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'} h4`}></i>
+            <i
+              className={`bi ${isDarkMode ? "bi-sun-fill" : "bi-moon-fill"} h4`}
+            ></i>
           </button>
         </div>
         <div className="position-absolute start-50 translate-middle-x">
