@@ -4,7 +4,7 @@ import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faArrowLeft, faArrowRight, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx";
 
 export const Home = () => {
@@ -14,6 +14,17 @@ export const Home = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageGroup, setPageGroup] = useState(0);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('isDarkMode') === 'true';
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
 
   useEffect(() => {
     const fetchData = async () => {

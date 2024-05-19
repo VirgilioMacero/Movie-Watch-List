@@ -1,16 +1,29 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import WatchGoImage from "../../img/WatchGO-LightMode.png";
+import WatchGoImageDark from "../../img/WatchGO-DarkMode.png";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { action } from "easy-peasy";
 
 export const Navbar = () => {
   const [showNavBar, setShowNavBar] = useState(false);
   const { store, actions } = useContext(Context);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('isDarkMode') === 'true';
+  });
 
   useEffect(() => {
     actions.getUser();
-  }, []);
+  }, [actions]);
+
+  useEffect(() => {
+    const darkModeClass = isDarkMode ? 'dark-mode' : '';
+    document.body.className = darkModeClass;
+    localStorage.setItem('isDarkMode', isDarkMode);
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(prevMode => !prevMode);
+  };
 
   return (
     <div>
@@ -18,73 +31,29 @@ export const Navbar = () => {
         <div className="Side-NavBar" id="SideNavBar">
           <div className="d-flex flex-row-reverse">
             <button
-              onClick={() => {
-                setShowNavBar(!showNavBar);
-              }}
-              className="btn "
-              style={{
-                borderRadius: "0px",
-                borderBottomLeftRadius: "10px",
-              }}
+              onClick={() => setShowNavBar(!showNavBar)}
+              className="btn"
+              style={{ borderRadius: "0px", borderBottomLeftRadius: "10px" }}
             >
               <i className="bi bi-x-lg h4"></i>
             </button>
           </div>
-          <div
-            className="d-flex flex-column justify-content-between"
-            style={{ gap: "50vh" }}
-          >
+          <div className="d-flex flex-column justify-content-between" style={{ gap: "50vh" }}>
             <ul>
-              <Link
-                to="/"
-                onClick={() => {
-                  setShowNavBar(false);
-                }}
-              >
-                <li>
-                  <i className="bi bi-house-fill h5"></i> Home
-                </li>
+              <Link to="/" onClick={() => setShowNavBar(false)}>
+                <li><i className="bi bi-house-fill h5"></i> Home</li>
               </Link>
-              <Link
-                to="/favorites"
-                onClick={() => {
-                  setShowNavBar(false);
-                }}
-              >
-                <li>
-                  <i className="bi bi-star-fill h5"></i> Favorites
-                </li>
+              <Link to="/favorites" onClick={() => setShowNavBar(false)}>
+                <li><i className="bi bi-star-fill h5"></i> Favorites</li>
               </Link>
-              <Link
-                to="/recently-watched"
-                onClick={() => {
-                  setShowNavBar(false);
-                }}
-              >
-                <li>
-                  <i className="bi bi-eye-fill h5"></i> Recently Watched
-                </li>
+              <Link to="/recently-watched" onClick={() => setShowNavBar(false)}>
+                <li><i className="bi bi-eye-fill h5"></i> Recently Watched</li>
               </Link>
-              <Link
-                to="/about_us"
-                onClick={() => {
-                  setShowNavBar(false);
-                }}
-              >
-                <li>
-                  <i className="bi bi-question-circle-fill h5"></i> About Us
-                </li>
+              <Link to="/about_us" onClick={() => setShowNavBar(false)}>
+                <li><i className="bi bi-question-circle-fill h5"></i> About Us</li>
               </Link>
-              <Link
-                to="/profile"
-                onClick={() => {
-                  setShowNavBar(false);
-                }}
-              >
-                <li>
-                  {" "}
-                  <i className="bi bi-person-circle h4"></i> Profile
-                </li>
+              <Link to="/profile" onClick={() => setShowNavBar(false)}>
+                <li><i className="bi bi-person-circle h4"></i> Profile</li>
               </Link>
             </ul>
             <ul>
@@ -103,10 +72,7 @@ export const Navbar = () => {
                 ) : (
                   <button
                     className="btn bg-danger loginButton"
-                    style={{
-                      fontWeight: "bolder",
-                      marginLeft: "10px",
-                    }}
+                    style={{ fontWeight: "bolder", marginLeft: "10px" }}
                     onClick={() => {
                       actions.logOut();
                       setShowNavBar(false);
@@ -123,23 +89,29 @@ export const Navbar = () => {
       ) : (
         ""
       )}
-      <div className=" container my-4 position-relative d-flex justify-content-between">
+      <div className="container my-4 position-relative d-flex justify-content-between">
         <div>
           <button
             className="btn navbar-light text-dark border  p-2 px-3 shadow"
             type="button"
             style={{ color: "black" }}
-            onClick={() => {
-              setShowNavBar(!showNavBar);
-            }}
+            onClick={() => setShowNavBar(!showNavBar)}
           >
             <i className="bi bi-list h4"></i>
+          </button>
+          <button
+            className="btn navbar-light text-dark border p-2 px-3 shadow"
+            type="button"
+            style={{ color: "black", marginLeft: "10px" }}
+            onClick={toggleDarkMode}
+          >
+            <i className={`bi ${isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill'} h4`}></i>
           </button>
         </div>
         <div className="position-absolute start-50 translate-middle-x">
           <Link to="/">
             <img
-              src={WatchGoImage}
+              src={isDarkMode ? WatchGoImageDark : WatchGoImage}
               alt="Watch & Go"
               style={{ width: "200px" }}
             />
