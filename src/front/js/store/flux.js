@@ -73,7 +73,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         );
         const jsonMovie = await movie.json();
 
-        setStore({ film: jsonMovie });
+        setStore({ film: jsonMovie, homepage: jsonMovie.homepage });
       },
       getSingleTvShow: async (showId) => {
         const tvShow = await fetch(
@@ -82,7 +82,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         );
         const jsonTvShow = await tvShow.json();
 
-        setStore({ film: jsonTvShow });
+        setStore({ film: jsonTvShow, homepage: jsonTvShow.homepage });
       },
       getMovieCredits: async (movieId) => {
         const credits = await fetch(

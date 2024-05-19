@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import CastCard from "../component/CastCard.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faPlay } from "@fortawesome/free-solid-svg-icons";
 
 export const Single = (props) => {
   const { store, actions } = useContext(Context);
@@ -86,6 +86,17 @@ export const Single = (props) => {
                 })
               : ""}
           </div>
+          {store.homepage && (
+            <a
+              href={store.homepage}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary watch-link mt-3"
+            >
+              <FontAwesomeIcon icon={faPlay} className="me-2" />
+              {store.isSeriesActive ? "Watch the Series Here!" : "Watch the Movie Here!"}
+            </a>
+          )}
           <div className="mt-3">
             <h3>Cast</h3>
           </div>

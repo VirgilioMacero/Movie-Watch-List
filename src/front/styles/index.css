@@ -275,3 +275,15 @@ button.loginButton:hover {
   font-size: 24px;
     color: rgb(27, 116, 250);
 }
+.watch-link {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.watch-link:hover {
+  background-color: #0056b3;
+}
