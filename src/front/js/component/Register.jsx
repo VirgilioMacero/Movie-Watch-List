@@ -87,14 +87,18 @@ export default function Register(props) {
             onClick={(e) => {
               e.preventDefault();
               if (registerPassword === registerRePassword) {
-                actions.register(
+                const register = actions.register(
                   registerName,
                   registerLastName,
                   registerEmail,
                   registerPassword
                 );
                 props.setShowRegisterModal(false);
-                actions.setShowLoginModal(true);
+              } else {
+                actions.showAlert(
+                  "Warning",
+                  "The password should be the same in both fields"
+                );
               }
             }}
             type="submit"

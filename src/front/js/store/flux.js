@@ -9,19 +9,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
   return {
     store: {
-      message: null,
-      demo: [
-        {
-          title: "FIRST",
-          background: "white",
-          initial: "white",
-        },
-        {
-          title: "SECOND",
-          background: "white",
-          initial: "white",
-        },
-      ],
       isSeriesActive: false,
       setShowLoginModal: false,
       films: [],
@@ -36,11 +23,36 @@ const getState = ({ getStore, getActions, setStore }) => {
       reviewCount: null,
     },
     actions: {
+      showAlert: (type, message) => {
+        const toastTitle = document.getElementById("toastTitle");
+        const toastBody = document.getElementById("toastBody");
+        const toastIcon = document.getElementById("toastIcon");
+
+        toastTitle.innerHTML = type;
+        toastBody.innerHTML = message;
+
+        const toast = document.getElementById("liveToast");
+
+        if (type == "Error") {
+          toast.style.border = "1px solid red";
+          toastIcon.style.color = "red";
+          toastTitle.style.color = "red";
+        } else if (type == "Success") {
+          toast.style.border = "1px solid green";
+          toastIcon.style.color = "green";
+          toastTitle.style.color = "green";
+        } else if (type == "Warning") {
+          toast.style.border = "1px solid #FFBF00";
+          toastIcon.style.color = "#FFBF00";
+          toastTitle.style.color = "#FFBF00";
+        }
+
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+
+        toastBootstrap.show();
+      },
       setShowLoginModal: (value) => {
         setStore({ setShowLoginModal: value });
-      },
-      exampleFunction: () => {
-        getActions().changeColor(0, "green");
       },
       getMoviesByName: async (name, page = 1) => {
         const movies = await fetch(
@@ -52,7 +64,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonMovies = await movies.json();
 
-        setStore({ films: jsonMovies.results, totalPages: jsonMovies.total_pages });
+        setStore({
+          films: jsonMovies.results,
+          totalPages: jsonMovies.total_pages,
+        });
       },
       getSeriesByName: async (seriesName, page = 1) => {
         const series = await fetch(
@@ -64,7 +79,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonSeries = await series.json();
 
-        setStore({ films: jsonSeries.results, totalPages: jsonSeries.total_pages });
+        setStore({
+          films: jsonSeries.results,
+          totalPages: jsonSeries.total_pages,
+        });
       },
       getSingleMovie: async (movieId) => {
         const movie = await fetch(
@@ -104,14 +122,16 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       getMoviesByGenre: async (genre, page = 1) => {
         const genresResponse = await fetch(
-          'https://api.themoviedb.org/3/genre/movie/list?language=en',
+          "https://api.themoviedb.org/3/genre/movie/list?language=en",
           config
         );
         const genresData = await genresResponse.json();
-        const genreObject = genresData.genres.find((g) => g.name.toLowerCase() === genre.toLowerCase());
-        
+        const genreObject = genresData.genres.find(
+          (g) => g.name.toLowerCase() === genre.toLowerCase()
+        );
+
         if (!genreObject) {
-          console.error('Genre not found');
+          console.error("Genre not found");
           return;
         }
 
@@ -123,18 +143,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonMovies = await movies.json();
 
-        setStore({ films: jsonMovies.results, totalPages: jsonMovies.total_pages });
+        setStore({
+          films: jsonMovies.results,
+          totalPages: jsonMovies.total_pages,
+        });
       },
       getSeriesByGenre: async (genreSeries, page = 1) => {
         const genresResponse = await fetch(
-          'https://api.themoviedb.org/3/genre/tv/list?language=en',
+          "https://api.themoviedb.org/3/genre/tv/list?language=en",
           config
         );
         const genresData = await genresResponse.json();
-        const genreObject = genresData.genres.find((g) => g.name.toLowerCase() === genreSeries.toLowerCase());
-        
+        const genreObject = genresData.genres.find(
+          (g) => g.name.toLowerCase() === genreSeries.toLowerCase()
+        );
+
         if (!genreObject) {
-          console.error('Genre not found');
+          console.error("Genre not found");
           return;
         }
 
@@ -146,7 +171,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonSeries = await seriesGenre.json();
 
-        setStore({ films: jsonSeries.results, totalPages: jsonSeries.total_pages });
+        setStore({
+          films: jsonSeries.results,
+          totalPages: jsonSeries.total_pages,
+        });
       },
       getTrendingMovies: async (page = 1) => {
         const trendingMovies = await fetch(
@@ -156,7 +184,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonTrendingMovies = await trendingMovies.json();
 
-        setStore({ films: jsonTrendingMovies.results, totalPages: jsonTrendingMovies.total_pages });
+        setStore({
+          films: jsonTrendingMovies.results,
+          totalPages: jsonTrendingMovies.total_pages,
+        });
       },
       getTrendingSeries: async (page = 1) => {
         const trendingSeries = await fetch(
@@ -166,7 +197,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonTrendingSeries = await trendingSeries.json();
 
-        setStore({ films: jsonTrendingSeries.results, totalPages: jsonTrendingSeries.total_pages });
+        setStore({
+          films: jsonTrendingSeries.results,
+          totalPages: jsonTrendingSeries.total_pages,
+        });
       },
       getTopRatedMovies: async (page = 1) => {
         const topRatedMovies = await fetch(
@@ -176,7 +210,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonTopRatedMovies = await topRatedMovies.json();
 
-        setStore({ films: jsonTopRatedMovies.results, totalPages: jsonTopRatedMovies.total_pages });
+        setStore({
+          films: jsonTopRatedMovies.results,
+          totalPages: jsonTopRatedMovies.total_pages,
+        });
       },
       getTopRatedSeries: async (page = 1) => {
         const topRatedSeries = await fetch(
@@ -186,7 +223,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonTopRatedSeries = await topRatedSeries.json();
 
-        setStore({ films: jsonTopRatedSeries.results, totalPages: jsonTopRatedSeries.total_pages });
+        setStore({
+          films: jsonTopRatedSeries.results,
+          totalPages: jsonTopRatedSeries.total_pages,
+        });
       },
       getPopularMovies: async (page = 1) => {
         const popularMovies = await fetch(
@@ -196,7 +236,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonPopularMovies = await popularMovies.json();
 
-        setStore({ films: jsonPopularMovies.results, totalPages: jsonPopularMovies.total_pages });
+        setStore({
+          films: jsonPopularMovies.results,
+          totalPages: jsonPopularMovies.total_pages,
+        });
       },
       getPopularSeries: async (page = 1) => {
         const popularSeries = await fetch(
@@ -206,7 +249,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         const jsonPopularSeries = await popularSeries.json();
 
-        setStore({ films: jsonPopularSeries.results, totalPages: jsonPopularSeries.total_pages });
+        setStore({
+          films: jsonPopularSeries.results,
+          totalPages: jsonPopularSeries.total_pages,
+        });
       },
       getMovieDate: async (startDate, endDate, page = 1) => {
         const allMovies = await fetch(
@@ -214,7 +260,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           config
         );
         const jsonMovies = await allMovies.json();
-        setStore({ films: jsonMovies.results, totalPages: jsonMovies.total_pages });
+        setStore({
+          films: jsonMovies.results,
+          totalPages: jsonMovies.total_pages,
+        });
       },
       getSeriesDate: async (startDate, endDate, page = 1) => {
         const allSeries = await fetch(
@@ -222,7 +271,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           config
         );
         const jsonSeries = await allSeries.json();
-        setStore({ films: jsonSeries.results, totalPages: jsonSeries.total_pages });
+        setStore({
+          films: jsonSeries.results,
+          totalPages: jsonSeries.total_pages,
+        });
       },
       getMovieRatings: async (movieId) => {
         const reviews = await fetch(
@@ -230,8 +282,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           config
         );
         const jsonReviews = await reviews.json();
-        const ratings = jsonReviews.results.map((review) => review.author_details.rating);
-        const averageRating = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
+        const ratings = jsonReviews.results.map(
+          (review) => review.author_details.rating
+        );
+        const averageRating = (
+          ratings.reduce((a, b) => a + b, 0) / ratings.length
+        ).toFixed(1);
 
         setStore({ filmRating: averageRating, reviewCount: ratings.length });
       },
@@ -241,8 +297,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           config
         );
         const jsonReviews = await reviews.json();
-        const ratings = jsonReviews.results.map((review) => review.author_details.rating);
-        const averageRating = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1);
+        const ratings = jsonReviews.results.map(
+          (review) => review.author_details.rating
+        );
+        const averageRating = (
+          ratings.reduce((a, b) => a + b, 0) / ratings.length
+        ).toFixed(1);
 
         setStore({ filmRating: averageRating, reviewCount: ratings.length });
       },
@@ -273,7 +333,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           getActions().loadFavorites();
           getActions().loadRecently();
         } else {
-          alert("The data from the email or the password is wrong");
+          getActions().showAlert(
+            "Error",
+            "The data from the email or the password is wrong"
+          );
         }
       },
       register: async (name, lastname, email, password) => {
@@ -282,11 +345,41 @@ const getState = ({ getStore, getActions, setStore }) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, lastName: lastname, email, password }),
         });
-
-        if (!register.ok) {
-          throw Error("There was a problem in the login request");
+        if (register.status === 409) {
+          getActions().showAlert(
+            "Warning",
+            `The email ${email} is already registered try with other`
+          );
+        } else if (register.status === 200) {
+          getActions().showAlert(
+            "Success",
+            "You are now registered type your email to log in"
+          );
+          getActions().setShowLoginModal(true);
         } else {
-          return register.statusText;
+          getActions().showAlert("Error", "There has been a problem");
+        }
+      },
+      recoverPassword: async (email) => {
+        const token = await fetch(process.env.BACKEND_URL + "api/recovery", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({ email: email }),
+        });
+
+        if (token.status === 200) {
+          getActions().showAlert(
+            "Success",
+            "The email with the recovery password was sent check your inbox"
+          );
+        } else {
+          getActions().showAlert(
+            "Error",
+            `There has been an error ${token.status} check with an admin for more info`
+          );
         }
       },
       getUser: async () => {
@@ -319,15 +412,23 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         );
         if (user.status === 200) {
-          alert("Email changed Sucesfully");
+          getActions().showAlert("Success", "Email changed successfully");
         } else if (user.status === 409) {
-          alert(`The email ${email} is already registered try with other`);
+          getActions().showAlert(
+            "Error",
+            `The email ${email} is already registered try with other`
+          );
         } else {
-          alert("There was an issue");
+          getActions().showAlert("Error", "There was an issue");
         }
       },
-      changePassword: async (password) => {
-        const token = localStorage.getItem("token");
+      changePassword: async (password, urlToken) => {
+        let token = "";
+        if (urlToken != undefined || urlToken != null) {
+          token = urlToken;
+        } else {
+          token = localStorage.getItem("token");
+        }
 
         const changePassword = await fetch(
           process.env.BACKEND_URL + "api/profile/password",
@@ -341,9 +442,16 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         );
         if (changePassword.status === 200) {
-          alert("Password Updated");
+          getActions().showAlert("Success", "Password Updated");
+          if (urlToken != undefined || urlToken != null) {
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 3000);
+          }
+        } else if (changePassword.status === 401) {
+          getActions().showAlert("Error", "The token has expired");
         } else {
-          alert("Something went wrong");
+          getActions().showAlert("Error", "Something went wrong");
         }
       },
       validatLoged: () => {

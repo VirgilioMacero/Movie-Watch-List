@@ -34,6 +34,7 @@ const injectContext = (PassedComponent) => {
       if (state.store.isLoged) {
         state.actions.loadFavorites();
         state.actions.loadRecently();
+        state.actions.getUser();
       }
     }, []);
 

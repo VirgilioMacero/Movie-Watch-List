@@ -2,21 +2,20 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Context } from "../store/appContext";
 
-export default function login(props) {
+export default function ForgotPassword(props) {
   const { store, actions } = useContext(Context);
 
   const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
 
   return (
     <Modal
-      show={props.showLoginModal}
-      onHide={() => props.setShowLoginModal(false)}
+      show={props.showRevoveryModal}
+      onHide={() => props.setShowRevoveryModal(false)}
       centered
       className="rounded-3"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Login</Modal.Title>
+        <Modal.Title>Forgot Password</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -32,17 +31,6 @@ export default function login(props) {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              value={loginPassword}
-              onChange={(e) => {
-                setLoginPassword(e.target.value);
-              }}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Group>
           <Button
             variant="primary"
             type="submit"
@@ -50,42 +38,19 @@ export default function login(props) {
             style={{ width: "100%" }}
             onClick={(e) => {
               e.preventDefault();
-              actions.login(loginEmail, loginPassword);
-
-              props.setShowLoginModal(false);
+              actions.recoverPassword(loginEmail);
+              props.setShowRevoveryModal(false);
             }}
           >
-            Login
+            Send recovery email
           </Button>
           <div className="d-flex justify-content-between align-items-center mb-3 mt-3">
-            <Form.Check type="checkbox" label="Remember me" />
-
             <Button
               variant="link"
               className="text-decoration-none"
               onClick={props.handleNewUserClick}
-            >
-              <Form.Text
-                className="text"
-                style={{
-                  textDecoration: "underline",
-                  color: "blue",
-                  fontSize: "16px",
-                }}
-              >
-                New User?
-              </Form.Text>
-            </Button>
+            ></Button>
           </div>
-          <Button
-            onClick={props.handleRecoveryClick}
-            variant="warning"
-            type="forgot"
-            className="forgotPassword"
-          >
-            {" "}
-            Forgot Password?{" "}
-          </Button>
         </Form>
       </Modal.Body>
     </Modal>

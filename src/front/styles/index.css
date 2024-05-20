@@ -18,7 +18,8 @@
   cursor: pointer;
   background-color: var(--background-color);
   color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .FilmCard:hover {
@@ -336,24 +337,22 @@ body.dark-mode {
   --button-text-color: #ffffff !important;
   transform: 0.3s;
   transition: 0.3s;
-
 }
 body.dark-mode .bi-list {
   color: #ffffff; /* Change to white in dark mode */
 }
-body.dark-mode .bi-sun-fill{
+body.dark-mode .bi-sun-fill {
   color: #ffffff; /* Change to white in dark mode */
 }
-body.dark-mode .px-2.py-1.mb-0{
-border: 1px solid white !important;
-border-radius: 10px;
+body.dark-mode .px-2.py-1.mb-0 {
+  border: 1px solid white !important;
+  border-radius: 10px;
 }
 
 body.dark-mode .FilmCard:hover {
   border: 2px solid rgb(255, 251, 0);
   box-shadow: none;
 }
-
 
 /* Apply the variables */
 body {

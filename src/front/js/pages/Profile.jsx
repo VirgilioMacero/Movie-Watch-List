@@ -13,7 +13,9 @@ export default function Profile() {
   const [rePassword, setRePassword] = useState("");
 
   useEffect(() => {
-    actions.getUser();
+    if (store.isLoged) {
+      actions.getUser();
+    }
   }, []);
 
   function handleShowPassword(e) {
@@ -43,10 +45,16 @@ export default function Profile() {
           setEmail("");
           setReEmail("");
         } else {
-          alert("The Email should be same in bouth fields");
+          actions.showAlert(
+            "Warning",
+            "The Email should be same in bouth fields"
+          );
         }
       } else if (email != "" && rePassword === "") {
-        alert("You need to Re-enter the email for it to save");
+        actions.showAlert(
+          "Warning",
+          "You need to Re-enter the email for it to save"
+        );
       }
       // change Password
       if (password != "" && rePassword != "") {
@@ -55,13 +63,19 @@ export default function Profile() {
           setPassword("");
           setRePassword("");
         } else {
-          alert("The Password should be same in bouth fields");
+          actions.showAlert(
+            "Warning",
+            "The Password should be same in bouth fields"
+          );
         }
       } else if (password != "" && rePassword === "") {
-        alert("You need to Re-enter the Password for it to save");
+        actions.showAlert(
+          "Warning",
+          "You need to Re-enter the Password for it to save"
+        );
       }
     } else {
-      alert("You need to add some data to change");
+      actions.showAlert("Warning", "You need to add some data to change");
     }
   }
 
