@@ -12,7 +12,6 @@ export const RecentlyWatched = () => {
 
   useEffect(() => {
     if (store.isLoged) {
-      actions.loadRecently();
       if (searchQuery === "") {
         actions.loadRecently();
       } else {

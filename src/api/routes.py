@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import os
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User ,Favorite, Recently_Watched
 from flask_jwt_extended import jwt_required, create_access_token,get_jwt_identity
@@ -8,6 +9,10 @@ from flask_bcrypt import Bcrypt
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from datetime import timedelta
+# EMAIL IMPORTS
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 bcrypt = Bcrypt()
 api = Blueprint('api', __name__)
@@ -63,6 +68,33 @@ def register():
         return jsonify({"Message":"User Created"}),200
 
     return jsonify({"Message":"User already exist"}),409
+@api.route('/recovery',methods=["POST"])
+def recovery():
+     email = request.json.get('email',None)
+
+     user = User.query.filter_by(email=email).first()
+     if user:
+          message = MIMEMultipart()
+          message['From'] = os.environ.get("EMAIL")
+          message['To'] = email
+          message['Subject'] = "Account Recovery"
+          access_token = create_access_token(identity=user.id,expires_delta=timedelta(minutes=10))
+
+          base_url = os.environ.get("BASEURL")
+
+          recovery_link = f"{base_url}/recovery?token={access_token}"
+          body = f"Hello,\n\nFor password recovery, please do click in the next url:\n{recovery_link}\n\nNote: this link only works for 10 min\n\nIf you did not ask for this recovery, please ignore this message.\n\nSaying Hi,\nyour support team"
+          
+          message.attach(MIMEText(body,'plain'))
+
+          with smtplib.SMTP('smtp.gmail.com',587) as server:
+               server.starttls()
+               server.login(os.environ.get("EMAIL"),os.environ.get('EMAIL_PASSWORD'))
+               server.send_message(message)
+
+          return jsonify({"Message":"Email sent successfully"}),200
+
+     return jsonify({"error":"User not Found"}),401
 
 @api.route('/favorites',methods=["GET"])
 @jwt_required()

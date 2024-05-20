@@ -12,7 +12,9 @@ export const Navbar = () => {
   });
 
   useEffect(() => {
-    actions.getUser();
+    if (store.isLoged) {
+      actions.getUser();
+    }
   }, []);
 
   useEffect(() => {
