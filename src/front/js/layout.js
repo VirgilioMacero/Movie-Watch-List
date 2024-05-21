@@ -41,9 +41,9 @@ const App = () => {
         <Route path="*" element={<h1>Not found!</h1>} />
         <Route path="/recovery" element={<Recovery />} />
       </Routes>
+      <Authentication />
       {!hideNavAndFooter ? <Footer /> : ""}
       <Toast />
-      <Authentication />
     </div>
   );
 };

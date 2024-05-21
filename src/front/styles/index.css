@@ -5,6 +5,9 @@
 #flexSwitchCheckChecked:hover {
   cursor: pointer;
 }
+body {
+  padding-right: 0px !important;
+}
 
 .FilmCard {
   border: 2px solid #dee2e6;

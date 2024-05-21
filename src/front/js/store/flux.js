@@ -11,6 +11,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       isSeriesActive: false,
       setShowLoginModal: false,
+      isDarkMode: false,
       films: [],
       film: {},
       filmCredits: [],
@@ -53,6 +54,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       setShowLoginModal: (value) => {
         setStore({ setShowLoginModal: value });
+      },
+      setIsDarkMode: (value) => {
+        localStorage.setItem("isDarkMode", value);
+        setStore({ isDarkMode: value });
       },
       getMoviesByName: async (name, page = 1) => {
         const movies = await fetch(

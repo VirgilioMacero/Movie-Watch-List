@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState} from "react";
+import React, { useEffect, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { useParams, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
@@ -10,9 +10,6 @@ export const Single = (props) => {
   const { store, actions } = useContext(Context);
   const params = useParams();
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('isDarkMode') === 'true';
-  });
 
   useEffect(() => {
     if (store.isSeriesActive) {
@@ -27,16 +24,20 @@ export const Single = (props) => {
   }, [params.theid]);
 
   useEffect(() => {
-    const darkModeClass = isDarkMode ? 'dark-mode' : '';
+    const darkModeClass = store.isDarkMode ? "dark-mode" : "";
     document.body.className = darkModeClass;
-  }, [isDarkMode]);
+  }, [store.isDarkMode]);
 
-  const name = store.isSeriesActive ? store.film.name : store.film.original_title;
-  const year = new Date(store.isSeriesActive ? store.film.first_air_date : store.film.release_date);
+  const name = store.isSeriesActive
+    ? store.film.name
+    : store.film.original_title;
+  const year = new Date(
+    store.isSeriesActive ? store.film.first_air_date : store.film.release_date
+  );
 
   const handleGenreClick = (genre) => {
     actions.setSelectedGenre(genre);
-    navigate('/'); // Navigate to the home page
+    navigate("/"); // Navigate to the home page
   };
 
   return (
@@ -49,7 +50,8 @@ export const Single = (props) => {
           {name} ({year.getFullYear()})
           {store.reviewCount > 0 && (
             <span className="ms-3 ratingContainer">
-              {store.filmRating} <FontAwesomeIcon icon={faStar} /> ({store.reviewCount} reviews)
+              {store.filmRating} <FontAwesomeIcon icon={faStar} /> (
+              {store.reviewCount} reviews)
             </span>
           )}
         </h1>
@@ -91,7 +93,9 @@ export const Single = (props) => {
               className="btn btn-primary watch-link mt-3"
             >
               <FontAwesomeIcon icon={faPlay} className="me-2" />
-              {store.isSeriesActive ? "Watch the Series Here!" : "Watch the Movie Here!"}
+              {store.isSeriesActive
+                ? "Watch the Series Here!"
+                : "Watch the Movie Here!"}
             </a>
           )}
           <div className="mt-3">
