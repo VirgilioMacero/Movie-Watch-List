@@ -4,7 +4,12 @@ import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faArrowLeft, faArrowRight, faMoon } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFilter,
+  faArrowLeft,
+  faArrowRight,
+  faMoon,
+} from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx";
 
 export const Home = () => {
@@ -14,17 +19,14 @@ export const Home = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageGroup, setPageGroup] = useState(0);
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('isDarkMode') === 'true';
-  });
 
   useEffect(() => {
-    if (darkMode) {
+    if (store.isDarkMode) {
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
     }
-  }, [darkMode]);
+  }, [store.isDarkMode]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +81,12 @@ export const Home = () => {
     setShowFilter(!showFilter);
   };
 
-  const handleFilterApply = async (selectedGenre, selectedCategory, fromDate, toDate) => {
+  const handleFilterApply = async (
+    selectedGenre,
+    selectedCategory,
+    fromDate,
+    toDate
+  ) => {
     setIsLoading(true);
     setCurrentPage(1); // Reset to the first page
     setPageGroup(0); // Reset to the first page group
@@ -194,7 +201,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="text-center mt-5 container">
+    <div className="text-center container" style={{ marginTop: "100px" }}>
       <Toggle />
       <div
         style={{
