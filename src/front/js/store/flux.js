@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       isSeriesActive: false,
+      headerTitle: "",  // New state property for header title
       setShowLoginModal: false,
       isDarkMode: false,
       films: [],
@@ -51,6 +52,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
 
         toastBootstrap.show();
+      },
+      setHeaderTitle: (title) => {
+        setStore({ headerTitle: title });
       },
       setShowLoginModal: (value) => {
         setStore({ setShowLoginModal: value });
@@ -319,7 +323,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       toggleSeries: () => {
         const store = getStore();
-        setStore({ isSeriesActive: !store.isSeriesActive });
+        setStore({ isSeriesActive: !store.isSeriesActive, headerTitle: "" });
       },
       login: async (email, password) => {
         const login = await fetch(process.env.BACKEND_URL + "api/token", {
