@@ -8,10 +8,31 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [validationMessage, setValidationMessage] = useState("");
 
   const handleApply = () => {
+    const filterCount = [selectedGenre, selectedCategory, fromDate || toDate].filter(Boolean).length;
+
+    if (filterCount > 1) {
+      setValidationMessage("Please select only one filter at a time.");
+      return;
+    }
+
+    setValidationMessage("");
     onApply(selectedGenre, selectedCategory, fromDate, toDate);
     onClose();
+  };
+
+  const handleRemoveFilter = (filterType) => {
+    if (filterType === "genre") {
+      setSelectedGenre("");
+    } else if (filterType === "category") {
+      setSelectedCategory("");
+    } else if (filterType === "fromDate") {
+      setFromDate("");
+    } else if (filterType === "toDate") {
+      setToDate("");
+    }
   };
 
   if (!show) {
@@ -34,8 +55,8 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
     { value: "music", label: "Music" },
     { value: "mystery", label: "Mystery" },
     { value: "romance", label: "Romance" },
-    { value: "science fiction", label: "Science Fiction" },
-    { value: "tv movie", label: "TV Movie" },
+    { value: "scienceFiction", label: "Science Fiction" },
+    { value: "tvMovie", label: "TV Movie" },
     { value: "thriller", label: "Thriller" },
     { value: "war", label: "War" },
     { value: "western", label: "Western" },
@@ -57,7 +78,6 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
     { value: "scifiFantasy", label: "Sci-Fi & Fantasy" },
     { value: "soap", label: "Soap" },
     { value: "talk", label: "Talk" },
-    { value: "warPolitics", label: "War & Politics" },
     { value: "western", label: "Western" },
   ];
 
@@ -69,6 +89,11 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   ];
 
   const genres = isSeriesActive ? seriesGenres : movieGenres;
+
+  const getLabelForValue = (value, list) => {
+    const item = list.find((item) => item.value === value);
+    return item ? item.label : value;
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -131,6 +156,48 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
             </select>
           </div>
         </div>
+
+        {validationMessage && (
+          <div className="alert alert-danger" role="alert">
+            {validationMessage}
+          </div>
+        )}
+
+        <div className="applied-filters mt-3">
+          {selectedGenre && (
+            <button
+              className="btn btn-outline-secondary me-2"
+              onClick={() => handleRemoveFilter("genre")}
+            >
+              {getLabelForValue(selectedGenre, genres)} <FontAwesomeIcon icon={faTimes} />
+            </button>
+          )}
+          {selectedCategory && (
+            <button
+              className="btn btn-outline-secondary me-2"
+              onClick={() => handleRemoveFilter("category")}
+            >
+              {getLabelForValue(selectedCategory, categories)} <FontAwesomeIcon icon={faTimes} />
+            </button>
+          )}
+          {fromDate && (
+            <button
+              className="btn btn-outline-secondary me-2"
+              onClick={() => handleRemoveFilter("fromDate")}
+            >
+              From: {fromDate} <FontAwesomeIcon icon={faTimes} />
+            </button>
+          )}
+          {toDate && (
+            <button
+              className="btn btn-outline-secondary me-2"
+              onClick={() => handleRemoveFilter("toDate")}
+            >
+              To: {toDate} <FontAwesomeIcon icon={faTimes} />
+            </button>
+          )}
+        </div>
+
         <button
           className="apply-button btn btn-primary"
           style={{ marginTop: "25px" }}
