@@ -28,15 +28,13 @@ export const Single = (props) => {
     document.body.className = darkModeClass;
   }, [store.isDarkMode]);
 
-  const name = store.isSeriesActive
-    ? store.film.name
-    : store.film.original_title;
-  const year = new Date(
-    store.isSeriesActive ? store.film.first_air_date : store.film.release_date
-  );
+  const name = store.isSeriesActive ? store.film.name : store.film.original_title;
+  const year = new Date(store.isSeriesActive ? store.film.first_air_date : store.film.release_date);
 
   const handleGenreClick = (genre) => {
     actions.setSelectedGenre(genre);
+    const headerTitle = `${genre.charAt(0).toUpperCase() + genre.slice(1)} ${store.isSeriesActive ? "Series" : "Movies"}`;
+    actions.setHeaderTitle(headerTitle);
     navigate("/"); // Navigate to the home page
   };
 
@@ -50,8 +48,7 @@ export const Single = (props) => {
           {name} ({year.getFullYear()})
           {store.reviewCount > 0 && (
             <span className="ms-3 ratingContainer">
-              {store.filmRating} <FontAwesomeIcon icon={faStar} /> (
-              {store.reviewCount} reviews)
+              {store.filmRating} <FontAwesomeIcon icon={faStar} /> ({store.reviewCount} reviews)
             </span>
           )}
         </h1>
@@ -93,9 +90,7 @@ export const Single = (props) => {
               className="btn btn-primary watch-link mt-3"
             >
               <FontAwesomeIcon icon={faPlay} className="me-2" />
-              {store.isSeriesActive
-                ? "Watch the Series Here!"
-                : "Watch the Movie Here!"}
+              {store.isSeriesActive ? "Watch the Series Here!" : "Watch the Movie Here!"}
             </a>
           )}
           <div className="mt-3">

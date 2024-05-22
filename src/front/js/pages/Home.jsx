@@ -4,12 +4,7 @@ import FilmCard from "../component/FilmCard.jsx";
 import { Search } from "../component/Search.jsx";
 import { Toggle } from "../component/Toggle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFilter,
-  faArrowLeft,
-  faArrowRight,
-  faMoon,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx";
 import Spinner from "../component/Spinner.jsx";
 
@@ -23,7 +18,6 @@ export const Home = () => {
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isDarkMode"))) {
-      console.log("deberia funcionar");
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
@@ -83,26 +77,24 @@ export const Home = () => {
     setShowFilter(!showFilter);
   };
 
-  const handleFilterApply = async (
-    selectedGenre,
-    selectedCategory,
-    fromDate,
-    toDate
-  ) => {
+  const handleFilterApply = async (selectedGenre, selectedCategory, fromDate, toDate) => {
     setIsLoading(true);
-    setCurrentPage(1); // Reset to the first page
-    setPageGroup(0); // Reset to the first page group
+    setCurrentPage(1);
+    setPageGroup(0);
 
     try {
+      let headerTitle = "";
+      
       if (selectedGenre) {
+        headerTitle = `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} ${store.isSeriesActive ? "Series" : "Movies"}`;
         if (store.isSeriesActive) {
           await actions.getSeriesByGenre(selectedGenre, 1);
         } else {
           await actions.getMoviesByGenre(selectedGenre, 1);
         }
-      }
-
-      if (selectedCategory) {
+      } else if (selectedCategory) {
+        const categoryTitle = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
+        headerTitle = `${categoryTitle} ${store.isSeriesActive ? "Series" : "Movies"}`;
         if (selectedCategory === "trending") {
           if (store.isSeriesActive) {
             await actions.getTrendingSeries(1);
@@ -122,9 +114,8 @@ export const Home = () => {
             await actions.getPopularMovies(1);
           }
         }
-      }
-
-      if (fromDate && toDate) {
+      } else if (fromDate && toDate) {
+        headerTitle = `${store.isSeriesActive ? "Series" : "Movies"} Released During ${fromDate} to ${toDate}`;
         if (store.isSeriesActive) {
           await actions.getSeriesDate(fromDate, toDate, 1);
         } else {
@@ -132,6 +123,7 @@ export const Home = () => {
         }
       }
 
+      actions.setHeaderTitle(headerTitle);
       setShowFilter(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -205,14 +197,7 @@ export const Home = () => {
   return (
     <div className="text-center container" style={{ marginTop: "100px" }}>
       <Toggle />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
         <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
         <div className="filter-icon-wrapper">
           <FontAwesomeIcon
@@ -229,6 +214,9 @@ export const Home = () => {
         onApply={handleFilterApply}
         isSeriesActive={store.isSeriesActive}
       />
+      
+      {store.headerTitle && <h2>{store.headerTitle}</h2>}  {/* Conditional rendering of the header */}
+
       {isLoading ? (
         <Spinner />
       ) : (
@@ -242,20 +230,12 @@ export const Home = () => {
                   key={film.id}
                   favorite_id={favorite_id}
                   recently_id={recently_id}
-                  name={
-                    film.original_title
-                      ? film.original_title.substring(0, 35)
-                      : film.name.substring(0, 35)
-                  }
+                  name={film.original_title ? film.original_title.substring(0, 35) : film.name.substring(0, 35)}
                   film_id={film.id}
                   imgUrl={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
                   film_image={film.backdrop_path}
-                  isFavorite={store.favoriteFilms.some(
-                    (filme) => filme.film_id === film.id
-                  )}
-                  isWatched={store.recentlyWatchedFilms.some(
-                    (filme) => filme.film_id === film.id
-                  )}
+                  isFavorite={store.favoriteFilms.some((filme) => filme.film_id === film.id)}
+                  isWatched={store.recentlyWatchedFilms.some((filme) => filme.film_id === film.id)}
                   filmUrl={`/single/${film.id}`}
                   is_movie={!store.isSeriesActive}
                   className="col mt-3"
