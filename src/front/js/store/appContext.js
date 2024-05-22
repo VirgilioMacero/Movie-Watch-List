@@ -31,10 +31,8 @@ const injectContext = (PassedComponent) => {
       // state.actions.getMessage(); // <---- calling this function from the flux.js actions
       state.actions.validatLoged();
 
-      const isDarkMode = localStorage.getItem("isDarkMode");
-
-      if (isDarkMode === true) {
-        state.actions.setIsDarkMode(false);
+      if (JSON.parse(localStorage.getItem("isDarkMode"))) {
+        state.actions.setIsDarkMode(true);
       }
 
       if (state.store.isLoged) {

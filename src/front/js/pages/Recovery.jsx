@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 
@@ -13,6 +13,15 @@ export default function Recovery() {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isDarkMode"))) {
+      console.log("deberia funcionar");
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [store.isDarkMode]);
 
   function handleShowPassword(e) {
     e.preventDefault();

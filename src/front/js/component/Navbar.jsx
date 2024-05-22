@@ -16,7 +16,7 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const darkModeClass = store.isDarkMode ? "dark-mode" : "";
+    const darkModeClass = store.IsDarkMode ? "dark-mode" : "";
     document.body.className = darkModeClass;
   }, [store.isDarkMode]);
 
@@ -42,7 +42,7 @@ export const Navbar = () => {
                 <i className="bi bi-x-lg h4"></i>
               </button>
             </div>
-            <div className="d-flex flex-column justify-content-between">
+            <div className="d-flex flex-column justify-content-between Side-NavBar-Buttons">
               <ul>
                 <Link to="/" onClick={() => setShowNavBar(false)}>
                   <li>
@@ -141,9 +141,11 @@ export const Navbar = () => {
         </div>
         {store.isLoged ? (
           <div style={{ alignContent: "end" }}>
-            <h5>
-              Hello again, {store.user.name} {store.user.lastName}
-            </h5>
+            <Link className="profileLink" to={"/profile"}>
+              <h5>
+                Hello again, {store.user.name} {store.user.lastName}
+              </h5>
+            </Link>
           </div>
         ) : (
           ""

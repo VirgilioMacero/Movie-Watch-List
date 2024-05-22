@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import 'bootstrap/dist/css/bootstrap.min.css'; // For Bootstrap styles
+import "bootstrap/dist/css/bootstrap.min.css"; // For Bootstrap styles
 
 export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   const [selectedGenre, setSelectedGenre] = useState("");
@@ -72,26 +72,30 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-content"
+        style={{}}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="close-button" onClick={onClose}>
           <FontAwesomeIcon icon={faTimes} />
         </button>
-        <h2>Filter By Date</h2>
+        <h2 style={{ marginBottom: "25px" }}>Filter By Date</h2>
         <div className="date-filter">
           <div className="date-input">
             <label>From:</label>
-            <input 
-              type="date" 
-              value={fromDate} 
-              onChange={(e) => setFromDate(e.target.value)} 
+            <input
+              type="date"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
             />
           </div>
-          <div className="date-input">
+          <div className="date-input" style={{ gap: "27px" }}>
             <label>To:</label>
-            <input 
-              type="date" 
-              value={toDate} 
-              onChange={(e) => setToDate(e.target.value)} 
+            <input
+              type="date"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
             />
           </div>
         </div>
@@ -127,7 +131,11 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
             </select>
           </div>
         </div>
-        <button className="apply-button btn btn-primary" onClick={handleApply}>
+        <button
+          className="apply-button btn btn-primary"
+          style={{ marginTop: "25px" }}
+          onClick={handleApply}
+        >
           Apply
         </button>
       </div>
