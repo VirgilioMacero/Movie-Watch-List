@@ -16,12 +16,16 @@ export const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const darkModeClass = store.IsDarkMode ? "dark-mode" : "";
+    const darkModeClass = store.isDarkMode ? "dark-mode" : "";
     document.body.className = darkModeClass;
   }, [store.isDarkMode]);
 
   const toggleDarkMode = () => {
     actions.setIsDarkMode(!store.isDarkMode);
+  };
+
+  const handleLogoClick = async () => {
+    await actions.resetFilters();
   };
 
   return (
@@ -131,7 +135,7 @@ export const Navbar = () => {
           </button>
         </div>
         <div className="position-absolute start-50 translate-middle-x">
-          <Link to="/">
+          <Link to="/" onClick={handleLogoClick}>
             <img
               src={store.isDarkMode ? WatchGoImageDark : WatchGoImage}
               alt="Watch & Go"

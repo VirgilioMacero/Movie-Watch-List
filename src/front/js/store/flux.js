@@ -21,6 +21,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       favoriteFilms: [],
       recentlyWatchedFilms: [],
       selectedGenre: "", // Add selectedGenre to the store
+      selectedCategory: "",
+      fromDate: "",
+      toDate: "",
       filmRating: null,
       reviewCount: null,
     },
@@ -55,6 +58,24 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       setHeaderTitle: (title) => {
         setStore({ headerTitle: title });
+      },
+      resetFilters: async () => {
+        setStore({
+          selectedGenre: "",
+          selectedCategory: "",
+          fromDate: "",
+          toDate: "",
+          headerTitle: ""
+        });
+
+        const store = getStore();
+        const actions = getActions();
+
+        if (store.isSeriesActive) {
+          await actions.getPopularSeries();
+        } else {
+          await actions.getPopularMovies();
+        }
       },
       setShowLoginModal: (value) => {
         setStore({ setShowLoginModal: value });
