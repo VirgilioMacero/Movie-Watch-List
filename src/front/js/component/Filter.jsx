@@ -78,7 +78,6 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
     { value: "scifiFantasy", label: "Sci-Fi & Fantasy" },
     { value: "soap", label: "Soap" },
     { value: "talk", label: "Talk" },
-    { value: "warPolitics", label: "War & Politics" },
     { value: "western", label: "Western" },
   ];
 
