@@ -11,6 +11,7 @@ import {
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 import { Filter } from "../component/Filter.jsx";
+import Spinner from "../component/Spinner.jsx";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
@@ -21,7 +22,8 @@ export const Home = () => {
   const [pageGroup, setPageGroup] = useState(0);
 
   useEffect(() => {
-    if (store.isDarkMode) {
+    if (JSON.parse(localStorage.getItem("isDarkMode"))) {
+      console.log("deberia funcionar");
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
@@ -228,7 +230,7 @@ export const Home = () => {
         isSeriesActive={store.isSeriesActive}
       />
       {isLoading ? (
-        <p>Loading...</p>
+        <Spinner />
       ) : (
         <div className="row">
           {store.films.map((film) => {

@@ -13,7 +13,7 @@ export default function login(props) {
       show={props.showLoginModal}
       onHide={() => props.setShowLoginModal(false)}
       centered
-      className="rounded-3"
+      className="rounded-3 loginModal"
     >
       <Modal.Header closeButton>
         <Modal.Title>Login</Modal.Title>

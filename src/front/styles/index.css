@@ -99,6 +99,14 @@ body {
   font-size: large;
   font-weight: 500;
 }
+.profileLink {
+  text-decoration: none;
+  color: #000000;
+}
+.profileLink:hover {
+  text-decoration: underline;
+  color: #007bff;
+}
 
 button.loginButton:hover {
   color: #ffffff;
@@ -209,9 +217,11 @@ button.loginButton:hover {
 }
 
 .date-input input {
-  padding: 0.25em;
+  padding: 0.4em;
   font-size: 20px;
   text-align: center;
+  border-radius: 10px;
+  border: 0px;
 }
 
 .date-input label {
@@ -264,13 +274,24 @@ button.loginButton:hover {
 }
 
 .passwordInput {
+  display: flex;
   border: 1px solid #dee2e6;
-  align-items: center;
+  align-items: center !important;
   border-radius: 10px;
+}
+.passwordInput > input {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+}
+.passwordInput > button {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
 }
 
 .passwordInput > input:focus {
-  border: none;
+  border: none !important;
 }
 
 .pagination {
@@ -351,10 +372,60 @@ body.dark-mode .px-2.py-1.mb-0 {
   border: 1px solid white !important;
   border-radius: 10px;
 }
-
+body.dark-mode .FilmCard {
+  box-shadow: none;
+}
+body.dark-mode .profileLink {
+  color: #f0f0f0;
+}
 body.dark-mode .FilmCard:hover {
   border: 2px solid rgb(255, 251, 0);
   box-shadow: none;
+}
+body.dark-mode .Side-NavBar {
+  background-color: #121212;
+}
+body.dark-mode .Side-NavBar > div > button {
+  color: #f0f0f0;
+}
+body.dark-mode .Side-NavBar > .Side-NavBar-Buttons > ul > a > li {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-mode .Side-NavBar > .Side-NavBar-Buttons > ul > a > li:hover {
+  background-color: #121212;
+  /* color: #3e3e3e; */
+  color: #2675df;
+}
+body.dark-mode .filter-icon {
+  box-shadow: none !important;
+}
+body.dark-mode .modal-content {
+  background-color: #121212 !important;
+}
+body.dark-mode .modal-header > .btn-close {
+  color: #f0f0f0 !important;
+}
+body.dark-mode .form-check > button > small {
+  color: #0b5ed7 !important;
+}
+body.dark-mode .toast-header {
+  color: #f0f0f0 !important;
+  background-color: #121212 !important;
+}
+body.dark-mode .toast-body {
+  color: #f0f0f0 !important;
+  background-color: #161616 !important;
+}
+body.dark-mode .card {
+  color: #f0f0f0 !important;
+  background-color: #161616 !important;
+}
+body.dark-mode .loginButton {
+  color: #f0f0f0 !important;
+}
+body.dark-mode .loginButton:hover {
+  color: #121212 !important;
 }
 
 /* Apply the variables */
