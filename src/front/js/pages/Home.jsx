@@ -18,6 +18,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isDarkMode"))) {
+      console.log("deberia funcionar");
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
@@ -79,21 +80,78 @@ export const Home = () => {
 
   const handleFilterApply = async (selectedGenre, selectedCategory, fromDate, toDate) => {
     setIsLoading(true);
-    setCurrentPage(1);
-    setPageGroup(0);
+    setCurrentPage(1); // Reset to the first page
+    setPageGroup(0); // Reset to the first page group
 
     try {
       let headerTitle = "";
-      
+
+      const movieGenres = [
+        { value: "", label: "Choose a Genre" },
+        { value: "action", label: "Action" },
+        { value: "adventure", label: "Adventure" },
+        { value: "animation", label: "Animation" },
+        { value: "comedy", label: "Comedy" },
+        { value: "crime", label: "Crime" },
+        { value: "documentary", label: "Documentary" },
+        { value: "drama", label: "Drama" },
+        { value: "family", label: "Family" },
+        { value: "fantasy", label: "Fantasy" },
+        { value: "history", label: "History" },
+        { value: "horror", label: "Horror" },
+        { value: "music", label: "Music" },
+        { value: "mystery", label: "Mystery" },
+        { value: "romance", label: "Romance" },
+        { value: "scienceFiction", label: "Science Fiction" },
+        { value: "tvMovie", label: "TV Movie" },
+        { value: "thriller", label: "Thriller" },
+        { value: "war", label: "War" },
+        { value: "western", label: "Western" },
+      ];
+
+      const seriesGenres = [
+        { value: "", label: "Choose a Genre" },
+        { value: "actionAdventure", label: "Action & Adventure" },
+        { value: "animation", label: "Animation" },
+        { value: "comedy", label: "Comedy" },
+        { value: "crime", label: "Crime" },
+        { value: "documentary", label: "Documentary" },
+        { value: "drama", label: "Drama" },
+        { value: "family", label: "Family" },
+        { value: "kids", label: "Kids" },
+        { value: "mystery", label: "Mystery" },
+        { value: "news", label: "News" },
+        { value: "reality", label: "Reality" },
+        { value: "scifiFantasy", label: "Sci-Fi & Fantasy" },
+        { value: "soap", label: "Soap" },
+        { value: "talk", label: "Talk" },
+        { value: "warPolitics", label: "War & Politics" },
+        { value: "western", label: "Western" },
+      ];
+
+      const categories = [
+        { value: "", label: "Choose a Category" },
+        { value: "topRated", label: "Top Rated" },
+        { value: "popular", label: "Popular" },
+        { value: "trending", label: "Trending" },
+      ];
+
+      const genres = store.isSeriesActive ? seriesGenres : movieGenres;
+
+      const getLabelForValue = (value, list) => {
+        const item = list.find((item) => item.value === value);
+        return item ? item.label : value;
+      };
+
       if (selectedGenre) {
-        headerTitle = `${selectedGenre.charAt(0).toUpperCase() + selectedGenre.slice(1)} ${store.isSeriesActive ? "Series" : "Movies"}`;
+        headerTitle = `${getLabelForValue(selectedGenre, genres)} ${store.isSeriesActive ? "Series" : "Movies"}`;
         if (store.isSeriesActive) {
           await actions.getSeriesByGenre(selectedGenre, 1);
         } else {
           await actions.getMoviesByGenre(selectedGenre, 1);
         }
       } else if (selectedCategory) {
-        const categoryTitle = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
+        const categoryTitle = getLabelForValue(selectedCategory, categories);
         headerTitle = `${categoryTitle} ${store.isSeriesActive ? "Series" : "Movies"}`;
         if (selectedCategory === "trending") {
           if (store.isSeriesActive) {
@@ -135,7 +193,6 @@ export const Home = () => {
     const result = store.favoriteFilms.find(
       (film) => film.film_id === movieId && film.is_movie === is_movie
     );
-
     return result ? result.id : null;
   };
 
@@ -143,7 +200,6 @@ export const Home = () => {
     const result = store.recentlyWatchedFilms.find(
       (film) => film.film_id === movieId && film.is_movie === is_movie
     );
-
     return result ? result.id : null;
   };
 
