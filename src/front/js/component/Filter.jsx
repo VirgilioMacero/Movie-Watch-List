@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from "../store/appContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css"; // For Bootstrap styles
 
 export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
+  const { store, actions } = useContext(Context);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -11,14 +13,19 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
   const [validationMessage, setValidationMessage] = useState("");
 
   const handleApply = () => {
-    const filterCount = [selectedGenre, selectedCategory, fromDate || toDate].filter(Boolean).length;
+    const filterCount = [
+      selectedGenre,
+      selectedCategory,
+      fromDate || toDate,
+    ].filter(Boolean).length;
 
     if (filterCount > 1) {
-      setValidationMessage("Please select only one filter at a time.");
+      actions.showAlert("Error", "Please select only one filter at a time.");
+      // setValidationMessage("Please select only one filter at a time.");
       return;
     }
 
-    setValidationMessage("");
+    // setValidationMessage("");
     onApply(selectedGenre, selectedCategory, fromDate, toDate);
     onClose();
   };
@@ -169,7 +176,8 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
               className="btn btn-outline-secondary me-2"
               onClick={() => handleRemoveFilter("genre")}
             >
-              {getLabelForValue(selectedGenre, genres)} <FontAwesomeIcon icon={faTimes} />
+              {getLabelForValue(selectedGenre, genres)}{" "}
+              <FontAwesomeIcon icon={faTimes} />
             </button>
           )}
           {selectedCategory && (
@@ -177,7 +185,8 @@ export const Filter = ({ show, onClose, onApply, isSeriesActive }) => {
               className="btn btn-outline-secondary me-2"
               onClick={() => handleRemoveFilter("category")}
             >
-              {getLabelForValue(selectedCategory, categories)} <FontAwesomeIcon icon={faTimes} />
+              {getLabelForValue(selectedCategory, categories)}{" "}
+              <FontAwesomeIcon icon={faTimes} />
             </button>
           )}
           {fromDate && (

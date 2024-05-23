@@ -222,6 +222,7 @@ button.loginButton:hover {
   text-align: center;
   border-radius: 10px;
   border: 0px;
+  cursor: pointer;
 }
 
 .date-input label {

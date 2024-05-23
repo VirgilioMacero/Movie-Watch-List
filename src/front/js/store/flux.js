@@ -10,7 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       isSeriesActive: false,
-      headerTitle: "",  // New state property for header title
+      headerTitle: "", // New state property for header title
       setShowLoginModal: false,
       isDarkMode: false,
       films: [],
@@ -59,13 +59,36 @@ const getState = ({ getStore, getActions, setStore }) => {
       setHeaderTitle: (title) => {
         setStore({ headerTitle: title });
       },
+      formatDate: (dateString) => {
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        let date = new Date(dateString);
+        let day = date.getDate();
+        let month = months[date.getMonth()];
+        let year = date.getFullYear();
+
+        return `${day} ${month} ${year}`;
+      },
       resetFilters: async () => {
         setStore({
           selectedGenre: "",
           selectedCategory: "",
           fromDate: "",
           toDate: "",
-          headerTitle: ""
+          headerTitle: "",
         });
 
         const store = getStore();
