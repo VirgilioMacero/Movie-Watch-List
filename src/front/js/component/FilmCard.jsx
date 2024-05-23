@@ -42,7 +42,7 @@ export default function FilmCard(props) {
   };
 
   return (
-    <div className={`${props.className}`}>
+    <div className={`grid-card ${props.className}`}>
       <Link className="text-decoration-none" to={props.filmUrl}>
         <div
           className="FilmCard"

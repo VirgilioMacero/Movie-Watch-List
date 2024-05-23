@@ -302,7 +302,7 @@ export const Home = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <div className="row">
+        <div className="grid-container">
           {store.films.map((film) => {
             if (film.backdrop_path != null) {
               const favorite_id = getFavoriteId(film.id, !store.isSeriesActive);
