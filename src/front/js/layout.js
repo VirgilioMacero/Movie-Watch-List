@@ -42,8 +42,8 @@ const App = () => {
         <Route path="/recovery" element={<Recovery />} />
       </Routes>
       <Authentication />
-      {!hideNavAndFooter ? <Footer /> : ""}
       <Toast />
+      {!hideNavAndFooter ? <Footer /> : ""}
     </div>
   );
 };
