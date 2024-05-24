@@ -42,18 +42,18 @@ export default function FilmCard(props) {
   };
 
   return (
-    <Link
-      className={`text-decoration-none ${props.className}`}
-      to={props.filmUrl}
+    <div
+      className="FilmCard"
+      style={{
+        backgroundImage: `url(${props.imgUrl})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+      }}
     >
-      <div
-        className="FilmCard"
-        style={{
-          backgroundImage: `url(${props.imgUrl})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
+      <Link
+        className={`text-decoration-none ${props.className}`}
+        to={props.filmUrl}
       >
         <div className="d-flex flex-row-reverse">
           <div className="FilmCardButtons">
@@ -84,7 +84,7 @@ export default function FilmCard(props) {
         <div className="FilmCardTitle">
           <p>{props.name}</p>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

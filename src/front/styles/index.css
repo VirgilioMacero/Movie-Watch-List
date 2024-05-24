@@ -17,6 +17,20 @@ body {
   width: 100%;
   height: 40px;
 }
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.search-bar-and-filter {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  gap: 30px;
+}
+.search-wrapper {
+  width: 90%;
+}
 
 .grid-container {
   display: grid;
@@ -31,14 +45,18 @@ body {
   width: 300px;
   border-radius: 10px;
   height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   cursor: pointer;
   background-color: var(--background-color);
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s, border-color 0.3s,
     box-shadow 0.3s;
+}
+
+.FilmCard > a {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .FilmCard:hover {
@@ -159,10 +177,6 @@ button.loginButton:hover {
 .FilmCardButtons i:hover {
   color: #0d6efd !important;
   transition: 0.15s;
-}
-
-.search-wrapper {
-  width: 40%;
 }
 
 .filter-icon-wrapper {
@@ -485,12 +499,18 @@ body {
 @media screen and (max-width: 995px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
   }
   .filter-icon-wrapper {
     width: 10%;
   }
-  .search-wrapper {
+  .search-bar-and-filter {
     width: 80%;
+  }
+}
+@media screen and (min-width: 576px) {
+  .films-listed {
+    max-width: none !important;
   }
 }
 @media screen and (max-width: 768px) {
@@ -500,10 +520,14 @@ body {
     width: 100% !important;
     max-width: none;
   }
-}
-@media screen and (min-width: 576px) {
-  .films-listed {
-    max-width: none;
+  .search-bar-and-filter {
+    width: 90%;
+  }
+  .add-content > div > div {
+    font-size: medium !important;
+  }
+  .add-content > div > div.form-check.form-switch {
+    font-size: small !important;
   }
 }
 @media screen and (max-width: 680px) {
