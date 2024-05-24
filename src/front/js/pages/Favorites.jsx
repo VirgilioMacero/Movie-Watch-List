@@ -43,7 +43,7 @@ export const Favorites = () => {
         <Search setSearchQuery={setSearchQuery} />
       </div>
       {store.isLoged ? (
-        <div className="row">
+        <div className="grid-container">
           {store.favoriteFilms.map((film) => {
             const recently_id = getRecentlyId(
               film.film_id,
@@ -68,7 +68,6 @@ export const Favorites = () => {
                     film_id={film.film_id}
                     is_movie={film.is_movie}
                     filmUrl={`/single/${film.film_id}`}
-                    className="col mt-3"
                   />
                 );
               } else if (!store.isSeriesActive && film.is_movie) {
@@ -89,7 +88,6 @@ export const Favorites = () => {
                       (filme) => filme.film_id === film.film_id
                     )}
                     filmUrl={`/single/${film.film_id}`}
-                    className="col mt-3"
                   />
                 );
               }

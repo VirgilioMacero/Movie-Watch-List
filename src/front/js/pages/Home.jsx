@@ -233,9 +233,9 @@ export const Home = () => {
   };
 
   const renderPagination = () => {
-    const totalPageGroups = Math.ceil(store.totalPages / 10);
-    const startPage = pageGroup * 10 + 1;
-    const endPage = Math.min(startPage + 9, store.totalPages);
+    const totalPageGroups = Math.ceil(store.totalPages / 6);
+    const startPage = pageGroup * 6 + 1;
+    const endPage = Math.min(startPage + 5, store.totalPages);
     const pages = [];
 
     for (let i = startPage; i <= endPage; i++) {
@@ -268,23 +268,21 @@ export const Home = () => {
   };
 
   return (
-    <div className="text-center container" style={{ marginTop: "100px" }}>
+    <div
+      className="text-center container films-listed"
+      style={{ marginTop: "100px" }}
+    >
       <Toggle />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
-        <div className="filter-icon-wrapper">
-          <FontAwesomeIcon
-            icon={faFilter}
-            onClick={handleFilterToggle}
-            className="filter-icon"
-          />
+      <div className="search-bar-container">
+        <div className="search-bar-and-filter">
+          <Search setSearchQuery={setSearchQuery} style={{ width: "90%" }} />
+          <div className="filter-icon-wrapper">
+            <FontAwesomeIcon
+              icon={faFilter}
+              onClick={handleFilterToggle}
+              className="filter-icon"
+            />
+          </div>
         </div>
       </div>
       <Filter
@@ -328,7 +326,6 @@ export const Home = () => {
                   )}
                   filmUrl={`/single/${film.id}`}
                   is_movie={!store.isSeriesActive}
-                  className="col mt-3"
                 />
               );
             }

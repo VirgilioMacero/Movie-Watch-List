@@ -17,6 +17,20 @@ body {
   width: 100%;
   height: 40px;
 }
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.search-bar-and-filter {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  gap: 30px;
+}
+.search-wrapper {
+  width: 90%;
+}
 
 .grid-container {
   display: grid;
@@ -31,14 +45,18 @@ body {
   width: 300px;
   border-radius: 10px;
   height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   cursor: pointer;
   background-color: var(--background-color);
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s, border-color 0.3s,
     box-shadow 0.3s;
+}
+
+.FilmCard > a {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .FilmCard:hover {
@@ -159,10 +177,6 @@ button.loginButton:hover {
 .FilmCardButtons i:hover {
   color: #0d6efd !important;
   transition: 0.15s;
-}
-
-.search-wrapper {
-  width: 40%;
 }
 
 .filter-icon-wrapper {
@@ -414,6 +428,7 @@ body.dark-mode .Side-NavBar > .Side-NavBar-Buttons > ul > a > li:hover {
   /* color: #3e3e3e; */
   color: #2675df;
 }
+/* Add other necessary styles for dark mode if needed */
 body.dark-mode .filter-icon {
   box-shadow: none !important;
 }
@@ -484,7 +499,60 @@ body {
 @media screen and (max-width: 995px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+  .filter-icon-wrapper {
+    width: 10%;
+  }
+  .search-bar-and-filter {
+    width: 80%;
   }
 }
-
-/* Add other necessary styles for dark mode if needed */
+@media screen and (min-width: 576px) {
+  .films-listed {
+    max-width: none !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .films-listed {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    width: 100% !important;
+    max-width: none;
+  }
+  .search-bar-and-filter {
+    width: 90%;
+  }
+  .toggle-container {
+    padding-top: 1.5rem;
+  }
+  .toggle > input {
+    font-size: small !important;
+  }
+  .toggle-title {
+    font-size: large !important;
+  }
+  .watch-and-go-logo {
+    margin-top: 50px;
+  }
+  .page-button,
+  .page-arrow {
+    font-size: medium;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .profileLink > h5 {
+    font-size: small;
+  }
+}
+@media screen and (max-width: 680px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .films-listed {
+    max-width: none;
+  }
+  .FilmCard {
+    width: 100%;
+  }
+}
