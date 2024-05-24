@@ -414,6 +414,7 @@ body.dark-mode .Side-NavBar > .Side-NavBar-Buttons > ul > a > li:hover {
   /* color: #3e3e3e; */
   color: #2675df;
 }
+/* Add other necessary styles for dark mode if needed */
 body.dark-mode .filter-icon {
   box-shadow: none !important;
 }
@@ -485,6 +486,34 @@ body {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
+  .filter-icon-wrapper {
+    width: 10%;
+  }
+  .search-wrapper {
+    width: 80%;
+  }
 }
-
-/* Add other necessary styles for dark mode if needed */
+@media screen and (max-width: 768px) {
+  .films-listed {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    width: 100% !important;
+    max-width: none;
+  }
+}
+@media screen and (min-width: 576px) {
+  .films-listed {
+    max-width: none;
+  }
+}
+@media screen and (max-width: 680px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .films-listed {
+    max-width: none;
+  }
+  .FilmCard {
+    width: 100%;
+  }
+}

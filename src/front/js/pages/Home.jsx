@@ -268,7 +268,10 @@ export const Home = () => {
   };
 
   return (
-    <div className="text-center container" style={{ marginTop: "100px" }}>
+    <div
+      className="text-center container films-listed"
+      style={{ marginTop: "100px" }}
+    >
       <Toggle />
       <div
         style={{
