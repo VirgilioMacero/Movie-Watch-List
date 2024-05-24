@@ -523,11 +523,26 @@ body {
   .search-bar-and-filter {
     width: 90%;
   }
-  .add-content > div > div {
-    font-size: medium !important;
+  .toggle-container {
+    padding-top: 1.5rem;
   }
-  .add-content > div > div.form-check.form-switch {
+  .toggle > input {
     font-size: small !important;
+  }
+  .toggle-title {
+    font-size: large !important;
+  }
+  .watch-and-go-logo {
+    margin-top: 50px;
+  }
+  .page-button,
+  .page-arrow {
+    font-size: medium;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .profileLink > h5 {
+    font-size: small;
   }
 }
 @media screen and (max-width: 680px) {

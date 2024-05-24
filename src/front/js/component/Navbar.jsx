@@ -134,7 +134,7 @@ export const Navbar = () => {
             ></i>
           </button>
         </div>
-        <div className="position-absolute start-50 translate-middle-x">
+        <div className="position-absolute start-50 translate-middle-x watch-and-go-logo">
           <Link to="/" onClick={handleLogoClick}>
             <img
               src={store.isDarkMode ? WatchGoImageDark : WatchGoImage}

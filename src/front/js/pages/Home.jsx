@@ -233,9 +233,9 @@ export const Home = () => {
   };
 
   const renderPagination = () => {
-    const totalPageGroups = Math.ceil(store.totalPages / 10);
-    const startPage = pageGroup * 10 + 1;
-    const endPage = Math.min(startPage + 9, store.totalPages);
+    const totalPageGroups = Math.ceil(store.totalPages / 6);
+    const startPage = pageGroup * 6 + 1;
+    const endPage = Math.min(startPage + 5, store.totalPages);
     const pages = [];
 
     for (let i = startPage; i <= endPage; i++) {
