@@ -36,7 +36,7 @@ export const Favorites = () => {
   };
 
   return (
-    <div className="text-left container" style={{ marginTop: "100px" }}>
+    <div className="text-left container " style={{ marginTop: "100px" }}>
       <h2> Favorites </h2>
       <div className="d-flex flex-row-reverse mt-4">
         <Toggle />

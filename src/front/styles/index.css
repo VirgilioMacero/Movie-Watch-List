@@ -37,8 +37,11 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   padding: 10px;
+  justify-items: center;
 }
-
+.toggle-container {
+  width: 50%;
+}
 .FilmCard {
   border: 2px solid #dee2e6;
   box-shadow: 2px 2px 5px #dee2e6;
@@ -496,6 +499,11 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+@media screen and (max-width: 1200px) {
+  .toggle-container {
+    width: 100% !important;
+  }
+}
 @media screen and (max-width: 995px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
@@ -525,8 +533,9 @@ body {
   }
   .toggle-container {
     padding-top: 1.5rem;
+    width: 100% !important;
   }
-  .toggle > input {
+  .toggle > div > input {
     font-size: small !important;
   }
   .toggle-title {
@@ -554,5 +563,19 @@ body {
   }
   .FilmCard {
     width: 100%;
+  }
+}
+@media screen and (max-width: 346px) {
+  .toggle-container {
+    padding-top: 0px !important;
+  }
+  .toggle {
+    order: 3 !important;
+  }
+  .toggle-title {
+    text-align: center !important;
+  }
+  .toggle-row {
+    gap: 5px !important;
   }
 }
