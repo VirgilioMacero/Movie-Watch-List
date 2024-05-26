@@ -9,10 +9,10 @@ export const Toggle = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center ">
-      <div className="w-50 pb-4 toggle-container">
+    <div className="container d-flex justify-content-center toggle-body">
+      <div className="pb-4 toggle-container ">
         <div className="add-content">
-          <div className="row align-items-center">
+          <div className="row align-items-center toggle-row">
             <div
               className="col pe-1 text-end toggle-title"
               style={{ fontSize: "30px" }}
@@ -20,10 +20,10 @@ export const Toggle = () => {
               Movies
             </div>
             <div
-              className="col d-flex justify-content-center"
+              className="col d-flex justify-content-center toggle"
               style={{ padding: "0" }}
             >
-              <div className="form-check form-switch toggle">
+              <div className="form-check form-switch ">
                 <input
                   className="form-check-input"
                   type="checkbox"
