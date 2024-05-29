@@ -33,7 +33,10 @@ export const RecentlyWatched = () => {
     return result ? result.id : null;
   };
   return (
-    <div className="text-left container" style={{ marginTop: "100px" }}>
+    <div
+      className="text-left container recently"
+      style={{ marginTop: "100px" }}
+    >
       <h2> Recently Watched </h2>
       <div className="d-flex flex-row-reverse mt-4">
         <Toggle />

@@ -29,7 +29,7 @@ export const About = () => {
   };
 
   return (
-    <div className="container" style={{ marginTop: "70px" }}>
+    <div className="container about" style={{ marginTop: "70px" }}>
       <h1>
         <Link to={"/"}>
           <i className="bi bi-caret-left"></i>

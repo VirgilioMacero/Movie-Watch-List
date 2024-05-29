@@ -553,6 +553,21 @@ body {
   .profileLink > h5 {
     font-size: small;
   }
+  .single {
+    margin-top: 120px !important;
+  }
+  .recently {
+    margin-top: 120px !important;
+  }
+  .favorite {
+    margin-top: 120px !important;
+  }
+  .about {
+    margin-top: 120px !important;
+  }
+  .profile {
+    margin-top: 120px !important;
+  }
 }
 @media screen and (max-width: 680px) {
   .grid-container {
@@ -563,6 +578,12 @@ body {
   }
   .FilmCard {
     width: 100%;
+  }
+}
+@media screen and (max-width: 576px) {
+  .profile-info {
+    flex-direction: column !important;
+    gap: 30px;
   }
 }
 @media screen and (max-width: 346px) {
