@@ -80,7 +80,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="container" style={{ marginTop: "100px" }}>
+    <div className="container profile" style={{ marginTop: "100px" }}>
       {!store.isLoged ? (
         <NeedLogin />
       ) : (
@@ -92,7 +92,7 @@ export default function Profile() {
             padding: "50px",
           }}
         >
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between profile-info">
             <h3>Change Profile</h3>
             <p style={{ fontSize: "20px" }}>
               <strong>Current Email</strong>: {store.user.email}
