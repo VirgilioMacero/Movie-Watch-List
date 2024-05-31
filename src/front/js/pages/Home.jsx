@@ -22,7 +22,6 @@ export const Home = () => {
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isDarkMode"))) {
-      console.log("deberia funcionar");
       document.body.classList.add("dark-mode");
     } else {
       document.body.classList.remove("dark-mode");
