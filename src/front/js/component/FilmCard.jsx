@@ -49,6 +49,7 @@ export default function FilmCard(props) {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
+        objectFit: "cover",
       }}
     >
       <Link
